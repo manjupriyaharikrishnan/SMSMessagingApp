@@ -1,5 +1,5 @@
 package com.asap.messenger.bo;
-
+import java.lang.*;
 /**
  * Created by Umadevi on 10/16/2015.
  */
