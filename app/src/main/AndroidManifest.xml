@@ -16,6 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ConversationViewActivity"
+            android:label="@string/title_activity_conversation_view" >
+            <intent-filter>
+                <action android:name="com.asap.messenger.conversationview" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

@@ -24,10 +24,12 @@ public class Message {
         this.timestamp = timestamp;
 
         Sender sender = new Sender();
+        sender.setPhoneNumber(senderContact);
         sender.setContactName(senderContact);
         this.sender = sender;
 
         Receiver receiver = new Receiver();
+        receiver.setPhoneNumber(receiverContact);
         receiver.setContactName(receiverContact);
         List<Receiver> receiverList = new ArrayList<Receiver>();
         receiverList.add(receiver);
