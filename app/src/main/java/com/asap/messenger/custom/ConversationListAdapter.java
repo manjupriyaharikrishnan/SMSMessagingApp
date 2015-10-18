@@ -39,8 +39,7 @@ public class ConversationListAdapter extends ArrayAdapter<String> {
         View rowView=inflater.inflate(R.layout.conversationview, null, true);
 
         LinearLayout messageLayout = (LinearLayout) rowView.findViewById(R.id.layoutMessage);
-        System.out.println("Contact Selected..."+selectedContact);
-        System.out.println("Item Sender ..."+senders[position]);
+
         if(selectedContact.contentEquals(senders[position])){
             messageLayout.setGravity(Gravity.LEFT);
         }else{
