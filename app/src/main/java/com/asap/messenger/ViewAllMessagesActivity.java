@@ -8,7 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.asap.messenger.bo.Message;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
+import com.asap.messenger.helper.MessageHelper;
 
 import java.util.Map;
 import java.util.List;
@@ -19,46 +21,22 @@ import java.util.HashMap;
 public class ViewAllMessagesActivity extends AppCompatActivity {
 
     ListView list;
-
-    String[] itemname ={
-            "Safari",
-            "Camera",
-            "Global",
-            "FireFox",
-            "UC Browser",
-            "Android Folder",
-            "VLC Player",
-            "Cold War"
-    };
-
-    String[] messages ={
-            "Safari Description",
-            "Camera Description",
-            "Global Description",
-            "FireFox Description",
-            "UC Browser Description",
-            "Android Folder Description",
-            "VLC Player Description",
-            "Cold War Description"
-    };
-
-    Integer[] imgid={
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-            R.drawable.usericon,
-    };
+    MessageHelper messageHelper = new MessageHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewMessagesListAdapter adapter=new ViewMessagesListAdapter(this, itemname, messages);
+        List<Message> messageList = messageHelper.getAllMessages();
+        String contacts[] = new String[messageList.size()];
+        String messages[] = new String[messageList.size()];
+        for(int i=0; i<messageList.size(); i++){
+            contacts[i] = messageList.get(i).getSender().getContactName();
+            messages[i] = messageList.get(i).getMessageContent();
+        }
+
+        ViewMessagesListAdapter adapter=new ViewMessagesListAdapter(this, contacts, messages);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
     }
