@@ -25,6 +25,8 @@ public class ConversationViewActivity extends AppCompatActivity {
         final String selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact);
 
+        setTitle(selectedContact);
+
         final String contacts[] = new String[messageList.size()];
         String messages[] = new String[messageList.size()];
         String senders[] = new String[messageList.size()];
@@ -38,6 +40,9 @@ public class ConversationViewActivity extends AppCompatActivity {
         ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, selectedContact);
         ListView list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
+
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

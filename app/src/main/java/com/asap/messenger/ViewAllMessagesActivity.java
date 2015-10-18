@@ -57,7 +57,6 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
             }
         });
 
-
     }
 
     @Override
