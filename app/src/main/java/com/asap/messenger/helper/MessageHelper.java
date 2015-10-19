@@ -2,8 +2,13 @@ package com.asap.messenger.helper;
 
 import com.asap.messenger.bo.Message;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Umadevi on 10/17/2015.
@@ -34,5 +39,17 @@ public class MessageHelper {
         messagesList.add(new Message(42, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015"));
         messagesList.add(new Message(44, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015"));
         return messagesList;
+    }
+
+    public static String getDateForDisplay(String inputDate){
+        DateFormat originalFormat = new SimpleDateFormat("MM-dd-yyyy");
+        DateFormat targetFormat = new SimpleDateFormat("MMM dd");
+        try{
+            Date date = originalFormat.parse(inputDate);
+            String formattedDate = targetFormat.format(date);
+            return formattedDate;
+        }catch(ParseException e){
+            return null;
+        }
     }
 }

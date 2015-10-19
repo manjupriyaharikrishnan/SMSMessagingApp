@@ -33,14 +33,16 @@ public class ConversationViewActivity extends AppCompatActivity {
         final String contacts[] = new String[messageList.size()];
         String messages[] = new String[messageList.size()];
         String senders[] = new String[messageList.size()];
+        String timestamps[] = new String[messageList.size()];
 
         for(int i=0; i<messageList.size(); i++){
             contacts[i] = messageList.get(i).getSender().getContactName();
             messages[i] = messageList.get(i).getMessageContent();
             senders[i] = messageList.get(i).getSender().getPhoneNumber();
+            timestamps[i] = messageList.get(i).getTimestamp();
         }
 
-        ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, selectedContact);
+        ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, timestamps, selectedContact);
         ListView list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 

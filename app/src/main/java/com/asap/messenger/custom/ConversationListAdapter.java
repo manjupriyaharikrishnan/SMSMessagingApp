@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asap.messenger.R;
+import com.asap.messenger.helper.MessageHelper;
 
 /**
  * Created by Umadevi on 10/18/2015.
@@ -23,15 +24,17 @@ public class ConversationListAdapter extends ArrayAdapter<String> {
     private final String[] contacts;
     private final String[] messages;
     private final String[] senders;
+    private final String[] timestamps;
     private final String selectedContact;
 
-    public ConversationListAdapter(Activity context, String[] contacts, String[] messages, String[] senders, String selectedContact) {
+    public ConversationListAdapter(Activity context, String[] contacts, String[] messages, String[] senders, String[] timestamps, String selectedContact) {
         super(context, R.layout.allmessageslayout, contacts);
         this.context=context;
         this.contacts=contacts;
         this.messages=messages;
         this.senders=senders;
         this.selectedContact=selectedContact;
+        this.timestamps=timestamps;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
@@ -49,8 +52,13 @@ public class ConversationListAdapter extends ArrayAdapter<String> {
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         imageView.setImageResource(R.drawable.usericon);
 
-        TextView extratxt = (TextView) rowView.findViewById(R.id.message);
-        extratxt.setText(messages[position]);
+        TextView messageContent = (TextView) rowView.findViewById(R.id.message);
+        messageContent.setText(messages[position]);
+
+        TextView timestamp = (TextView) rowView.findViewById(R.id.timestamp);
+        String timeStampDisplay = MessageHelper.getDateForDisplay(timestamps[position]);
+        timestamp.setText(timeStampDisplay);
+
         return rowView;
 
     };
