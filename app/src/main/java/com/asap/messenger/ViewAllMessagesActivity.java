@@ -73,4 +73,12 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void createNewMessage(MenuItem item){
+        Toast.makeText(this, "Create New Message", Toast.LENGTH_LONG).show();
+    }
+
+    public void searchMessages(MenuItem item){
+        Toast.makeText(this, "Search Messages", Toast.LENGTH_LONG).show();
+    }
 }

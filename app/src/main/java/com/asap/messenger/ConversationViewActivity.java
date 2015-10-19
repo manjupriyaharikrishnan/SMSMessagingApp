@@ -4,7 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.custom.ConversationListAdapter;
@@ -60,5 +62,9 @@ public class ConversationViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendMessage(View view){
+        Toast.makeText(this, "Send Message", Toast.LENGTH_LONG).show();
     }
 }

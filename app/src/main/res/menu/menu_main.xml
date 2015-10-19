@@ -9,12 +9,14 @@
         android:title="Create"
         android:icon="@drawable/ic_action_plus"
         android:actionViewClass="android.widget.SearchView"
+        android:onClick="createNewMessage"
         app:showAsAction="always"/>
 
     <item android:id="@+id/action_search"
         android:title="Search"
         android:icon="@drawable/ic_action_search"
         android:actionViewClass="android.widget.SearchView"
+        android:onClick="searchMessages"
         app:showAsAction="always"/>
 
 
