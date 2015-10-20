@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/cs5103_fall15_asap.iml" filepath="$PROJECT_DIR$/cs5103_fall15_asap.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cs5103_fall15_asap.iml" filepath="$PROJECT_DIR$/cs5103_fall15_asap.iml" />
     </modules>
   </component>
 </project>
