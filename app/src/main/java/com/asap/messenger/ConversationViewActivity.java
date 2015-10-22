@@ -2,6 +2,8 @@ package com.asap.messenger;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import com.asap.messenger.bo.Message;
 import com.asap.messenger.custom.ConversationListAdapter;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
+
 
 import java.util.List;
 
@@ -53,14 +56,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
-                System.out.println("Long clicked.."+pos);
-                return true;
-            }
-        });
+        registerForContextMenu(list);
     }
 
     @Override
@@ -82,5 +78,46 @@ public class ConversationViewActivity extends AppCompatActivity {
 
     public void sendMessage(View view){
         Toast.makeText(this, "Send Message", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        System.out.println("IN Create Context menu.");
+        if (v.getId() == R.id.list) {
+            ListView lv = (ListView) v;
+            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
+
+            super.onCreateContextMenu(menu, v, menuInfo);
+            menu.setHeaderTitle("Message Actions");
+            menu.add(0, v.getId(), 0, "Reply");
+            menu.add(0, v.getId(), 0, "Forward");
+            menu.add(0, v.getId(), 0, "Delete");
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if(item.getTitle()=="Reply") {
+            replyMessage(item.getItemId());
+        }
+        else if(item.getTitle()=="Forward"){
+            forwardMessage(item.getItemId());
+        }
+        else if(item.getTitle()=="Delete") {
+            deleteMessage(item.getItemId());
+        }else{
+            return false;
+        }
+        return true;
+    }
+
+    public void replyMessage(int id){
+        Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
+    }
+    public void forwardMessage(int id){
+        Toast.makeText(this, "forwardMessage called", Toast.LENGTH_SHORT).show();
+    }
+    public void deleteMessage(int id){
+        Toast.makeText(this, "deleteMessage called", Toast.LENGTH_SHORT).show();
     }
 }
