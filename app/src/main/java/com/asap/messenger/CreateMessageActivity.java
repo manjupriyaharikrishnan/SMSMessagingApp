@@ -37,4 +37,15 @@ public class CreateMessageActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void sendMessage(View view){
+        EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+        String newMessage = newMessageText.getText().toString();
+
+        EditText senderContactText = (EditText)findViewById(R.id.senderContact);
+        String senderContact = senderContactText.getText().toString();
+
+        System.out.println("New Message is "+newMessage);
+        System.out.println("New Message Contact is "+senderContact);
+    }
 }
