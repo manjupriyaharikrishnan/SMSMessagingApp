@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -75,7 +76,13 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
     }
 
     public void createNewMessage(MenuItem item){
-        Toast.makeText(this, "Create New Message", Toast.LENGTH_LONG).show();
+       // Toast.makeText(this, "Create New Message", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent("com.asap.messenger.createmessage");
+        EditText editText=(EditText) findViewById(R.id.editText);
+        String message = editText.getText().toString();
+        intent.putExtra("currentmessage", message);
+        startActivity(intent);
+
     }
 
     public void searchMessages(MenuItem item){

@@ -22,9 +22,6 @@ public class CreateMessageActivity extends AppCompatActivity {
 
         Message currentmessage=new Message();
 
-
-
-
     }
 
     }
