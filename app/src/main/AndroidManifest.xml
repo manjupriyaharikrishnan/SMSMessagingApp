@@ -3,11 +3,11 @@
     package="com.asap.messenger" >
 
     <application
+        android:name=".MessengerApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name="com.asap.messenger.MessengerApplication" >
+        android:theme="@style/AppTheme" >
         <activity
             android:name=".ViewAllMessagesActivity"
             android:label="@string/app_name" >
@@ -22,6 +22,7 @@
             android:label="@string/title_activity_conversation_view" >
             <intent-filter>
                 <action android:name="com.asap.messenger.conversationview" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -30,10 +31,18 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.asap.messenger.createmessage" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
+        <activity
+            android:name=".DeleteMessageActivity"
+            android:label="@string/title_activity_delete_message" >
+        </activity>
+        <activity
+            android:name=".SearchMessageActivity"
+            android:label="@string/title_activity_search_message" >
+        </activity>
     </application>
 
 </manifest>
