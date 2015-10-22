@@ -1,6 +1,7 @@
 package com.asap.messenger.helper;
 
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.bo.Receiver;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,12 +33,19 @@ public class MessageHelper {
         return messagesList;
     }
 
-    public List<Message> getMessagesByContact(String contact){
+    public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
         List<Message> messagesList = new ArrayList<Message>();
-        messagesList.add(new Message(41, "Hello How are you ?", "999-222-2222", "111-111-1111", "10-17-2015"));
-        messagesList.add(new Message(43, "Am fine, How are you", "111-111-1111", "999-222-2222", "10-17-2015"));
-        messagesList.add(new Message(42, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015"));
-        messagesList.add(new Message(44, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015"));
+        for(Message message : originalMessageList){
+            if(message.getSender().getPhoneNumber().equals(contact)){
+                messagesList.add(message);
+            }
+            for(Receiver receiver : message.getReceiver()){
+                if(receiver.getPhoneNumber().equals(contact)){
+                    messagesList.add(message);
+                }
+            }
+        }
+
         return messagesList;
     }
 
