@@ -33,7 +33,13 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        List<Message> messageList = messageHelper.getAllMessages();
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> messageList = appState.getMessageList();
+        if(messageList==null){
+            messageList = messageHelper.getAllMessages();
+            appState.setMessageList(messageList);
+        }
+
         final String contacts[] = new String[messageList.size()];
         String messages[] = new String[messageList.size()];
         for(int i=0; i<messageList.size(); i++){

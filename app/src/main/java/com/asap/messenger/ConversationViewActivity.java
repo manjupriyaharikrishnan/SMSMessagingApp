@@ -25,8 +25,12 @@ public class ConversationViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
 
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        System.out.println(originalMessageList);
+
         final String selectedContact = getIntent().getExtras().getString("selectedContact");
-        List<Message> messageList = messageHelper.getMessagesByContact(selectedContact);
+        List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
         setTitle(selectedContact);
 
