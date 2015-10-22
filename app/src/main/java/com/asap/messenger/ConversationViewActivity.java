@@ -18,6 +18,7 @@ import com.asap.messenger.helper.MessageHelper;
 
 
 import java.util.List;
+import android.content.Intent;
 
 public class ConversationViewActivity extends AppCompatActivity {
 
@@ -118,6 +119,8 @@ public class ConversationViewActivity extends AppCompatActivity {
         Toast.makeText(this, "forwardMessage called", Toast.LENGTH_SHORT).show();
     }
     public void deleteMessage(int id){
-        Toast.makeText(this, "deleteMessage called", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent("com.asap.messenger.deletemessage");
+
+        startActivity(intent);
     }
 }

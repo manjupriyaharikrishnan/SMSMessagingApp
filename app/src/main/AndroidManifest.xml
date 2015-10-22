@@ -38,6 +38,11 @@
         <activity
             android:name=".DeleteMessageActivity"
             android:label="@string/title_activity_delete_message" >
+            <intent-filter>
+                <action android:name="com.asap.messenger.deletemessage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SearchMessageActivity"
