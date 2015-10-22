@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.asap.messenger.helper.MessageHelper;
 
@@ -23,21 +24,17 @@ public class CreateMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmessage);
 
-        Message currentmessage=new Message();
+        final EditText newMessage = (EditText)findViewById(R.id.newMessage);
+        newMessage.setHint("Type Message");
+        newMessage.setTextColor(Color.GRAY);
 
-        final EditText editText = (EditText)findViewById(R.id.EditText);
-        editText.setHint("Type Message");
-        editText.setTextColor(Color.GRAY);
-
-        editText.setOnTouchListener(new View.OnTouchListener() {
+        newMessage.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                editText.setText("");
+                newMessage.setText("");
+                newMessage.setTextColor(Color.BLACK);
                 return false;
             }
         });
-
-
     }
-
-    }
+}

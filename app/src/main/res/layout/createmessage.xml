@@ -38,7 +38,7 @@
         </Button>
 
         <EditText
-            android:id="@+id/EditText"
+            android:id="@+id/newMessage"
             android:layout_width="fill_parent"
             android:layout_toLeftOf="@id/Button"
             android:layout_height="wrap_content">
