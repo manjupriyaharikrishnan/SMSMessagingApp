@@ -92,6 +92,10 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
     }
 
     public void searchMessages(MenuItem item){
-        Toast.makeText(this, "Search Messages", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Search Messages", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent("com.asap.messenger.searchmessage");
+
+        startActivity(intent);
+
     }
 }

@@ -47,6 +47,11 @@
         <activity
             android:name=".SearchMessageActivity"
             android:label="@string/title_activity_search_message" >
+            <intent-filter>
+                <action android:name="com.asap.messenger.searchmessage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 
