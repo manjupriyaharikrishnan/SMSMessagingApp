@@ -82,13 +82,8 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
     }
 
     public void createNewMessage(MenuItem item){
-       // Toast.makeText(this, "Create New Message", Toast.LENGTH_LONG).show();
         Intent intent = new Intent("com.asap.messenger.createmessage");
-       // EditText editText=(EditText) findViewById(R.id.editText);
-       // String message = editText.getText().toString();
-       // intent.putExtra("currentmessage", message);
         startActivity(intent);
-
     }
 
     public void searchMessages(MenuItem item){

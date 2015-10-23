@@ -23,6 +23,8 @@ import android.content.Intent;
 public class ConversationViewActivity extends AppCompatActivity {
 
     MessageHelper messageHelper = new MessageHelper();
+    private int[] ids;
+    String selectedContact = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         List<Message> originalMessageList = appState.getMessageList();
         System.out.println(originalMessageList);
 
-        final String selectedContact = getIntent().getExtras().getString("selectedContact");
+        selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
         setTitle(selectedContact);
@@ -43,11 +45,14 @@ public class ConversationViewActivity extends AppCompatActivity {
         String senders[] = new String[messageList.size()];
         String timestamps[] = new String[messageList.size()];
 
+        ids = new int[messageList.size()];
+
         for(int i=0; i<messageList.size(); i++){
             contacts[i] = messageList.get(i).getSender().getContactName();
             messages[i] = messageList.get(i).getMessageContent();
             senders[i] = messageList.get(i).getSender().getPhoneNumber();
             timestamps[i] = messageList.get(i).getTimestamp();
+            ids[i] = messageList.get(i).getMessageId();
         }
 
         ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, timestamps, selectedContact);
@@ -83,21 +88,23 @@ public class ConversationViewActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        System.out.println("IN Create Context menu.");
+        System.out.println("IN Create Context menu."+ids);
         if (v.getId() == R.id.list) {
             ListView lv = (ListView) v;
-            AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
-
             super.onCreateContextMenu(menu, v, menuInfo);
             menu.setHeaderTitle("Message Actions");
             menu.add(0, v.getId(), 0, "Reply");
             menu.add(0, v.getId(), 0, "Forward");
             menu.add(0, v.getId(), 0, "Delete");
+
         }
     }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int messageId = ids[acmi.position];
+        System.out.println("IN onContextItemSelected."+ids[acmi.position]);
         if(item.getTitle()=="Reply") {
             replyMessage(item.getItemId());
         }
@@ -105,7 +112,7 @@ public class ConversationViewActivity extends AppCompatActivity {
             forwardMessage(item.getItemId());
         }
         else if(item.getTitle()=="Delete") {
-            deleteMessage(item.getItemId());
+            deleteMessage(messageId);
         }else{
             return false;
         }
@@ -120,7 +127,9 @@ public class ConversationViewActivity extends AppCompatActivity {
     }
     public void deleteMessage(int id){
         Intent intent = new Intent("com.asap.messenger.deletemessage");
-
+        System.out.println("In Delete message.. trying to delete message with id.."+id+" for contact "+selectedContact);
+        intent.putExtra("messageToDelete", id);
+        intent.putExtra("selectedContact", selectedContact);
         startActivity(intent);
     }
 }

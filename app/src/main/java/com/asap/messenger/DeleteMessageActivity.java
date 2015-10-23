@@ -1,5 +1,6 @@
 package com.asap.messenger;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,7 +11,10 @@ public class DeleteMessageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.deletemessagelayout);
+        String selectedContact = getIntent().getExtras().getString("selectedContact");
+        Intent intent = new Intent("com.asap.messenger.conversationview");
+        intent.putExtra("selectedContact", selectedContact);
+        startActivity(intent);
     }
 
     @Override
