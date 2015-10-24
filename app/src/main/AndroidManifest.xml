@@ -76,6 +76,15 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".EditMessageActivity"
+            android:label="@string/title_activity_edit_message" >
+            <intent-filter>
+                <action android:name="com.asap.messenger.editmessage" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

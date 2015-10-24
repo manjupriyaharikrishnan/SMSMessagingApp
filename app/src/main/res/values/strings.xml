@@ -8,4 +8,5 @@
     <string name="title_activity_search_message">SearchMessageActivity</string>
     <string name="title_activity_forward_message">ForwardMessageActivity</string>
     <string name="title_activity_save_message">SaveMessageActivity</string>
+    <string name="title_activity_edit_message">EditMessageActivity</string>
 </resources>
