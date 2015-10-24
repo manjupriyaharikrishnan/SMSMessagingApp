@@ -24,6 +24,7 @@ public class ConversationViewActivity extends AppCompatActivity {
 
     MessageHelper messageHelper = new MessageHelper();
     private int[] ids;
+    private String[] messages;
     String selectedContact = null;
 
     @Override
@@ -41,7 +42,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         setTitle(selectedContact);
 
         final String contacts[] = new String[messageList.size()];
-        String messages[] = new String[messageList.size()];
+        messages = new String[messageList.size()];
         String senders[] = new String[messageList.size()];
         String timestamps[] = new String[messageList.size()];
 
@@ -104,11 +105,12 @@ public class ConversationViewActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int messageId = ids[acmi.position];
+        String message = messages[acmi.position];
         if(item.getTitle()=="Reply") {
             replyMessage(item.getItemId());
         }
         else if(item.getTitle()=="Forward"){
-            forwardMessage(item.getItemId());
+            forwardMessage(message);
         }
         else if(item.getTitle()=="Delete") {
             deleteMessage(messageId);
@@ -121,8 +123,9 @@ public class ConversationViewActivity extends AppCompatActivity {
     public void replyMessage(int id){
         Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
     }
-    public void forwardMessage(int id){
-        Intent intent = new Intent("com.asap.messenger.forwardmessage");
+    public void forwardMessage(String messageToForward){
+        Intent intent = new Intent("com.asap.messenger.createmessage");
+        intent.putExtra("messageToForward", messageToForward);
         startActivity(intent);
     }
     public void deleteMessage(int id){

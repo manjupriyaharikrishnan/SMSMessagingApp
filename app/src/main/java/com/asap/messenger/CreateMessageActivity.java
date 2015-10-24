@@ -25,8 +25,21 @@ public class CreateMessageActivity extends AppCompatActivity {
         setContentView(R.layout.createmessage);
 
         final EditText newMessage = (EditText)findViewById(R.id.newMessage);
-        newMessage.setHint("Type Message");
-        newMessage.setTextColor(Color.GRAY);
+
+        Bundle bundle = getIntent().getExtras();
+        if(bundle!=null){
+            String messageToForward = getIntent().getExtras().getString("messageToForward");
+            if(messageToForward!=null){
+                newMessage.setText(messageToForward);
+                newMessage.setTextColor(Color.BLACK);
+            }else{
+                newMessage.setHint("Type Message");
+                newMessage.setTextColor(Color.GRAY);
+            }
+        }else{
+            newMessage.setHint("Type Message");
+            newMessage.setTextColor(Color.GRAY);
+        }
 
         newMessage.setOnTouchListener(new View.OnTouchListener() {
             @Override
