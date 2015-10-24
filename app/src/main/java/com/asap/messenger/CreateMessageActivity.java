@@ -3,7 +3,6 @@ package com.asap.messenger;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +10,11 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
+
+import java.util.List;
 
 /**
  * Created by shaanu on 10/21/2015.
@@ -25,6 +28,19 @@ public class CreateMessageActivity extends AppCompatActivity {
         setContentView(R.layout.createmessage);
 
         final EditText newMessage = (EditText)findViewById(R.id.newMessage);
+
+
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        System.out.println(originalMessageList);
+
+        for(Message message : originalMessageList){
+            if(message.getStatus().equals(MessageStatus.NEW)){
+                EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+                newMessageText.setText(message.getMessageContent());
+                messageList.remove(message);
+            }
+        }
 
         Bundle bundle = getIntent().getExtras();
         if(bundle!=null){
@@ -59,6 +75,24 @@ public class CreateMessageActivity extends AppCompatActivity {
         String senderContact = senderContactText.getText().toString();
 
         System.out.println("New Message is "+newMessage);
-        System.out.println("New Message Contact is "+senderContact);
+        System.out.println("New Message Contact is " + senderContact);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent();
+        setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+        EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+        String newMessage = newMessageText.getText().toString();
+        System.out.println("on Back button pressed :" +newMessage);
+
+        EditText newContactText = (EditText)findViewById(R.id.senderContact);
+        String newContact = newContactText.getText().toString();
+
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        appState.setMessageList(originalMessageList);
+        originalMessageList.add(new Message(52, newMessage, newContact , "111-111-1111", "10-17-2015", MessageStatus.NEW));
+        startActivity(setIntent);
     }
 }
