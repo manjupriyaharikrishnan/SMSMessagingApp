@@ -41,6 +41,14 @@ public class ConversationViewActivity extends AppCompatActivity {
         selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
+        for(Message message : messageList){
+            if(message.getStatus().equals(MessageStatus.DRAFT)){
+                EditText newMessageText = (EditText)findViewById(R.id.EditText);
+                newMessageText.setText(message.getMessageContent());
+                messageList.remove(message);
+            }
+        }
+
         setTitle(selectedContact);
 
         final String contacts[] = new String[messageList.size()];
@@ -51,16 +59,11 @@ public class ConversationViewActivity extends AppCompatActivity {
         ids = new int[messageList.size()];
 
         for(int i=0; i<messageList.size(); i++){
-            if(messageList.get(i).getStatus().equals(MessageStatus.DRAFT)){
-                EditText newMessageText = (EditText)findViewById(R.id.EditText);
-                newMessageText.setText(messageList.get(i).getMessageContent());
-            }else {
-                contacts[i] = messageList.get(i).getSender().getContactName();
-                messages[i] = messageList.get(i).getMessageContent();
-                senders[i] = messageList.get(i).getSender().getPhoneNumber();
-                timestamps[i] = messageList.get(i).getTimestamp();
-                ids[i] = messageList.get(i).getMessageId();
-            }
+            contacts[i] = messageList.get(i).getSender().getContactName();
+            messages[i] = messageList.get(i).getMessageContent();
+            senders[i] = messageList.get(i).getSender().getPhoneNumber();
+            timestamps[i] = messageList.get(i).getTimestamp();
+            ids[i] = messageList.get(i).getMessageId();
         }
 
         ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, timestamps, selectedContact);
