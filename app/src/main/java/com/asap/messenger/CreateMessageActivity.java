@@ -14,6 +14,7 @@ import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -27,43 +28,45 @@ public class CreateMessageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmessage);
 
-        final EditText newMessage = (EditText)findViewById(R.id.newMessage);
-
-
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
         System.out.println(originalMessageList);
 
-
-        for(Message message : originalMessageList){
+        final EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+        EditText contactNameText = (EditText)findViewById(R.id.senderContact);
+        Iterator<Message> messageIterator = originalMessageList.iterator();
+        while(messageIterator.hasNext()){
+            Message message = messageIterator.next();
             if(message.getStatus().equals(MessageStatus.NEW)){
-                EditText newMessageText = (EditText)findViewById(R.id.newMessage);
                 newMessageText.setText(message.getMessageContent());
-                originalMessageList.remove(message);
+                contactNameText.setText(message.getReceiver().get(0).getPhoneNumber());
+                newMessageText.setTextColor(Color.BLACK);
+                messageIterator.remove();
             }
         }
 
         Bundle bundle = getIntent().getExtras();
+
         if(bundle!=null){
+            System.out.println("In If create");
             String messageToForward = getIntent().getExtras().getString("messageToForward");
             if(messageToForward!=null){
-                newMessage.setText(messageToForward);
-                newMessage.setTextColor(Color.BLACK);
+                newMessageText.setText(messageToForward);
+                newMessageText.setTextColor(Color.BLACK);
             }else{
-                newMessage.setHint("Type Message");
-                newMessage.setTextColor(Color.GRAY);
+                newMessageText.setHint("Type Message");
+                newMessageText.setTextColor(Color.GRAY);
             }
-        }else{
-            newMessage.setHint("Type Message");
-            newMessage.setTextColor(Color.GRAY);
+        }else if(newMessageText.getText().toString().equals("")){
+            newMessageText.setHint("Type Message");
+            newMessageText.setTextColor(Color.GRAY);
         }
 
-        newMessage.setOnTouchListener(new View.OnTouchListener() {
+        newMessageText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                newMessage.setText("");
-                newMessage.setTextColor(Color.BLACK);
-                return false;
+            newMessageText.setTextColor(Color.BLACK);
+            return false;
             }
         });
     }
@@ -93,7 +96,7 @@ public class CreateMessageActivity extends AppCompatActivity {
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
         appState.setMessageList(originalMessageList);
-        originalMessageList.add(new Message(52, newMessage, newContact , "111-111-1111", "10-17-2015", MessageStatus.NEW));
+        originalMessageList.add(new Message(52, newMessage, "111-111-1111" , newContact, "10-17-2015", MessageStatus.NEW));
         startActivity(setIntent);
     }
 }
