@@ -51,11 +51,16 @@ public class ConversationViewActivity extends AppCompatActivity {
         ids = new int[messageList.size()];
 
         for(int i=0; i<messageList.size(); i++){
-            contacts[i] = messageList.get(i).getSender().getContactName();
-            messages[i] = messageList.get(i).getMessageContent();
-            senders[i] = messageList.get(i).getSender().getPhoneNumber();
-            timestamps[i] = messageList.get(i).getTimestamp();
-            ids[i] = messageList.get(i).getMessageId();
+            if(messageList.get(i).getStatus().equals(MessageStatus.DRAFT)){
+                EditText newMessageText = (EditText)findViewById(R.id.EditText);
+                newMessageText.setText(messageList.get(i).getMessageContent());
+            }else {
+                contacts[i] = messageList.get(i).getSender().getContactName();
+                messages[i] = messageList.get(i).getMessageContent();
+                senders[i] = messageList.get(i).getSender().getPhoneNumber();
+                timestamps[i] = messageList.get(i).getTimestamp();
+                ids[i] = messageList.get(i).getMessageId();
+            }
         }
 
         ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, timestamps, selectedContact);
