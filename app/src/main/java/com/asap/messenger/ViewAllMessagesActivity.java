@@ -1,9 +1,13 @@
 package com.asap.messenger;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -24,10 +28,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ViewAllMessagesActivity extends AppCompatActivity {
+public class ViewAllMessagesActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
 
     ListView list;
     MessageHelper messageHelper = new MessageHelper();
+
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
+    ViewMessagesListAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,7 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
             messages[i] = messageList.get(i).getMessageContent();
         }
 
-        ViewMessagesListAdapter adapter=new ViewMessagesListAdapter(this, contacts, messages);
+        adapter=new ViewMessagesListAdapter(this, contacts, messages);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -68,7 +76,17 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+
+        SearchManager searchManager = (SearchManager)
+                getSystemService(Context.SEARCH_SERVICE);
+        searchMenuItem = menu.findItem(R.id.search);
+        searchView = (SearchView) searchMenuItem.getActionView();
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setSubmitButtonEnabled(true);
+        searchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -93,4 +111,16 @@ public class ViewAllMessagesActivity extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        adapter.getFilter().filter(newText);
+        return true;
+    }
+
 }
