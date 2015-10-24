@@ -19,6 +19,7 @@ import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
 
+import java.util.Iterator;
 import java.util.List;
 import android.content.Intent;
 
@@ -41,11 +42,15 @@ public class ConversationViewActivity extends AppCompatActivity {
         selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
-        for(Message message : messageList){
+        Iterator<Message> messageIterator = messageList.iterator();
+
+        while(messageIterator.hasNext()){
+            Message message = messageIterator.next();
+            System.out.println("In converstation view.. .message is.."+message.getMessageContent());
             if(message.getStatus().equals(MessageStatus.DRAFT)){
                 EditText newMessageText = (EditText)findViewById(R.id.EditText);
                 newMessageText.setText(message.getMessageContent());
-                messageList.remove(message);
+                messageIterator.remove();
             }
         }
 
@@ -150,13 +155,23 @@ public class ConversationViewActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent setIntent = new Intent();
         setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+
         EditText newMessageText = (EditText)findViewById(R.id.EditText);
         String newMessage = newMessageText.getText().toString();
+
         System.out.println("on Back button pressed :" +newMessage);
+
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
-        appState.setMessageList(originalMessageList);
+        Iterator<Message> messageIterator = originalMessageList.iterator();
+        while(messageIterator.hasNext()){
+            Message message = messageIterator.next();
+            if(message.getStatus().equals(MessageStatus.DRAFT)){
+                messageIterator.remove();
+            }
+        }
         originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015", MessageStatus.DRAFT));
+        appState.setMessageList(originalMessageList);
         startActivity(setIntent);
     }
 }

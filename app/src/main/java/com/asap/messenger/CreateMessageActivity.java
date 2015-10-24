@@ -34,11 +34,12 @@ public class CreateMessageActivity extends AppCompatActivity {
         List<Message> originalMessageList = appState.getMessageList();
         System.out.println(originalMessageList);
 
+
         for(Message message : originalMessageList){
             if(message.getStatus().equals(MessageStatus.NEW)){
                 EditText newMessageText = (EditText)findViewById(R.id.newMessage);
                 newMessageText.setText(message.getMessageContent());
-                messageList.remove(message);
+                originalMessageList.remove(message);
             }
         }
 
