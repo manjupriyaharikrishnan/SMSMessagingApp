@@ -89,7 +89,7 @@ public class ConversationViewActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        System.out.println("IN Create Context menu."+ids);
+        System.out.println("IN Create Context menu." + ids);
         if (v.getId() == R.id.list) {
             ListView lv = (ListView) v;
             super.onCreateContextMenu(menu, v, menuInfo);
@@ -134,5 +134,12 @@ public class ConversationViewActivity extends AppCompatActivity {
         intent.putExtra("messageToDelete", id);
         intent.putExtra("selectedContact", selectedContact);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent setIntent = new Intent();
+        setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+        startActivity(setIntent);
     }
 }
