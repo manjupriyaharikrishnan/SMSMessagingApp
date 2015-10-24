@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -67,6 +69,15 @@ public class CreateMessageActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
             newMessageText.setTextColor(Color.BLACK);
             return false;
+            }
+        });
+
+        Button sendButton = (Button)findViewById(R.id.Button);
+        sendButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
+                startActivity(sendIntent);
             }
         });
     }

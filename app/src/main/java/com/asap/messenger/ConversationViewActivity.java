@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -79,6 +80,15 @@ public class ConversationViewActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         registerForContextMenu(list);
+
+        Button sendButton = (Button)findViewById(R.id.Button);
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
+                startActivity(sendIntent);
+            }
+        });
     }
 
     @Override
