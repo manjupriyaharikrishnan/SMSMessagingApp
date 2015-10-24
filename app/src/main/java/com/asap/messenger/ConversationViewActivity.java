@@ -104,7 +104,6 @@ public class ConversationViewActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int messageId = ids[acmi.position];
-        System.out.println("IN onContextItemSelected."+ids[acmi.position]);
         if(item.getTitle()=="Reply") {
             replyMessage(item.getItemId());
         }
@@ -123,7 +122,6 @@ public class ConversationViewActivity extends AppCompatActivity {
         Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
     }
     public void forwardMessage(int id){
-       // Toast.makeText(this, "forwardMessage called", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent("com.asap.messenger.forwardmessage");
         startActivity(intent);
     }

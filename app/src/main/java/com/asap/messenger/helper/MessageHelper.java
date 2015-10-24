@@ -49,6 +49,16 @@ public class MessageHelper {
         return messagesList;
     }
 
+    public List<Message> deleteMessageById(int id, List<Message> originalMessageList){
+        for(Message message : originalMessageList){
+            if(message.getMessageId()==id){
+                originalMessageList.remove(message);
+                return originalMessageList;
+            }
+        }
+        return originalMessageList;
+    }
+
     public static String getDateForDisplay(String inputDate){
         DateFormat originalFormat = new SimpleDateFormat("MM-dd-yyyy");
         DateFormat targetFormat = new SimpleDateFormat("MMM dd");

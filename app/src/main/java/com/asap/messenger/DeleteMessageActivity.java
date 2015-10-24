@@ -6,12 +6,28 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.asap.messenger.bo.Message;
+import com.asap.messenger.helper.MessageHelper;
+
+import java.util.List;
+
 public class DeleteMessageActivity extends AppCompatActivity {
+
+    MessageHelper messageHelper = new MessageHelper();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         String selectedContact = getIntent().getExtras().getString("selectedContact");
+        int messageToDelete = getIntent().getExtras().getInt("messageToDelete");
+
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+
+        List<Message> deletedMessageList = messageHelper.deleteMessageById(messageToDelete, originalMessageList);
+        appState.setMessageList(deletedMessageList);
+
         Intent intent = new Intent("com.asap.messenger.conversationview");
         intent.putExtra("selectedContact", selectedContact);
         startActivity(intent);

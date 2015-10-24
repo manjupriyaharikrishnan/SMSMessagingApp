@@ -112,10 +112,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<String> implements Fil
             for(int i=0; i<filteredMessageList.size(); i++){
                 filteredContacts[i] = filteredMessageList.get(i).getReceiver().get(0).getPhoneNumber();
                 filteredMessages[i] = filteredMessageList.get(i).getMessageContent();
-                System.out.println("In PUshm...."+filteredMessages[i]);
             }
-            /*contacts = filteredContacts;
-            messages = filteredMessages;*/
             notifyDataSetChanged();
         }
     }
