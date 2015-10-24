@@ -86,7 +86,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<String> implements Fil
 
             for(int i=0; i<messages.length; i++){
                 if(messages[i].toLowerCase().contains(filterString)){
-                    Message message = new Message(0,messages[i], contacts[i], contacts[i], null);
+                    Message message = new Message(0,messages[i], contacts[i], contacts[i], null, null);
                     filteredList.add(message);
                 }
             }

@@ -94,7 +94,7 @@ public class ConversationViewActivity extends AppCompatActivity {
             ListView lv = (ListView) v;
             super.onCreateContextMenu(menu, v, menuInfo);
             menu.setHeaderTitle("Message Actions");
-            menu.add(0, v.getId(), 0, "Reply");
+            menu.add(0, v.getId(), 0, "Lock");
             menu.add(0, v.getId(), 0, "Forward");
             menu.add(0, v.getId(), 0, "Delete");
 
@@ -106,8 +106,8 @@ public class ConversationViewActivity extends AppCompatActivity {
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         int messageId = ids[acmi.position];
         String message = messages[acmi.position];
-        if(item.getTitle()=="Reply") {
-            replyMessage(item.getItemId());
+        if(item.getTitle()=="Lock") {
+            lockMessage(item.getItemId());
         }
         else if(item.getTitle()=="Forward"){
             forwardMessage(message);
@@ -120,7 +120,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         return true;
     }
 
-    public void replyMessage(int id){
+    public void lockMessage(int id){
         Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
     }
     public void forwardMessage(String messageToForward){

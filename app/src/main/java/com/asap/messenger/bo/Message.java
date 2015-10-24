@@ -13,15 +13,17 @@ public class Message {
     private Sender sender;
     private List<Receiver> receiver;
     private String timestamp;
+    private String status;
 
     public Message(){
 
     }
 
-    public Message(int messageId, String messageContent, String senderContact, String receiverContact, String timestamp){
+    public Message(int messageId, String messageContent, String senderContact, String receiverContact, String timestamp, String status){
         this.messageId = messageId;
         this.messageContent = messageContent;
         this.timestamp = timestamp;
+        this.status = status;
 
         Sender sender = new Sender();
         sender.setPhoneNumber(senderContact);
