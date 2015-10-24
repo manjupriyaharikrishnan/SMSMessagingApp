@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.custom.ConversationListAdapter;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
@@ -144,6 +145,10 @@ public class ConversationViewActivity extends AppCompatActivity {
         EditText newMessageText = (EditText)findViewById(R.id.EditText);
         String newMessage = newMessageText.getText().toString();
         System.out.println("on Back button pressed :" +newMessage);
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        appState.setMessageList(originalMessageList);
+        originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015", MessageStatus.DRAFT));
         startActivity(setIntent);
     }
 }
