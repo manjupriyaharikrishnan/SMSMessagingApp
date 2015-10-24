@@ -6,4 +6,5 @@
     <string name="title_activity_conversation_view">ConversationViewActivity</string>
     <string name="title_activity_delete_message">DeleteMessageActivity</string>
     <string name="title_activity_search_message">SearchMessageActivity</string>
+    <string name="title_activity_forward_message">ForwardMessageActivity</string>
 </resources>
