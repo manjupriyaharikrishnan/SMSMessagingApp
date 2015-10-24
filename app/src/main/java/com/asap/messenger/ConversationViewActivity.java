@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -140,6 +141,9 @@ public class ConversationViewActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent setIntent = new Intent();
         setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+        EditText newMessageText = (EditText)findViewById(R.id.EditText);
+        String newMessage = newMessageText.getText().toString();
+        System.out.println("on Back button pressed :" +newMessage);
         startActivity(setIntent);
     }
 }
