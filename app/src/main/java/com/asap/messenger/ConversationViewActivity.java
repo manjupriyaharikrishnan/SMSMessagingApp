@@ -123,7 +123,9 @@ public class ConversationViewActivity extends AppCompatActivity {
         Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
     }
     public void forwardMessage(int id){
-        Toast.makeText(this, "forwardMessage called", Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "forwardMessage called", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent("com.asap.messenger.forwardmessage");
+        startActivity(intent);
     }
     public void deleteMessage(int id){
         Intent intent = new Intent("com.asap.messenger.deletemessage");
