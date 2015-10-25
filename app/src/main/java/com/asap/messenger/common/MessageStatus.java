@@ -9,5 +9,6 @@ public class MessageStatus {
     public static final String RECEIVED = "RECEIVED";
     public static final String NEW = "NEW";
     public static final String DRAFT = "DRAFT";
+    public static final String LOCK = "LOCK";
 
 }

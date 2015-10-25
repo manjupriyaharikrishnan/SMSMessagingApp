@@ -47,7 +47,7 @@ public class ConversationViewActivity extends AppCompatActivity {
 
         while(messageIterator.hasNext()){
             Message message = messageIterator.next();
-            System.out.println("In converstation view.. .message is.."+message.getMessageContent());
+            System.out.println("In converstation view.. .message is.."+message.getStatus());
             if(message.getStatus().equals(MessageStatus.DRAFT)){
                 EditText newMessageText = (EditText)findViewById(R.id.EditText);
                 newMessageText.setText(message.getMessageContent());
@@ -132,7 +132,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         int messageId = ids[acmi.position];
         String message = messages[acmi.position];
         if(item.getTitle()=="Lock") {
-            lockMessage(item.getItemId());
+            lockMessage(messageId);
         }
         else if(item.getTitle()=="Forward"){
             forwardMessage(message);
@@ -146,7 +146,18 @@ public class ConversationViewActivity extends AppCompatActivity {
     }
 
     public void lockMessage(int id){
-        Toast.makeText(this, "replyMessage called", Toast.LENGTH_SHORT).show();
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        Iterator<Message> messageIterator = originalMessageList.iterator();
+        while(messageIterator.hasNext()){
+            Message message = messageIterator.next();
+            if(message.getMessageId()==id){
+                message.setStatus(MessageStatus.LOCK);
+            }
+        }
+        appState.setMessageList(originalMessageList);
+        finish();
+        startActivity(getIntent());
     }
     public void forwardMessage(String messageToForward){
         Intent intent = new Intent("com.asap.messenger.createmessage");
