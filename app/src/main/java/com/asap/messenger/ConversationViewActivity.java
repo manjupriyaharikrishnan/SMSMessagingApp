@@ -72,7 +72,7 @@ public class ConversationViewActivity extends AppCompatActivity {
             ids[i] = messageList.get(i).getMessageId();
         }
 
-        ConversationListAdapter adapter=new ConversationListAdapter(this, contacts, messages, senders, timestamps, selectedContact);
+        ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact);
         ListView list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 

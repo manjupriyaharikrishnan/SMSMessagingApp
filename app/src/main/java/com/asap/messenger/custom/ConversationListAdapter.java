@@ -13,37 +13,35 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.asap.messenger.R;
+import com.asap.messenger.bo.Message;
 import com.asap.messenger.helper.MessageHelper;
+
+import java.util.List;
 
 /**
  * Created by Umadevi on 10/18/2015.
  */
-public class ConversationListAdapter extends ArrayAdapter<String> {
+public class ConversationListAdapter extends ArrayAdapter<Message> {
 
     private final Activity context;
-    private final String[] contacts;
-    private final String[] messages;
-    private final String[] senders;
-    private final String[] timestamps;
+    List<Message> messageList;
     private final String selectedContact;
 
-    public ConversationListAdapter(Activity context, String[] contacts, String[] messages, String[] senders, String[] timestamps, String selectedContact) {
-        super(context, R.layout.allmessageslayout, contacts);
+    public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact) {
+        super(context, R.layout.allmessageslayout, messageList);
         this.context=context;
-        this.contacts=contacts;
-        this.messages=messages;
-        this.senders=senders;
         this.selectedContact=selectedContact;
-        this.timestamps=timestamps;
+        this.messageList = messageList;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
+        Message currentMessage = messageList.get(position);
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.conversationview, null, true);
 
         LinearLayout messageLayout = (LinearLayout) rowView.findViewById(R.id.layoutMessage);
 
-        if(selectedContact.contentEquals(senders[position])){
+        if(selectedContact.contentEquals(currentMessage.getSender().getPhoneNumber())){
             messageLayout.setGravity(Gravity.LEFT);
         }else{
             messageLayout.setGravity(Gravity.RIGHT);
@@ -53,11 +51,14 @@ public class ConversationListAdapter extends ArrayAdapter<String> {
         imageView.setImageResource(R.drawable.usericon);
 
         TextView messageContent = (TextView) rowView.findViewById(R.id.message);
-        messageContent.setText(messages[position]);
+        messageContent.setText(currentMessage.getMessageContent());
 
         TextView timestamp = (TextView) rowView.findViewById(R.id.timestamp);
-        String timeStampDisplay = MessageHelper.getDateForDisplay(timestamps[position]);
+        String timeStampDisplay = MessageHelper.getDateForDisplay(currentMessage.getTimestamp());
         timestamp.setText(timeStampDisplay);
+
+        ImageView lockView = (ImageView) rowView.findViewById(R.id.lock);
+        lockView.setImageResource(R.drawable.lock);
 
         return rowView;
 
