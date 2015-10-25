@@ -50,6 +50,15 @@ public class MessageHelper {
         return messagesList;
     }
 
+    public boolean checkIfMessageIsLocked(int id, List<Message> originalMessageList){
+        for(Message message : originalMessageList){
+            if(message.getStatus().equals(MessageStatus.LOCK)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Message> deleteMessageById(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
             if(message.getMessageId()==id){

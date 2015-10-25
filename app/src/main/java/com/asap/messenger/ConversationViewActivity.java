@@ -1,5 +1,7 @@
 package com.asap.messenger;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -164,12 +166,22 @@ public class ConversationViewActivity extends AppCompatActivity {
         intent.putExtra("messageToForward", messageToForward);
         startActivity(intent);
     }
-    public void deleteMessage(int id){
-        Intent intent = new Intent("com.asap.messenger.deletemessage");
-        System.out.println("In Delete message.. trying to delete message with id.."+id+" for contact "+selectedContact);
-        intent.putExtra("messageToDelete", id);
-        intent.putExtra("selectedContact", selectedContact);
-        startActivity(intent);
+    public void deleteMessage(int messageToDelete){
+
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        boolean locked = messageHelper.checkIfMessageIsLocked(messageToDelete, originalMessageList);
+        if(locked){
+            openAlert(messageToDelete);
+        }else{
+            Intent intent = new Intent("com.asap.messenger.deletemessage");
+            System.out.println("In Delete message.. trying to delete message with id.."+messageToDelete+" for contact "+selectedContact);
+            intent.putExtra("messageToDelete", messageToDelete);
+            intent.putExtra("selectedContact", selectedContact);
+            startActivity(intent);
+        }
+
+
     }
 
     @Override
@@ -194,5 +206,29 @@ public class ConversationViewActivity extends AppCompatActivity {
         originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015", MessageStatus.DRAFT));
         appState.setMessageList(originalMessageList);
         startActivity(setIntent);
+    }
+
+
+    private void openAlert(final int messageToDelete) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ConversationViewActivity.this);
+
+        alertDialogBuilder.setTitle("Delete Locked Message");
+        alertDialogBuilder.setMessage("Are you sure?");
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Intent intent = new Intent("com.asap.messenger.deletemessage");
+                System.out.println("In Delete message.. trying to delete message with id.."+id+" for contact "+selectedContact);
+                intent.putExtra("messageToDelete", messageToDelete);
+                intent.putExtra("selectedContact", selectedContact);
+                startActivity(intent);
+            }
+        });
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
