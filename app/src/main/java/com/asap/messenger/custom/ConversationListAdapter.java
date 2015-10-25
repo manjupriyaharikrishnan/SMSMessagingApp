@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.asap.messenger.R;
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
 import java.util.List;
@@ -57,9 +58,10 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         String timeStampDisplay = MessageHelper.getDateForDisplay(currentMessage.getTimestamp());
         timestamp.setText(timeStampDisplay);
 
-        ImageView lockView = (ImageView) rowView.findViewById(R.id.lock);
-        lockView.setImageResource(R.drawable.lock);
-
+        if(currentMessage.getStatus().equals(MessageStatus.LOCK)){
+            ImageView lockView = (ImageView) rowView.findViewById(R.id.lock);
+            lockView.setImageResource(R.drawable.lock);
+        }
         return rowView;
 
     };
