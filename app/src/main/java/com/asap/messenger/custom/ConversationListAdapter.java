@@ -41,11 +41,14 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         View rowView=inflater.inflate(R.layout.conversationview, null, true);
 
         LinearLayout messageLayout = (LinearLayout) rowView.findViewById(R.id.layoutMessage);
+        LinearLayout timeStampLockLayout = (LinearLayout) rowView.findViewById(R.id.timeStampLock);
 
         if(selectedContact.contentEquals(currentMessage.getSender().getPhoneNumber())){
             messageLayout.setGravity(Gravity.LEFT);
+            timeStampLockLayout.setGravity(Gravity.LEFT);
         }else{
             messageLayout.setGravity(Gravity.RIGHT);
+            timeStampLockLayout.setGravity(Gravity.RIGHT);
         }
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
