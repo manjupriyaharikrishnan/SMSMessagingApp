@@ -1,9 +1,15 @@
 package com.asap.messenger;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -76,26 +82,38 @@ public class CreateMessageActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
 
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
                 String senderContact = senderContactText.getText().toString();
 
-                sendIntent.putExtra("senderContact", senderContact);
-                startActivity(sendIntent);
+                EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+                String message = newMessageText.getText().toString();
+
+                sendSMS(senderContact, message);
             }
         });
     }
 
-    public void sendMessage(View view){
-        EditText newMessageText = (EditText)findViewById(R.id.newMessage);
-        String newMessage = newMessageText.getText().toString();
+    private void sendSMS(String number, String message) {
+        Intent sendIntent = new Intent("SENT");
+        PendingIntent sendPI = PendingIntent.getBroadcast(this, 0, sendIntent, 0);
 
-        EditText senderContactText = (EditText)findViewById(R.id.senderContact);
-        String senderContact = senderContactText.getText().toString();
+        registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                switch (getResultCode()) {
+                    case Activity.RESULT_OK:
+                        Toast.makeText(getBaseContext(), "SMS Sent", Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        Toast.makeText(getBaseContext(), "SMS Sending Failed", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        }, new IntentFilter("SENT"));
 
-        System.out.println("New Message is "+newMessage);
-        System.out.println("New Message Contact is " + senderContact);
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(number, null, message, sendPI, null);
     }
 
     @Override
