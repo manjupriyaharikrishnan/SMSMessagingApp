@@ -77,6 +77,11 @@ public class CreateMessageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
+
+                EditText senderContactText = (EditText)findViewById(R.id.senderContact);
+                String senderContact = senderContactText.getText().toString();
+
+                sendIntent.putExtra("senderContact", senderContact);
                 startActivity(sendIntent);
             }
         });

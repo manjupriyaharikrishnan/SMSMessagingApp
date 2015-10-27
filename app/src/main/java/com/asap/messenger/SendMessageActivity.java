@@ -1,14 +1,19 @@
 package com.asap.messenger;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class SendMessageActivity extends AppCompatActivity {
 
+    protected String senderContact;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        senderContact = getIntent().getExtras().getString("senderContact");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sendmessagelayout);
     }
@@ -33,5 +38,14 @@ public class SendMessageActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public boolean onOkClicked(View view)
+    {
+        //String selectedContact = "222-222-2222";
+        Intent intent = new Intent("com.asap.messenger.conversationview");
+        intent.putExtra("selectedContact", senderContact);
+        startActivity(intent);
+        return true;
     }
 }

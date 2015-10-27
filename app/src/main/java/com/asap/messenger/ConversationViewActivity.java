@@ -88,6 +88,9 @@ public class ConversationViewActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
+
+                sendIntent.putExtra("senderContact", selectedContact);
+
                 startActivity(sendIntent);
             }
         });
