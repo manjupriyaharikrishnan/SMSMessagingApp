@@ -46,6 +46,8 @@ public class MessageHelper {
                contact = originalMessage.getSender().getPhoneNumber();
             }else if(MessageStatus.SENT.contentEquals(originalMessage.getStatus())){
                 contact = originalMessage.getReceiver().get(0).getPhoneNumber();
+            }else{
+                break;
             }
             List<Message> mapValue = null;
             if(sortedMap.containsKey(contact)){

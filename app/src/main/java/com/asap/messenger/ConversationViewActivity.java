@@ -208,19 +208,21 @@ public class ConversationViewActivity extends AppCompatActivity {
         EditText newMessageText = (EditText)findViewById(R.id.EditText);
         String newMessage = newMessageText.getText().toString();
 
-        System.out.println("on Back button pressed :" +newMessage);
+        System.out.println("on Back button pressed :" + newMessage);
 
-        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
-        Iterator<Message> messageIterator = originalMessageList.iterator();
-        while(messageIterator.hasNext()){
-            Message message = messageIterator.next();
-            if(message.getStatus().equals(MessageStatus.DRAFT)){
-                messageIterator.remove();
+        if(newMessage!=null && !newMessage.contentEquals("")){
+            MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+            List<Message> originalMessageList = appState.getMessageList();
+            Iterator<Message> messageIterator = originalMessageList.iterator();
+            while(messageIterator.hasNext()){
+                Message message = messageIterator.next();
+                if(message.getStatus().equals(MessageStatus.DRAFT)){
+                    messageIterator.remove();
+                }
             }
+            originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015 12:23:22", MessageStatus.DRAFT));
+            appState.setMessageList(originalMessageList);
         }
-        originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015", MessageStatus.DRAFT));
-        appState.setMessageList(originalMessageList);
         startActivity(setIntent);
     }
 
