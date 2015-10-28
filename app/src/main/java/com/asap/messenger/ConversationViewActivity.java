@@ -1,6 +1,8 @@
 package com.asap.messenger;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,10 +35,15 @@ public class ConversationViewActivity extends AppCompatActivity {
     private String[] messages;
     String selectedContact = null;
 
+    private ClipboardManager myClipboard;
+    private ClipData myClip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_conversation_view);
+
+        myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
@@ -124,10 +131,10 @@ public class ConversationViewActivity extends AppCompatActivity {
             ListView lv = (ListView) v;
             super.onCreateContextMenu(menu, v, menuInfo);
             menu.setHeaderTitle("Message Actions");
+            menu.add(0, v.getId(), 0, "Copy");
             menu.add(0, v.getId(), 0, "Lock");
             menu.add(0, v.getId(), 0, "Forward");
             menu.add(0, v.getId(), 0, "Delete");
-
         }
     }
 
@@ -144,6 +151,12 @@ public class ConversationViewActivity extends AppCompatActivity {
         }
         else if(item.getTitle()=="Delete") {
             deleteMessage(messageId);
+        }else if (item.getTitle()=="Copy"){
+            System.out.println("Copy message called");
+            myClip = ClipData.newPlainText("copiedMessage", message);
+            myClipboard.setPrimaryClip(myClip);
+            Toast.makeText(getApplicationContext(), "Text Copied",
+                    Toast.LENGTH_SHORT).show();
         }else{
             return false;
         }
