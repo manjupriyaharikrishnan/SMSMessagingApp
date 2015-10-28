@@ -82,6 +82,7 @@ public class CreateMessageActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
 
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
                 String senderContact = senderContactText.getText().toString();
@@ -89,28 +90,13 @@ public class CreateMessageActivity extends AppCompatActivity {
                 EditText newMessageText = (EditText)findViewById(R.id.newMessage);
                 String message = newMessageText.getText().toString();
 
-                sendSMS(senderContact, message);
+                sendSMS(senderContact, message, sendIntent);
             }
         });
     }
 
-    private void sendSMS(String number, String message) {
-        Intent sendIntent = new Intent("SENT");
-        PendingIntent sendPI = PendingIntent.getBroadcast(this, 0, sendIntent, 0);
-
-        registerReceiver(new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                switch (getResultCode()) {
-                    case Activity.RESULT_OK:
-                        Toast.makeText(getBaseContext(), "SMS Sent", Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        Toast.makeText(getBaseContext(), "SMS Sending Failed", Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        }, new IntentFilter("SENT"));
+    private void sendSMS(String number, String message, Intent send) {
+        PendingIntent sendPI = PendingIntent.getBroadcast(this, 0, send, 0);
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(number, null, message, sendPI, null);
