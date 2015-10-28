@@ -1,11 +1,13 @@
 package com.asap.messenger;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -30,6 +32,8 @@ import java.util.List;
  */
 public class CreateMessageActivity extends AppCompatActivity {
     MessageHelper messageHelper = new MessageHelper();
+    final int REQUEST_CODE_ASK_PERMISSION = 007;
+    String senderContact, message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,24 +86,45 @@ public class CreateMessageActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
 
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
-                String senderContact = senderContactText.getText().toString();
+                senderContact = senderContactText.getText().toString();
 
                 EditText newMessageText = (EditText)findViewById(R.id.newMessage);
-                String message = newMessageText.getText().toString();
+                message = newMessageText.getText().toString();
 
-                sendSMS(senderContact, message, sendIntent);
+                int hasSmsPermission = checkSelfPermission(Manifest.permission.SEND_SMS);
+
+                if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[] {Manifest.permission.SEND_SMS}, REQUEST_CODE_ASK_PERMISSION);
+                } else {
+                    sendSms(senderContact, message);
+                }
             }
         });
     }
 
-    private void sendSMS(String number, String message, Intent send) {
-        PendingIntent sendPI = PendingIntent.getBroadcast(this, 0, send, 0);
+    public void sendSms(String contact, String message){
+        Intent sendIntent = new Intent(this, SendMessageActivity.class);
+        PendingIntent sendPI = PendingIntent.getBroadcast(this.getApplicationContext(), 0, sendIntent, 0);
 
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(number, null, message, sendPI, null);
+        sms.sendTextMessage(senderContact, null, message, sendPI, null);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSION:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendSms(senderContact, message);
+                } else {
+                    Toast.makeText(this, "Send Message Permission Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Override
