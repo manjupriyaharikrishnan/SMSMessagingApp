@@ -49,11 +49,12 @@ public class ViewAllMessagesActivity extends AppCompatActivity implements Search
             appState.setMessageList(messageList);
         }
 
-        final String contacts[] = new String[messageList.size()];
-        String messages[] = new String[messageList.size()];
-        for(int i=0; i<messageList.size(); i++){
-            contacts[i] = messageList.get(i).getSender().getContactName();
-            messages[i] = messageList.get(i).getMessageContent();
+        List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList);
+        final String contacts[] = new String[sortedList.size()];
+        String messages[] = new String[sortedList.size()];
+        for(int i=0; i<sortedList.size(); i++){
+            contacts[i] = sortedList.get(i).getSender().getContactName();
+            messages[i] = sortedList.get(i).getMessageContent();
         }
 
         adapter=new ViewMessagesListAdapter(this, contacts, messages);

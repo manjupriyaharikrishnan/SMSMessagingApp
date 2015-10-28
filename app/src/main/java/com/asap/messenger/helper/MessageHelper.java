@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,19 +20,68 @@ public class MessageHelper {
 
     public List<Message> getAllMessages(){
         List<Message> messagesList = new ArrayList<Message>();
-        messagesList.add(new Message(12, "Hello How are you ?", "111-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(21, "Hello How are you ?", "222-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(31, "Hello How are you ?", "333-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(14, "Hello How are you ?", "444-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(51, "Hello How are you ?", "555-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(17, "Hello How are you ?", "666-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(81, "Hello How are you ?", "777-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(19, "Hello How are you ?", "888-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(41, "Hello How are you ?", "999-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(43, "Am fine, How are you", "111-111-1111", "999-222-2222", "10-17-2015", MessageStatus.SENT));
-        messagesList.add(new Message(42, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015", MessageStatus.RECEIVED));
-        messagesList.add(new Message(44, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015", MessageStatus.SENT));
+        messagesList.add(new Message(1, "Hello How are you ?", "111-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(2, "Hello How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(3, "Hello How are you ?", "333-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(4, "Hello How are you ?", "444-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(5, "Hello How are you ?", "555-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(6, "Hello How are you ?", "666-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(7, "Hello How are you ?", "777-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(8, "Hello How are you ?", "888-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(9, "Hello How are you ?", "999-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(10, "Am fine, How are you", "111-111-1111", "999-222-2222", "10-17-2015 02:32:00", MessageStatus.SENT));
+        messagesList.add(new Message(11, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015 02:33:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(12, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015 02:34:00", MessageStatus.SENT));
         return messagesList;
+    }
+
+    public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList){
+
+        List<Message> sortedList = new ArrayList<Message>();
+
+        HashMap<String, List<Message>> sortedMap = new HashMap<String, List<Message>>();
+        for(Message originalMessage : originalMessageList){
+            String contact = null;
+            if(MessageStatus.RECEIVED.contentEquals(originalMessage.getStatus())){
+               contact = originalMessage.getSender().getPhoneNumber();
+            }else if(MessageStatus.SENT.contentEquals(originalMessage.getStatus())){
+                contact = originalMessage.getReceiver().get(0).getPhoneNumber();
+            }
+            List<Message> mapValue = null;
+            if(sortedMap.containsKey(contact)){
+                mapValue = sortedMap.get(contact);
+            }else{
+                mapValue = new ArrayList<Message>();
+            }
+            mapValue.add(originalMessage);
+            sortedMap.put(contact, mapValue);
+        }
+
+        for (List<Message> list : sortedMap.values()) {
+            Message latestMessage = null;
+            long latestDate = 0;
+            for(Message listMessage : list){
+                long milliSec = getLongValueOfDate(listMessage.getTimestamp());
+                if(milliSec > latestDate){
+                    latestDate = milliSec;
+                    latestMessage = listMessage;
+                }
+            }
+            sortedList.add(latestMessage);
+        }
+        return sortedList;
+    }
+
+    private long getLongValueOfDate(String inputDate){
+        SimpleDateFormat f = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
+        Date dateObj = null;
+        try {
+            dateObj = f.parse(inputDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        long milliseconds = dateObj.getTime();
+        return milliseconds;
     }
 
     public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
