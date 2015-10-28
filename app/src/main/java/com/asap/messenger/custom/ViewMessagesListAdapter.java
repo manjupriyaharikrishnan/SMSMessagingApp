@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.asap.messenger.R;
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,48 +20,51 @@ import java.util.List;
 /**
  * Created by Umadevi on 10/17/2015.
  */
-public class ViewMessagesListAdapter extends ArrayAdapter<String> implements Filterable {
+public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Filterable {
 
     private final Activity context;
-    private String[] contacts;
-    private String[] messages;
+
+    private List<Message> conversationMessages;
+    private List<Message> filteredConvMessages;
 
     private SearchFilter searchFilter;
 
-    private String[] filteredContacts;
-    private String[] filteredMessages;
-
-    public ViewMessagesListAdapter(Activity context, String[] contacts, String[] messages) {
-        super(context, R.layout.allmessageslayout, contacts);
+    public ViewMessagesListAdapter(Activity context, List<Message> conversationMessages) {
+        super(context, R.layout.allmessageslayout, conversationMessages);
         this.context=context;
-        this.contacts=contacts;
-        this.messages=messages;
 
-        this.filteredContacts = contacts;
-        this.filteredMessages=messages;
+        this.conversationMessages = conversationMessages;
+        this.filteredConvMessages = conversationMessages;
 
         getFilter();
     }
 
     @Override
     public int getCount() {
-        if(filteredContacts!=null){
-            return filteredContacts.length;
+        if(filteredConvMessages!=null){
+            return filteredConvMessages.size();
         }
         return 0;
     }
 
     public View getView(int position,View view,ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();
-        View rowView=inflater.inflate(R.layout.allmessageslayout, null,true);
+        View rowView=inflater.inflate(R.layout.allmessageslayout, null, true);
 
         TextView txtTitle = (TextView) rowView.findViewById(R.id.contactName);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView extratxt = (TextView) rowView.findViewById(R.id.message);
 
-        txtTitle.setText(filteredContacts[position]);
+        Message rowMessage = filteredConvMessages.get(position);
+        String contactNumber = null;
+        if(MessageStatus.RECEIVED.contentEquals(rowMessage.getStatus())){
+            contactNumber = rowMessage.getSender().getPhoneNumber();
+        }else if(MessageStatus.SENT.contentEquals(rowMessage.getStatus())){
+            contactNumber = rowMessage.getReceiver().get(0).getPhoneNumber();
+        }
+        txtTitle.setText(contactNumber);
         imageView.setImageResource(R.drawable.usericon);
-        extratxt.setText(filteredMessages[position]);
+        extratxt.setText(rowMessage.getMessageContent());
         return rowView;
 
     };
@@ -84,16 +88,13 @@ public class ViewMessagesListAdapter extends ArrayAdapter<String> implements Fil
 
             final List<Message> filteredList = new ArrayList<Message>();
 
-            for(int i=0; i<messages.length; i++){
-                if(messages[i].toLowerCase().contains(filterString)){
-                    Message message = new Message(0,messages[i], contacts[i], contacts[i], null, null);
+            for(Message message : conversationMessages){
+                if(message.getMessageContent().toLowerCase().contains(filterString)){
                     filteredList.add(message);
                 }
             }
-
             results.values = filteredList;
             results.count = filteredList.size();
-
             return results;
         }
 
@@ -106,13 +107,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<String> implements Fil
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            List<Message> filteredMessageList = (ArrayList<Message>) results.values;
-            filteredContacts = new String[filteredMessageList.size()];
-            filteredMessages = new String[filteredMessageList.size()];
-            for(int i=0; i<filteredMessageList.size(); i++){
-                filteredContacts[i] = filteredMessageList.get(i).getReceiver().get(0).getPhoneNumber();
-                filteredMessages[i] = filteredMessageList.get(i).getMessageContent();
-            }
+            filteredConvMessages = (ArrayList<Message>) results.values;
             notifyDataSetChanged();
         }
     }

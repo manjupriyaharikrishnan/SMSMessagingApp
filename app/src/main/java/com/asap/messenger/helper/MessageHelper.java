@@ -20,15 +20,15 @@ public class MessageHelper {
 
     public List<Message> getAllMessages(){
         List<Message> messagesList = new ArrayList<Message>();
-        messagesList.add(new Message(1, "Hello How are you ?", "111-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(2, "Hello How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(3, "Hello How are you ?", "333-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(4, "Hello How are you ?", "444-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(5, "Hello How are you ?", "555-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(6, "Hello How are you ?", "666-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(7, "Hello How are you ?", "777-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(8, "Hello How are you ?", "888-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(9, "Hello How are you ?", "999-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(2, "Hello 222 How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(3, "Hello 333 How are you ?", "333-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(4, "Hello 444 How are you ?", "444-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(5, "Hello 555 How are you ?", "555-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(6, "Hello 666 How are you ?", "666-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(7, "Hello 777How are you ?", "777-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(8, "Hello 888 How are you ?", "888-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(9, "Hello 999 How are you ?", "999-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(10, "Am fine, How are you", "111-111-1111", "999-222-2222", "10-17-2015 02:32:00", MessageStatus.SENT));
         messagesList.add(new Message(11, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015 02:33:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(12, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015 02:34:00", MessageStatus.SENT));

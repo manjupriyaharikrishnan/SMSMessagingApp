@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
@@ -49,15 +50,8 @@ public class ViewAllMessagesActivity extends AppCompatActivity implements Search
             appState.setMessageList(messageList);
         }
 
-        List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList);
-        final String contacts[] = new String[sortedList.size()];
-        String messages[] = new String[sortedList.size()];
-        for(int i=0; i<sortedList.size(); i++){
-            contacts[i] = sortedList.get(i).getSender().getContactName();
-            messages[i] = sortedList.get(i).getMessageContent();
-        }
-
-        adapter=new ViewMessagesListAdapter(this, contacts, messages);
+        final List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList);
+        adapter=new ViewMessagesListAdapter(this, sortedList);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -66,7 +60,13 @@ public class ViewAllMessagesActivity extends AppCompatActivity implements Search
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                String selectedContact = contacts[+position];
+                Message selectedMessage = sortedList.get(position);
+                String selectedContact = null;
+                if(MessageStatus.RECEIVED.contentEquals(selectedMessage.getStatus())){
+                    selectedContact = selectedMessage.getSender().getPhoneNumber();
+                }else if(MessageStatus.SENT.contentEquals(selectedMessage.getStatus())){
+                    selectedContact = selectedMessage.getReceiver().get(0).getPhoneNumber();
+                }
                 Intent intent = new Intent("com.asap.messenger.conversationview");
                 intent.putExtra("selectedContact", selectedContact);
                 startActivity(intent);
