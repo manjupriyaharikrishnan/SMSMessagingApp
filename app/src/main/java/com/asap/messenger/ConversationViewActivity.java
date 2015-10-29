@@ -1,9 +1,11 @@
 package com.asap.messenger;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -28,7 +30,7 @@ import java.util.Iterator;
 import java.util.List;
 import android.content.Intent;
 
-public class ConversationViewActivity extends AppCompatActivity {
+public class ConversationViewActivity extends SendMessageActivity {
 
     MessageHelper messageHelper = new MessageHelper();
     private int[] ids;
@@ -49,7 +51,7 @@ public class ConversationViewActivity extends AppCompatActivity {
         List<Message> originalMessageList = appState.getMessageList();
         System.out.println(originalMessageList);
 
-        selectedContact = getIntent().getExtras().getString("selectedContact");
+                                    selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
         Iterator<Message> messageIterator = messageList.iterator();
@@ -94,11 +96,22 @@ public class ConversationViewActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent("com.asap.messenger.sendmessage");
+                receiverContact = selectedContact;
 
-                sendIntent.putExtra("senderContact", selectedContact);
+                EditText newMessageText = (EditText)findViewById(R.id.EditText);
+                message = newMessageText.getText().toString();
 
-                startActivity(sendIntent);
+                int hasSmsPermission = checkSelfPermission(Manifest.permission.SEND_SMS);
+
+                if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[] {Manifest.permission.SEND_SMS}, REQUEST_CODE_ASK_PERMISSION);
+                } else {
+                    sendSms(receiverContact, message);
+                }
+                saveMessageSent(message, receiverContact);
+                Intent setIntent = new Intent();
+                setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+                startActivity(setIntent);
             }
         });
     }
