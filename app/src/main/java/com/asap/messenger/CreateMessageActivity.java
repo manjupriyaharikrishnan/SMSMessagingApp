@@ -33,7 +33,7 @@ import java.util.List;
 public class CreateMessageActivity extends AppCompatActivity {
     MessageHelper messageHelper = new MessageHelper();
     final int REQUEST_CODE_ASK_PERMISSION = 007;
-    String senderContact, message;
+    String receiverContact, message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class CreateMessageActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
-                senderContact = senderContactText.getText().toString();
+                receiverContact = senderContactText.getText().toString();
 
                 EditText newMessageText = (EditText)findViewById(R.id.newMessage);
                 message = newMessageText.getText().toString();
@@ -98,18 +98,28 @@ public class CreateMessageActivity extends AppCompatActivity {
                 if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[] {Manifest.permission.SEND_SMS}, REQUEST_CODE_ASK_PERMISSION);
                 } else {
-                    sendSms(senderContact, message);
+                    sendSms(receiverContact, message);
                 }
+                saveMessageSent(message, receiverContact);
+                Intent setIntent = new Intent();
+                setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+                startActivity(setIntent);
             }
         });
+    }
+
+    private void saveMessageSent(String sentMessage, String receiverContact){
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Message> originalMessageList = appState.getMessageList();
+        originalMessageList.add(new Message(52, sentMessage, "111-111-1111", receiverContact, "10-17-2015 12:23:22", MessageStatus.SENT));
+        appState.setMessageList(originalMessageList);
     }
 
     public void sendSms(String contact, String message){
         Intent sendIntent = new Intent(this, SendMessageActivity.class);
         PendingIntent sendPI = PendingIntent.getBroadcast(this.getApplicationContext(), 0, sendIntent, 0);
-
         SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(senderContact, null, message, sendPI, null);
+        sms.sendTextMessage(contact, null, message, sendPI, null);
     }
 
     @Override
@@ -117,7 +127,7 @@ public class CreateMessageActivity extends AppCompatActivity {
         switch (requestCode) {
             case REQUEST_CODE_ASK_PERMISSION:
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    sendSms(senderContact, message);
+                    sendSms(receiverContact, message);
                 } else {
                     Toast.makeText(this, "Send Message Permission Denied", Toast.LENGTH_SHORT).show();
                 }

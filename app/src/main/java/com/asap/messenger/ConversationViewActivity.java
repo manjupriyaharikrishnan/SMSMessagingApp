@@ -220,7 +220,7 @@ public class ConversationViewActivity extends AppCompatActivity {
                     messageIterator.remove();
                 }
             }
-            originalMessageList.add(new Message(52, newMessage, selectedContact, "111-111-1111", "10-17-2015 12:23:22", MessageStatus.DRAFT));
+            originalMessageList.add(new Message(52, newMessage, "111-111-1111", selectedContact, "10-17-2015 12:23:22", MessageStatus.DRAFT));
             appState.setMessageList(originalMessageList);
         }
         startActivity(setIntent);
