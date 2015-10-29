@@ -62,7 +62,11 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         }else if(MessageStatus.SENT.contentEquals(rowMessage.getStatus())){
             contactNumber = rowMessage.getReceiver().get(0).getPhoneNumber();
         }
-        txtTitle.setText(contactNumber);
+        if(rowMessage.getContactName()!=null && !rowMessage.getContactName().contentEquals("")){
+            txtTitle.setText(rowMessage.getContactName());
+        }else{
+            txtTitle.setText(contactNumber);
+        }
         imageView.setImageResource(R.drawable.usericon);
         extratxt.setText(rowMessage.getMessageContent());
         return rowView;

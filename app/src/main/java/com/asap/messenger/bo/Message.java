@@ -7,13 +7,13 @@ import java.util.List;
  * Created by Umadevi on 10/16/2015.
  */
 public class Message {
-
     private int messageId;
     private String messageContent;
     private Sender sender;
     private List<Receiver> receiver;
     private String timestamp;
     private String status;
+    private String contactName;
 
     public Message(){
 
@@ -77,12 +77,21 @@ public class Message {
     public void setMessageId(int messageId) {
         this.messageId = messageId;
     }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getContactName() {
+        return contactName;
+    }
+
+    public void setContactName(String contactName) {
+        this.contactName = contactName;
     }
 
 }

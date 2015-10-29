@@ -1,8 +1,10 @@
 package com.asap.messenger;
 
+import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
@@ -29,7 +31,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class ViewAllMessagesActivity extends AppCompatActivity implements SearchView.OnQueryTextListener{
+public class ViewAllMessagesActivity extends ContactManagerActivity implements SearchView.OnQueryTextListener{
 
     ListView list;
     MessageHelper messageHelper = new MessageHelper();
@@ -37,6 +39,7 @@ public class ViewAllMessagesActivity extends AppCompatActivity implements Search
     private SearchView searchView;
     private MenuItem searchMenuItem;
     ViewMessagesListAdapter adapter;
+    HashMap<String, String> phoneContacts = new HashMap<String, String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +52,21 @@ public class ViewAllMessagesActivity extends AppCompatActivity implements Search
             messageList = messageHelper.getAllMessages();
             appState.setMessageList(messageList);
         }
+        if(appState.getPhoneContacts()!=null){
+            phoneContacts = appState.getPhoneContacts();
+        }else{
+            int hasContactPermissions = checkSelfPermission(Manifest.permission.READ_CONTACTS);
+            if(hasContactPermissions != PackageManager.PERMISSION_GRANTED) {
+                System.out.println("Permissions are not there");
+                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_ASK_PERMISSION_FOR_READ);
+                System.out.println("Permissions requested");
+            } else {
+                phoneContacts = fetchContacts();
+            }
+            appState.setPhoneContacts(phoneContacts);
+        }
 
-        final List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList);
+        final List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList, phoneContacts);
         adapter=new ViewMessagesListAdapter(this, sortedList);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);

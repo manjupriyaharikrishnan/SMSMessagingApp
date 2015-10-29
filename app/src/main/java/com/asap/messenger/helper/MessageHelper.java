@@ -20,7 +20,7 @@ public class MessageHelper {
 
     public List<Message> getAllMessages(){
         List<Message> messagesList = new ArrayList<Message>();
-        messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
+        messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-3333", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(2, "Hello 222 How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(3, "Hello 333 How are you ?", "333-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(4, "Hello 444 How are you ?", "444-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
@@ -35,7 +35,7 @@ public class MessageHelper {
         return messagesList;
     }
 
-    public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList){
+    public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList, HashMap<String, String> phoneContacts){
 
         List<Message> sortedList = new ArrayList<Message>();
 
@@ -48,6 +48,10 @@ public class MessageHelper {
                 contact = originalMessage.getReceiver().get(0).getPhoneNumber();
             }else{
                 break;
+            }
+            if(phoneContacts.containsKey(contact)){
+                System.out.println("Key Present..."+contact);
+                originalMessage.setContactName(phoneContacts.get(contact));
             }
             List<Message> mapValue = null;
             if(sortedMap.containsKey(contact)){

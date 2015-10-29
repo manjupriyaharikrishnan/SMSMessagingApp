@@ -26,6 +26,7 @@ import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import android.content.Intent;
@@ -49,6 +50,7 @@ public class ConversationViewActivity extends SendMessageActivity {
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
+        HashMap<String, String> phoneContacts = appState.getPhoneContacts();
         System.out.println(originalMessageList);
 
                                     selectedContact = getIntent().getExtras().getString("selectedContact");
@@ -66,7 +68,12 @@ public class ConversationViewActivity extends SendMessageActivity {
             }
         }
 
-        setTitle(selectedContact);
+        if(phoneContacts.containsKey(selectedContact)){
+            setTitle(phoneContacts.get(selectedContact));
+        }else{
+            setTitle(selectedContact);
+        }
+
 
         final String contacts[] = new String[messageList.size()];
         messages = new String[messageList.size()];

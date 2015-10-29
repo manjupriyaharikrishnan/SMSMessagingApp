@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.asap.messenger" >
 
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <application
         android:name=".MessengerApplication"
         android:allowBackup="true"
@@ -94,7 +97,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ContactManagerActivity"
+            android:label="@string/title_activity_contact_manager" >
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
 
 </manifest>

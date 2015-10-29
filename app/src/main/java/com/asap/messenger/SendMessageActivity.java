@@ -38,6 +38,7 @@ public class SendMessageActivity extends AppCompatActivity {
         PendingIntent sendPI = PendingIntent.getBroadcast(this.getApplicationContext(), 0, sendIntent, 0);
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(contact, null, message, sendPI, null);
+        System.out.println("Message Sent Successfully");
     }
 
     @Override
