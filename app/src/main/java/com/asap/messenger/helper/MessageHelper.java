@@ -35,6 +35,11 @@ public class MessageHelper {
         return messagesList;
     }
 
+    public void setMessageList()
+    {
+ //       List<Message> originalMessageList
+    }
+
     public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList, HashMap<String, String> phoneContacts){
 
         List<Message> sortedList = new ArrayList<Message>();

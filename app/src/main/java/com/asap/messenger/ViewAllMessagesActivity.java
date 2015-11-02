@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.net.Uri;
+import android.database.Cursor;
 
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
@@ -30,11 +32,17 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 
 public class ViewAllMessagesActivity extends ContactManagerActivity implements SearchView.OnQueryTextListener{
 
     ListView list;
     MessageHelper messageHelper = new MessageHelper();
+    final int REQUEST_CODE_ASK_PERMISSION = 007;
 
     private SearchView searchView;
     private MenuItem searchMenuItem;
@@ -45,13 +53,63 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        int hasSmsPermission = checkSelfPermission(Manifest.permission.READ_SMS);
+
+        if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.READ_SMS}, REQUEST_CODE_ASK_PERMISSION);
+        }
+
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> messageList = appState.getMessageList();
         if(messageList==null){
-            messageList = messageHelper.getAllMessages();
+
+          messageList = new ArrayList<Message>();
+
+//        List<Message> messageList = appState.getMessageList();
+
+            Cursor cursor = getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+            if (cursor.moveToFirst()) { // must check the result to prevent exception
+                do {
+                    String msgData = "";
+                    int idx = 0;
+                    String messageBody = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
+                    String messageAddress = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
+                    long messageDate = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
+                    String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
+                    String messageStatus = " ";
+                    DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
+                    Date dateFromSms = new Date(messageDate);
+                    String messageDateString = formatter.format(dateFromSms);
+
+                    if (messageType.contentEquals("1")) messageStatus = "RECEIVED";
+                    else if (messageType.contentEquals("2")) messageStatus = "SENT";
+                    else if (messageType.contentEquals("3"))  messageStatus = "DRAFT";
+
+
+                //    for (int idx = 0; idx < cursor.getCount(); idx++) {
+                //        Message tmpMsg = new Message(idx++, cursor.getString(cursor.getColumnIndexOrThrow("body")).toString(),
+                //                cursor.getString(cursor.getColumnIndexOrThrow("address")).toString(), "Receiver",
+                //                cursor.getString(cursor.getColumnIndexOrThrow("date")).toString(),
+                //                cursor.getString(cursor.getColumnIndexOrThrow("status")).toString());
+                //                messageStatus);
+
+                        Message tmpMsg = new Message(idx++,messageBody,messageAddress,"Receiver",messageDateString,messageStatus);
+                        messageList.add(tmpMsg);
+
+                //    }
+
+                    // use msgData
+                } while (cursor.moveToNext());
+            } else {
+                // empty box, no SMS
+                // PERMISSIONS ERROR - USE TEST MESSAGES
+               // messageList = appState.getMessageList();
+            }
             appState.setMessageList(messageList);
         }
+
+
         if(appState.getPhoneContacts()!=null){
             phoneContacts = appState.getPhoneContacts();
         }else{
