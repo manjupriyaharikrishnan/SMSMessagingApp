@@ -1,6 +1,10 @@
 package com.asap.messenger;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +16,8 @@ import com.asap.messenger.helper.MessageHelper;
 import java.util.List;
 
 public class DeleteMessageActivity extends AppCompatActivity {
+
+    final int REQUEST_CODE_ASK_PERMISSION = 007;
 
     MessageHelper messageHelper = new MessageHelper();
 
@@ -25,12 +31,40 @@ public class DeleteMessageActivity extends AppCompatActivity {
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
 
-        List<Message> deletedMessageList = messageHelper.deleteMessageById(messageToDelete, originalMessageList);
-        appState.setMessageList(deletedMessageList);
+        int hasSmsPermission = checkSelfPermission(Manifest.permission.READ_SMS);
+
+        if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.READ_SMS}, REQUEST_CODE_ASK_PERMISSION);
+        }
+
+        deleteMessageById(messageToDelete);
+        //appState.setMessageList(messageHelper.getMessagesByContact(selectedContact, messageHelper.get));
 
         Intent intent = new Intent("com.asap.messenger.conversationview");
         intent.putExtra("selectedContact", selectedContact);
         startActivity(intent);
+    }
+
+    private void deleteMessageById(int messageToDelete){
+        System.out.println("In Delete message activity..."+messageToDelete);
+        Cursor cursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
+        while (cursor.moveToNext())
+        {
+            try
+            {
+                int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                if (messageToDelete==id)
+                {
+                    System.out.println("Message deleting with id "+messageToDelete);
+                    String uri = "content://sms/" + messageToDelete;
+                    getContentResolver().delete(Uri.parse(uri), null, null);
+                }
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
