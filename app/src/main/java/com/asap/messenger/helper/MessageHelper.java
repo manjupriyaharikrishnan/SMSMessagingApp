@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -176,8 +177,32 @@ public class MessageHelper {
 
     public static String getDateForDisplay(long inputDate){
         Date longDate = new Date(inputDate);
-        DateFormat targetFormat = new SimpleDateFormat("MMM dd");
-        String formattedDate = targetFormat.format(longDate);
-        return formattedDate;
+        String formattedDate = null;
+        if(isToday(longDate)){
+            DateFormat targetFormat = new SimpleDateFormat("h:mm a");
+            formattedDate = targetFormat.format(longDate);
+            return formattedDate;
+        }else{
+            DateFormat targetFormat = new SimpleDateFormat("MMM dd");
+            formattedDate = targetFormat.format(longDate);
+            return formattedDate;
+        }
+    }
+
+    public static boolean isToday(Date givenDate){
+
+        Calendar givenDateCal = Calendar.getInstance();
+        givenDateCal.setTime(givenDate);
+
+        Calendar todayDateCal = Calendar.getInstance();
+        todayDateCal.setTime(new Date());
+
+        if(givenDateCal.get(Calendar.ERA)==todayDateCal.get(Calendar.ERA)
+                && givenDateCal.get(Calendar.YEAR)==todayDateCal.get(Calendar.YEAR)
+                && givenDateCal.get(Calendar.DAY_OF_YEAR)==todayDateCal.get(Calendar.DAY_OF_YEAR)){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
