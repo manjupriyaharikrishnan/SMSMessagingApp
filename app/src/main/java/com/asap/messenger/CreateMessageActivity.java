@@ -98,6 +98,10 @@ public class CreateMessageActivity extends SendMessageActivity {
                 } else {
                     sendSms(receiverContact, message);
                 }
+
+                MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+                appState.setDraftsList(null);
+
                 Intent setIntent = new Intent();
                 setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
                 startActivity(setIntent);
@@ -129,6 +133,9 @@ public class CreateMessageActivity extends SendMessageActivity {
         List<Message> draftsMessageList = appState.getDraftsList();
         draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, newContact, new Date().getTime(), MessageStatus.NEW));
         appState.setDraftsList(draftsMessageList);
+
+        Toast.makeText(this, "Message saved as draft", Toast.LENGTH_SHORT).show();
+
         NavUtils.navigateUpFromSameTask(this);
     }
 }
