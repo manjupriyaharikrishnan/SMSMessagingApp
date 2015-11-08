@@ -59,7 +59,12 @@ public class MessageHelper {
                 else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
                 else if (messageType.contentEquals("3"))  messageStatus = MessageStatus.DRAFT;
 
-                Message tmpMsg = new Message(idx++, messageBody, messageAddress, messageDateString, messageStatus);
+                StringBuilder sbMessageAddress = new StringBuilder(messageAddress);
+                if(sbMessageAddress.length()==4){
+                    sbMessageAddress.insert(0, "1555521");
+                }
+
+                Message tmpMsg = new Message(idx++, messageBody, sbMessageAddress.toString(), messageDateString, messageStatus);
                 System.out.println("Message Type is "+tmpMsg.getStatus());
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
