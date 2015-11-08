@@ -1,5 +1,7 @@
 package com.asap.messenger.helper;
 
+import android.database.Cursor;
+
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.bo.Receiver;
 import com.asap.messenger.common.MessageStatus;
@@ -18,7 +20,7 @@ import java.util.Locale;
  */
 public class MessageHelper {
 
-    public List<Message> getAllMessages(){
+    public List<Message> getAllMessagesOld(){
         List<Message> messagesList = new ArrayList<Message>();
         messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-3333", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(2, "Hello 222 How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
@@ -33,6 +35,36 @@ public class MessageHelper {
         messagesList.add(new Message(11, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015 02:33:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(12, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015 02:34:00", MessageStatus.SENT));
         return messagesList;
+    }
+
+    public List<Message> getMessagesFromInbox(List<Message> messageList, Cursor cursor){
+        if(messageList==null){
+            messageList = new ArrayList<Message>();
+        }
+        if (cursor.moveToFirst()) { // must check the result to prevent exception
+            do {
+                String msgData = "";
+                int idx = 0;
+                String messageBody = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
+                String messageAddress = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
+                long messageDate = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
+                String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
+                String messageStatus = " ";
+                DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
+                Date dateFromSms = new Date(messageDate);
+                String messageDateString = formatter.format(dateFromSms);
+
+                if (messageType.contentEquals("1")) messageStatus = MessageStatus.RECEIVED;
+                else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
+                else if (messageType.contentEquals("3"))  messageStatus = MessageStatus.DRAFT;
+
+                Message tmpMsg = new Message(idx++,messageBody,messageAddress,"Receiver",messageDateString,messageStatus);
+                messageList.add(tmpMsg);
+            } while (cursor.moveToNext());
+        } else {
+            // empty box, no SMS
+        }
+        return messageList;
     }
 
     public void setMessageList()
