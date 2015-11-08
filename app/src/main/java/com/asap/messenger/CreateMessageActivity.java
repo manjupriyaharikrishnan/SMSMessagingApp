@@ -4,11 +4,13 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +27,7 @@ import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,19 +43,15 @@ public class CreateMessageActivity extends SendMessageActivity {
         setContentView(R.layout.createmessage);
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
-        System.out.println(originalMessageList);
+        List<Message> draftMessagesList = appState.getDraftsList();
 
         final EditText newMessageText = (EditText)findViewById(R.id.newMessage);
         EditText contactNameText = (EditText)findViewById(R.id.senderContact);
-        Iterator<Message> messageIterator = originalMessageList.iterator();
-        while(messageIterator.hasNext()){
-            Message message = messageIterator.next();
-            if(message.getStatus().equals(MessageStatus.DRAFT)){
-                newMessageText.setText(message.getMessageContent());
-                contactNameText.setText(message.getMessageAddress());
+        if(draftMessagesList!=null){
+            for(Message draftMsg : draftMessagesList){
+                newMessageText.setText(draftMsg.getMessageContent());
+                contactNameText.setText(draftMsg.getMessageAddress());
                 newMessageText.setTextColor(Color.BLACK);
-                messageIterator.remove();
             }
         }
 
@@ -99,7 +98,6 @@ public class CreateMessageActivity extends SendMessageActivity {
                 } else {
                     sendSms(receiverContact, message);
                 }
-                //saveMessageSent(message, receiverContact);
                 Intent setIntent = new Intent();
                 setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
                 startActivity(setIntent);
@@ -111,8 +109,6 @@ public class CreateMessageActivity extends SendMessageActivity {
 
     @Override
     public void onBackPressed() {
-        //Intent setIntent = new Intent();
-        //setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
         EditText newMessageText = (EditText)findViewById(R.id.newMessage);
         String newMessage = newMessageText.getText().toString();
         System.out.println("on Back button pressed :" +newMessage);
@@ -120,11 +116,19 @@ public class CreateMessageActivity extends SendMessageActivity {
         EditText newContactText = (EditText)findViewById(R.id.senderContact);
         String newContact = newContactText.getText().toString();
 
+        ContentValues values = new ContentValues();
+        values.put("address", newContact);
+        values.put("body", newMessage);
+        values.put("date", String.valueOf(System.currentTimeMillis()));
+        values.put("type", "3");
+        values.put("thread_id", "0");
+        Uri rowsInsertedURI = getContentResolver().insert(Uri.parse("content://sms/draft"), values);
+        System.out.println("Inserted URI..."+rowsInsertedURI.getPath());
+
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
-        appState.setMessageList(originalMessageList);
-        //originalMessageList.add(new Message(52, newMessage, "111-111-1111" , newContact, "10-17-2015", MessageStatus.NEW));
-        //startActivity(setIntent);
+        List<Message> draftsMessageList = appState.getDraftsList();
+        draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, newContact, new Date().getTime(), MessageStatus.NEW));
+        appState.setDraftsList(draftsMessageList);
         NavUtils.navigateUpFromSameTask(this);
     }
 }

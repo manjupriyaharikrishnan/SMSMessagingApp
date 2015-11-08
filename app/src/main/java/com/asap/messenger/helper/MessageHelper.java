@@ -67,7 +67,7 @@ public class MessageHelper {
                 }
 
                 Message tmpMsg = new Message(id, messageBody, sbMessageAddress.toString(), messageDate, messageStatus);
-                System.out.println("Message locked is "+locked);
+                System.out.println("Message Type is "+messageType);
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
         } else {
