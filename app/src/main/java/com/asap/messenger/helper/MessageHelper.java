@@ -51,9 +51,9 @@ public class MessageHelper {
                 long messageDate = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
                 String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
                 String messageStatus = " ";
-                DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
+                /*DateFormat formatter = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
                 Date dateFromSms = new Date(messageDate);
-                String messageDateString = formatter.format(dateFromSms);
+                String messageDateString = formatter.format(dateFromSms);*/
 
                 if (messageType.contentEquals("1")) messageStatus = MessageStatus.RECEIVED;
                 else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
@@ -64,7 +64,7 @@ public class MessageHelper {
                     sbMessageAddress.insert(0, "1555521");
                 }
 
-                Message tmpMsg = new Message(idx++, messageBody, sbMessageAddress.toString(), messageDateString, messageStatus);
+                Message tmpMsg = new Message(idx++, messageBody, sbMessageAddress.toString(), messageDate, messageStatus);
                 System.out.println("Message Type is "+tmpMsg.getStatus());
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
@@ -112,7 +112,7 @@ public class MessageHelper {
             Message latestMessage = null;
             long latestDate = 0;
             for(Message listMessage : list){
-                long milliSec = getLongValueOfDate(listMessage.getTimestamp());
+                long milliSec = listMessage.getTimestamp();
                 if(milliSec > latestDate){
                     latestDate = milliSec;
                     latestMessage = listMessage;
@@ -173,15 +173,10 @@ public class MessageHelper {
         return originalMessageList;
     }
 
-    public static String getDateForDisplay(String inputDate){
-        DateFormat originalFormat = new SimpleDateFormat("MM-dd-yyyy");
+    public static String getDateForDisplay(long inputDate){
+        Date longDate = new Date(inputDate);
         DateFormat targetFormat = new SimpleDateFormat("MMM dd");
-        try{
-            Date date = originalFormat.parse(inputDate);
-            String formattedDate = targetFormat.format(date);
-            return formattedDate;
-        }catch(ParseException e){
-            return null;
-        }
+        String formattedDate = targetFormat.format(longDate);
+        return formattedDate;
     }
 }

@@ -12,7 +12,7 @@ public class Message {
     private String messageContent;
     //private Sender sender;
     //private List<Receiver> receiver;
-    private String timestamp;
+    private long timestamp;
     private String status;
     private String contactName;
 
@@ -20,7 +20,7 @@ public class Message {
 
     }
 
-    public Message(int messageId, String messageContent, String messageAddress, String timestamp, String status){
+    public Message(int messageId, String messageContent, String messageAddress, long timestamp, String status){
         this.messageId = messageId;
         this.messageContent = messageContent;
         this.timestamp = timestamp;
@@ -71,11 +71,11 @@ public class Message {
         this.receiver = receiver;
     }*/
 
-    public String getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
