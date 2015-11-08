@@ -43,13 +43,21 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         LinearLayout messageLayout = (LinearLayout) rowView.findViewById(R.id.layoutMessage);
         LinearLayout timeStampLockLayout = (LinearLayout) rowView.findViewById(R.id.timeStampLock);
 
-        if(selectedContact.contentEquals(currentMessage.getSender().getPhoneNumber())){
+        if(currentMessage.getStatus().contentEquals(MessageStatus.RECEIVED)){
+            messageLayout.setGravity(Gravity.LEFT);
+            timeStampLockLayout.setGravity(Gravity.LEFT);
+        }else if(currentMessage.getStatus().contentEquals(MessageStatus.SENT)){
+            messageLayout.setGravity(Gravity.RIGHT);
+            timeStampLockLayout.setGravity(Gravity.RIGHT);
+        }
+
+        /*if(selectedContact.contentEquals(currentMessage.getSender().getPhoneNumber())){
             messageLayout.setGravity(Gravity.LEFT);
             timeStampLockLayout.setGravity(Gravity.LEFT);
         }else{
             messageLayout.setGravity(Gravity.RIGHT);
             timeStampLockLayout.setGravity(Gravity.RIGHT);
-        }
+        }*/
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         imageView.setImageResource(R.drawable.usericon);

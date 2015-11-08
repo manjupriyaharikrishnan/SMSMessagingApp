@@ -56,12 +56,12 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         TextView extratxt = (TextView) rowView.findViewById(R.id.message);
 
         Message rowMessage = filteredConvMessages.get(position);
-        String contactNumber = null;
-        if(MessageStatus.RECEIVED.contentEquals(rowMessage.getStatus())){
+        String contactNumber = rowMessage.getMessageAddress();
+        /*if(MessageStatus.RECEIVED.contentEquals(rowMessage.getStatus())){
             contactNumber = rowMessage.getSender().getPhoneNumber();
         }else if(MessageStatus.SENT.contentEquals(rowMessage.getStatus())){
             contactNumber = rowMessage.getReceiver().get(0).getPhoneNumber();
-        }
+        }*/
         if(rowMessage.getContactName()!=null && !rowMessage.getContactName().contentEquals("")){
             txtTitle.setText(rowMessage.getContactName());
         }else{

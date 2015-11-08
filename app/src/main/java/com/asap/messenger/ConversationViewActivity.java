@@ -75,7 +75,7 @@ public class ConversationViewActivity extends SendMessageActivity {
         }
 
 
-        final String contacts[] = new String[messageList.size()];
+        /*final String contacts[] = new String[messageList.size()];
         messages = new String[messageList.size()];
         String senders[] = new String[messageList.size()];
         String timestamps[] = new String[messageList.size()];
@@ -88,7 +88,7 @@ public class ConversationViewActivity extends SendMessageActivity {
             senders[i] = messageList.get(i).getSender().getPhoneNumber();
             timestamps[i] = messageList.get(i).getTimestamp();
             ids[i] = messageList.get(i).getMessageId();
-        }
+        }*/
 
         ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact);
         ListView list=(ListView)findViewById(R.id.list);
@@ -115,7 +115,7 @@ public class ConversationViewActivity extends SendMessageActivity {
                 } else {
                     sendSms(receiverContact, message);
                 }
-                saveMessageSent(message, receiverContact);
+                //saveMessageSent(message, receiverContact);
                 Intent setIntent = new Intent();
                 setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
                 startActivity(setIntent);
@@ -240,7 +240,7 @@ public class ConversationViewActivity extends SendMessageActivity {
                     messageIterator.remove();
                 }
             }
-            originalMessageList.add(new Message(52, newMessage, "111-111-1111", selectedContact, "10-17-2015 12:23:22", MessageStatus.DRAFT));
+            //originalMessageList.add(new Message(52, newMessage, "111-111-1111", selectedContact, "10-17-2015 12:23:22", MessageStatus.DRAFT));
             appState.setMessageList(originalMessageList);
         }
         startActivity(setIntent);

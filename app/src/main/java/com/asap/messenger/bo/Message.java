@@ -8,9 +8,10 @@ import java.util.List;
  */
 public class Message {
     private int messageId;
+    private String messageAddress;
     private String messageContent;
-    private Sender sender;
-    private List<Receiver> receiver;
+    //private Sender sender;
+    //private List<Receiver> receiver;
     private String timestamp;
     private String status;
     private String contactName;
@@ -19,7 +20,15 @@ public class Message {
 
     }
 
-    public Message(int messageId, String messageContent, String senderContact, String receiverContact, String timestamp, String status){
+    public Message(int messageId, String messageContent, String messageAddress, String timestamp, String status){
+        this.messageId = messageId;
+        this.messageContent = messageContent;
+        this.timestamp = timestamp;
+        this.status = status;
+        this.messageAddress = messageAddress;
+    }
+
+   /* public Message(int messageId, String messageContent, String senderContact, String receiverContact, String timestamp, String status){
         this.messageId = messageId;
         this.messageContent = messageContent;
         this.timestamp = timestamp;
@@ -36,7 +45,7 @@ public class Message {
         List<Receiver> receiverList = new ArrayList<Receiver>();
         receiverList.add(receiver);
         this.receiver = receiverList;
-    }
+    }*/
 
     public String getMessageContent() {
         return messageContent;
@@ -46,7 +55,7 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Sender getSender() {
+    /*public Sender getSender() {
         return sender;
     }
 
@@ -60,7 +69,7 @@ public class Message {
 
     public void setReceiver(List<Receiver> receiver) {
         this.receiver = receiver;
-    }
+    }*/
 
     public String getTimestamp() {
         return timestamp;
@@ -94,4 +103,11 @@ public class Message {
         this.contactName = contactName;
     }
 
+    public String getMessageAddress() {
+        return messageAddress;
+    }
+
+    public void setMessageAddress(String messageAddress) {
+        this.messageAddress = messageAddress;
+    }
 }

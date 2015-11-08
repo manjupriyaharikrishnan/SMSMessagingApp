@@ -47,9 +47,9 @@ public class CreateMessageActivity extends SendMessageActivity {
         Iterator<Message> messageIterator = originalMessageList.iterator();
         while(messageIterator.hasNext()){
             Message message = messageIterator.next();
-            if(message.getStatus().equals(MessageStatus.NEW)){
+            if(message.getStatus().equals(MessageStatus.DRAFT)){
                 newMessageText.setText(message.getMessageContent());
-                contactNameText.setText(message.getReceiver().get(0).getPhoneNumber());
+                contactNameText.setText(message.getMessageAddress());
                 newMessageText.setTextColor(Color.BLACK);
                 messageIterator.remove();
             }
@@ -98,7 +98,7 @@ public class CreateMessageActivity extends SendMessageActivity {
                 } else {
                     sendSms(receiverContact, message);
                 }
-                saveMessageSent(message, receiverContact);
+                //saveMessageSent(message, receiverContact);
                 Intent setIntent = new Intent();
                 setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
                 startActivity(setIntent);
@@ -122,7 +122,7 @@ public class CreateMessageActivity extends SendMessageActivity {
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> originalMessageList = appState.getMessageList();
         appState.setMessageList(originalMessageList);
-        originalMessageList.add(new Message(52, newMessage, "111-111-1111" , newContact, "10-17-2015", MessageStatus.NEW));
+        //originalMessageList.add(new Message(52, newMessage, "111-111-1111" , newContact, "10-17-2015", MessageStatus.NEW));
         startActivity(setIntent);
     }
 }

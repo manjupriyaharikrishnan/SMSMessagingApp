@@ -51,6 +51,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("In ViewAllMessagesActivity");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         int hasSmsPermission = checkSelfPermission(Manifest.permission.READ_SMS);
@@ -91,12 +92,12 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 Message selectedMessage = sortedList.get(position);
-                String selectedContact = null;
-                if(MessageStatus.RECEIVED.contentEquals(selectedMessage.getStatus())){
+                String selectedContact = selectedMessage.getMessageAddress();
+                /*if(MessageStatus.RECEIVED.contentEquals(selectedMessage.getStatus())){
                     selectedContact = selectedMessage.getSender().getPhoneNumber();
                 }else if(MessageStatus.SENT.contentEquals(selectedMessage.getStatus())){
                     selectedContact = selectedMessage.getReceiver().get(0).getPhoneNumber();
-                }
+                }*/
                 Intent intent = new Intent("com.asap.messenger.conversationview");
                 intent.putExtra("selectedContact", selectedContact);
                 startActivity(intent);

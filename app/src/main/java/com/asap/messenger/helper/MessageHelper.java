@@ -20,7 +20,7 @@ import java.util.Locale;
  */
 public class MessageHelper {
 
-    public List<Message> getAllMessagesOld(){
+   /* public List<Message> getAllMessagesOld(){
         List<Message> messagesList = new ArrayList<Message>();
         messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-3333", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(2, "Hello 222 How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
@@ -35,9 +35,10 @@ public class MessageHelper {
         messagesList.add(new Message(11, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015 02:33:00", MessageStatus.RECEIVED));
         messagesList.add(new Message(12, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015 02:34:00", MessageStatus.SENT));
         return messagesList;
-    }
+    }*/
 
     public List<Message> getMessagesFromInbox(List<Message> messageList, Cursor cursor){
+        System.out.println("In Message Helper.. getMessagesFromInbox");
         if(messageList==null){
             messageList = new ArrayList<Message>();
         }
@@ -58,11 +59,12 @@ public class MessageHelper {
                 else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
                 else if (messageType.contentEquals("3"))  messageStatus = MessageStatus.DRAFT;
 
-                Message tmpMsg = new Message(idx++,messageBody,messageAddress,"Receiver",messageDateString,messageStatus);
+                Message tmpMsg = new Message(idx++, messageBody, messageAddress, messageDateString, messageStatus);
                 System.out.println("Message Type is "+tmpMsg.getStatus());
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
         } else {
+            System.out.println("No SMS .... in Inbox");
             // empty box, no SMS
         }
         return messageList;
@@ -79,14 +81,14 @@ public class MessageHelper {
 
         HashMap<String, List<Message>> sortedMap = new HashMap<String, List<Message>>();
         for(Message originalMessage : originalMessageList){
-            String contact = null;
-            if(MessageStatus.RECEIVED.contentEquals(originalMessage.getStatus())){
-               contact = originalMessage.getSender().getPhoneNumber();
+            String contact = originalMessage.getMessageAddress();
+           /* if(MessageStatus.RECEIVED.contentEquals(originalMessage.getStatus())){
+               contact = originalMessage .getSender().getPhoneNumber();
             }else if(MessageStatus.SENT.contentEquals(originalMessage.getStatus())){
                 contact = originalMessage.getReceiver().get(0).getPhoneNumber();
             }else{
                 break;
-            }
+            }*/
             if(phoneContacts.containsKey(contact)){
                 System.out.println("Key Present..."+contact);
                 originalMessage.setContactName(phoneContacts.get(contact));
@@ -131,13 +133,16 @@ public class MessageHelper {
     public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
         List<Message> messagesList = new ArrayList<Message>();
         for(Message message : originalMessageList){
-            if(message.getSender().getPhoneNumber().equals(contact)){
+           /* if(message.getSender().getPhoneNumber().equals(contact)){
                 messagesList.add(message);
             }
             for(Receiver receiver : message.getReceiver()){
                 if(receiver.getPhoneNumber().equals(contact)){
                     messagesList.add(message);
                 }
+            }*/
+            if(message.getMessageAddress().equals(contact)){
+                messagesList.add(message);
             }
         }
 
