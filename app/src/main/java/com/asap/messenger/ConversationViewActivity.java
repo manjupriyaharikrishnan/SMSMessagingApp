@@ -237,13 +237,14 @@ public class ConversationViewActivity extends SendMessageActivity {
         List<Message> originalMessageList = appState.getMessageList();
         boolean locked = messageHelper.checkIfMessageIsLocked(messageToDelete, originalMessageList);
         if(locked){
-            openAlert(messageToDelete);
+            openAlert(messageToDelete, "Delete Locked Message ?");
         }else{
-            Intent intent = new Intent("com.asap.messenger.deletemessage");
+            openAlert(messageToDelete, "Delete Message ?");
+            /*Intent intent = new Intent("com.asap.messenger.deletemessage");
             System.out.println("In Delete message.. trying to delete message with id.."+messageToDelete+" for contact "+selectedContact);
             intent.putExtra("messageToDelete", messageToDelete);
             intent.putExtra("selectedContact", selectedContact);
-            startActivity(intent);
+            startActivity(intent);*/
         }
 
 
@@ -277,10 +278,10 @@ public class ConversationViewActivity extends SendMessageActivity {
     }
 
 
-    private void openAlert(final int messageToDelete) {
+    private void openAlert(final int messageToDelete, String messageDisplay) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ConversationViewActivity.this);
 
-        alertDialogBuilder.setTitle("Delete Locked Message");
+        alertDialogBuilder.setTitle(messageDisplay);
         alertDialogBuilder.setMessage("Are you sure?");
         alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
