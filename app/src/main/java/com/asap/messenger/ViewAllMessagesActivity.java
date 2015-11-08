@@ -68,19 +68,17 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
         }
 
 
-        if(appState.getPhoneContacts()!=null){
-            phoneContacts = appState.getPhoneContacts();
-        }else{
-            int hasContactPermissions = checkSelfPermission(Manifest.permission.READ_CONTACTS);
-            if(hasContactPermissions != PackageManager.PERMISSION_GRANTED) {
-                System.out.println("Permissions are not there");
-                requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_ASK_PERMISSION_FOR_READ);
-                System.out.println("Permissions requested");
-            } else {
-                phoneContacts = fetchContacts();
-            }
-            appState.setPhoneContacts(phoneContacts);
+
+        int hasContactPermissions = checkSelfPermission(Manifest.permission.READ_CONTACTS);
+        if(hasContactPermissions != PackageManager.PERMISSION_GRANTED) {
+            System.out.println("Permissions are not there");
+            requestPermissions(new String[]{Manifest.permission.READ_CONTACTS}, REQUEST_CODE_ASK_PERMISSION_FOR_READ);
+            System.out.println("Permissions requested");
+        } else {
+            phoneContacts = fetchContacts();
         }
+        appState.setPhoneContacts(phoneContacts);
+
 
         final List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList, phoneContacts);
         adapter=new ViewMessagesListAdapter(this, sortedList);

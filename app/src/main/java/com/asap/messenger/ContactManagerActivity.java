@@ -53,6 +53,8 @@ public class ContactManagerActivity extends AppCompatActivity {
                     Cursor phoneCursor = contentResolver.query(PhoneCONTENT_URI, null, Phone_CONTACT_ID + " = ?", new String[] { contact_id }, null);
                     while (phoneCursor.moveToNext()) {
                         phoneNumber = phoneCursor.getString(phoneCursor.getColumnIndex(NUMBER));
+                        phoneNumber = phoneNumber.replace("-", "");
+                        phoneNumber = phoneNumber.replace(" ", "");
                         output.append("\n Phone number:" + phoneNumber);
                         phoneContacts.put(phoneNumber, name);
                     }
