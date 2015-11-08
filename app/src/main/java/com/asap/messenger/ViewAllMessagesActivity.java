@@ -82,7 +82,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
 
 
         final List<Message> sortedList = messageHelper.getLatestMessagesByAllContacts(messageList, phoneContacts);
-        adapter=new ViewMessagesListAdapter(this, sortedList);
+        adapter=new ViewMessagesListAdapter(this, sortedList, messageList);
         list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 

@@ -27,15 +27,17 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
 
     private List<Message> conversationMessages;
     private List<Message> filteredConvMessages;
+    private List<Message> allMessages;
 
     private SearchFilter searchFilter;
 
-    public ViewMessagesListAdapter(Activity context, List<Message> conversationMessages) {
+    public ViewMessagesListAdapter(Activity context, List<Message> conversationMessages, List<Message> allMessages) {
         super(context, R.layout.allmessageslayout, conversationMessages);
         this.context=context;
 
         this.conversationMessages = conversationMessages;
         this.filteredConvMessages = conversationMessages;
+        this.allMessages = allMessages;
 
         getFilter();
     }
@@ -95,7 +97,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
 
             final List<Message> filteredList = new ArrayList<Message>();
 
-            for(Message message : conversationMessages){
+            for(Message message : allMessages){
                 if(message.getMessageContent().toLowerCase().contains(filterString)){
                     filteredList.add(message);
                 }
