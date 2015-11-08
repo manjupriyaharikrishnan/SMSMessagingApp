@@ -6,6 +6,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -53,7 +54,7 @@ public class ConversationViewActivity extends SendMessageActivity {
         HashMap<String, String> phoneContacts = appState.getPhoneContacts();
         System.out.println(originalMessageList);
 
-                                    selectedContact = getIntent().getExtras().getString("selectedContact");
+        selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
         Iterator<Message> messageIterator = messageList.iterator();
@@ -75,7 +76,7 @@ public class ConversationViewActivity extends SendMessageActivity {
         }
 
 
-        /*final String contacts[] = new String[messageList.size()];
+        final String contacts[] = new String[messageList.size()];
         messages = new String[messageList.size()];
         String senders[] = new String[messageList.size()];
         String timestamps[] = new String[messageList.size()];
@@ -83,12 +84,12 @@ public class ConversationViewActivity extends SendMessageActivity {
         ids = new int[messageList.size()];
 
         for(int i=0; i<messageList.size(); i++){
-            contacts[i] = messageList.get(i).getSender().getContactName();
+            //contacts[i] = messageList.get(i).getSender().getContactName();
             messages[i] = messageList.get(i).getMessageContent();
-            senders[i] = messageList.get(i).getSender().getPhoneNumber();
-            timestamps[i] = messageList.get(i).getTimestamp();
+            //senders[i] = messageList.get(i).getSender().getPhoneNumber();
+            //timestamps[i] = messageList.get(i).getTimestamp();
             ids[i] = messageList.get(i).getMessageId();
-        }*/
+        }
 
         ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact);
         ListView list=(ListView)findViewById(R.id.list);
@@ -222,8 +223,8 @@ public class ConversationViewActivity extends SendMessageActivity {
 
     @Override
     public void onBackPressed() {
-        Intent setIntent = new Intent();
-        setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+        //Intent setIntent = new Intent();
+        //setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
 
         EditText newMessageText = (EditText)findViewById(R.id.EditText);
         String newMessage = newMessageText.getText().toString();
@@ -243,7 +244,8 @@ public class ConversationViewActivity extends SendMessageActivity {
             //originalMessageList.add(new Message(52, newMessage, "111-111-1111", selectedContact, "10-17-2015 12:23:22", MessageStatus.DRAFT));
             appState.setMessageList(originalMessageList);
         }
-        startActivity(setIntent);
+        //startActivity(setIntent);
+        NavUtils.navigateUpFromSameTask(this);
     }
 
 

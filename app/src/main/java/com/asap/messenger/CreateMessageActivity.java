@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
 import android.view.MotionEvent;
@@ -110,8 +111,8 @@ public class CreateMessageActivity extends SendMessageActivity {
 
     @Override
     public void onBackPressed() {
-        Intent setIntent = new Intent();
-        setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
+        //Intent setIntent = new Intent();
+        //setIntent.setClassName("com.asap.messenger", "com.asap.messenger.ViewAllMessagesActivity");
         EditText newMessageText = (EditText)findViewById(R.id.newMessage);
         String newMessage = newMessageText.getText().toString();
         System.out.println("on Back button pressed :" +newMessage);
@@ -123,6 +124,7 @@ public class CreateMessageActivity extends SendMessageActivity {
         List<Message> originalMessageList = appState.getMessageList();
         appState.setMessageList(originalMessageList);
         //originalMessageList.add(new Message(52, newMessage, "111-111-1111" , newContact, "10-17-2015", MessageStatus.NEW));
-        startActivity(setIntent);
+        //startActivity(setIntent);
+        NavUtils.navigateUpFromSameTask(this);
     }
 }

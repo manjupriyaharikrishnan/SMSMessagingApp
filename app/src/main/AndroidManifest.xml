@@ -29,7 +29,8 @@
         </activity>
         <activity
             android:name=".ConversationViewActivity"
-            android:label="@string/title_activity_conversation_view" >
+            android:label="@string/title_activity_conversation_view"
+            android:parentActivityName=".ViewAllMessagesActivity">
             <intent-filter>
                 <action android:name="com.asap.messenger.conversationview" />
 
@@ -38,7 +39,8 @@
         </activity>
         <activity
             android:name=".CreateMessageActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:parentActivityName=".ViewAllMessagesActivity">
             <intent-filter>
                 <action android:name="com.asap.messenger.createmessage" />
 
