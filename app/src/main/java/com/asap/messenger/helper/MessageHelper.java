@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -138,18 +140,17 @@ public class MessageHelper {
     public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
         List<Message> messagesList = new ArrayList<Message>();
         for(Message message : originalMessageList){
-           /* if(message.getSender().getPhoneNumber().equals(contact)){
-                messagesList.add(message);
-            }
-            for(Receiver receiver : message.getReceiver()){
-                if(receiver.getPhoneNumber().equals(contact)){
-                    messagesList.add(message);
-                }
-            }*/
             if(message.getMessageAddress().equals(contact)){
                 messagesList.add(message);
             }
         }
+
+        Collections.sort(messagesList, new Comparator<Message>() {
+            @Override
+            public int compare(Message message1, Message message2) {
+                return Long.compare(message1.getTimestamp(), message2.getTimestamp());
+            }
+        });
 
         return messagesList;
     }
