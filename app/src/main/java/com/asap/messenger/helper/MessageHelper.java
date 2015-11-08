@@ -59,6 +59,7 @@ public class MessageHelper {
                 else if (messageType.contentEquals("3"))  messageStatus = MessageStatus.DRAFT;
 
                 Message tmpMsg = new Message(idx++,messageBody,messageAddress,"Receiver",messageDateString,messageStatus);
+                System.out.println("Message Type is "+tmpMsg.getStatus());
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
         } else {
