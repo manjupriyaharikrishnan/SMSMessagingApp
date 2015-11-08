@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.asap.messenger.R;
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
+import com.asap.messenger.helper.MessageHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +55,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         TextView txtTitle = (TextView) rowView.findViewById(R.id.contactName);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         TextView extratxt = (TextView) rowView.findViewById(R.id.message);
+        TextView timeStamp = (TextView) rowView.findViewById(R.id.timeStamp);
 
         Message rowMessage = filteredConvMessages.get(position);
         String contactNumber = rowMessage.getMessageAddress();
@@ -67,6 +69,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         }else{
             txtTitle.setText(contactNumber);
         }
+        timeStamp.setText(MessageHelper.getDateForDisplay(rowMessage.getTimestamp()));
         imageView.setImageResource(R.drawable.usericon);
         extratxt.setText(rowMessage.getMessageContent());
         return rowView;

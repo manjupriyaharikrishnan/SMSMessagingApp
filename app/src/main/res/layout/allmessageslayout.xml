@@ -31,4 +31,12 @@
             android:text="TextView"
             android:layout_marginLeft="10dp"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/timeStamp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:gravity="center_horizontal|right"
+        android:layout_gravity="center" />
 </LinearLayout>
