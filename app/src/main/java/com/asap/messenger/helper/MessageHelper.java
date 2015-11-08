@@ -55,6 +55,7 @@ public class MessageHelper {
                 String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
                 String messageStatus = " ";
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
+                String locked = cursor.getString(cursor.getColumnIndexOrThrow("locked"));
 
                 if (messageType.contentEquals("1")) messageStatus = MessageStatus.RECEIVED;
                 else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
@@ -66,7 +67,7 @@ public class MessageHelper {
                 }
 
                 Message tmpMsg = new Message(id, messageBody, sbMessageAddress.toString(), messageDate, messageStatus);
-                System.out.println("Message id is "+id);
+                System.out.println("Message locked is "+locked);
                 messageList.add(tmpMsg);
             } while (cursor.moveToNext());
         } else {
@@ -96,7 +97,6 @@ public class MessageHelper {
                 break;
             }*/
             if(phoneContacts.containsKey(contact)){
-                System.out.println("Key Present..."+contact);
                 originalMessage.setContactName(phoneContacts.get(contact));
             }
             List<Message> mapValue = null;
@@ -156,7 +156,7 @@ public class MessageHelper {
 
     public boolean checkIfMessageIsLocked(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
-            if(message.getStatus().equals(MessageStatus.LOCK)){
+            if(message.getMessageId()==id && message.isLocked()){
                 return true;
             }
         }

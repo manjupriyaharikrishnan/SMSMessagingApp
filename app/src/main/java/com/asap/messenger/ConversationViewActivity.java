@@ -4,8 +4,11 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -41,6 +45,7 @@ public class ConversationViewActivity extends SendMessageActivity {
 
     private ClipboardManager myClipboard;
     private ClipData myClip;
+    List<Message> originalMessageList = new ArrayList<Message>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +55,7 @@ public class ConversationViewActivity extends SendMessageActivity {
         myClipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
+        originalMessageList = appState.getMessageList();
         HashMap<String, String> phoneContacts = appState.getPhoneContacts();
         System.out.println(originalMessageList);
 
@@ -185,13 +190,36 @@ public class ConversationViewActivity extends SendMessageActivity {
     }
 
     public void lockMessage(int id){
+
+        System.out.println("Locking the message id " + id);
+
+        Uri uri = Uri.parse("content://sms/inbox");
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        try{
+
+            while (cursor.moveToNext()) {
+                if (cursor.getInt(cursor.getColumnIndexOrThrow("_id"))==(id)) {
+                    ContentValues values = new ContentValues();
+                    values.put("locked", true);
+                    int rowsUpdated = getContentResolver().update(Uri.parse("content://sms/inbox"), values, "_id=" + id, null);
+                    System.out.println("Number of rows for locking updated...is " + rowsUpdated);
+                }
+            }
+        }catch(Exception e)
+        {
+            System.out.println("Error in Updating lock: " + e.toString());
+        }
+
+
+
+
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
+        originalMessageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
         Iterator<Message> messageIterator = originalMessageList.iterator();
         while(messageIterator.hasNext()){
             Message message = messageIterator.next();
             if(message.getMessageId()==id){
-                message.setStatus(MessageStatus.LOCK);
+                message.setLocked(true);
             }
         }
         appState.setMessageList(originalMessageList);

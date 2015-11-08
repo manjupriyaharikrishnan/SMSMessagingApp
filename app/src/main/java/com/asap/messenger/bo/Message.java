@@ -15,6 +15,7 @@ public class Message {
     private long timestamp;
     private String status;
     private String contactName;
+    private boolean locked;
 
     public Message(){
 
@@ -85,6 +86,14 @@ public class Message {
 
     public void setMessageId(int messageId) {
         this.messageId = messageId;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
     }
 
     public String getStatus() {

@@ -69,7 +69,7 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         String timeStampDisplay = MessageHelper.getDateForDisplay(currentMessage.getTimestamp());
         timestamp.setText(timeStampDisplay);
 
-        if(currentMessage.getStatus().equals(MessageStatus.LOCK)){
+        if(currentMessage.isLocked()){
             ImageView lockView = (ImageView) rowView.findViewById(R.id.lock);
             lockView.setImageResource(R.drawable.lock);
         }
