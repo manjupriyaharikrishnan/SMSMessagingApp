@@ -1,7 +1,11 @@
 package com.asap.messenger.helper;
 
 /**
- * Created by Umadevi on 11/7/2015.
+ * The ReceiveMessage Class is used as a broadcast Receiver class.
+ * It is a class which has callback methods to be called when the message is received
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 11/7/2015
  */
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -12,6 +16,11 @@ import android.widget.Toast;
 
 public class ReceiveMessage extends BroadcastReceiver
 {
+    /**
+     * Method called when the message is received.
+     * @param context
+     * @param intent
+     */
     @Override
     public void onReceive(Context context, Intent intent)
     {

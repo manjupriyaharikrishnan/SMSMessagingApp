@@ -1,7 +1,13 @@
 package com.asap.messenger.common;
 
 /**
- * Created by Umadevi on 10/24/2015.
+ * The MessageStatus Java Class is used to store the different status information of the Message
+ *
+ * Status Messages are {SENT, RECEIVED, NEW, DRAFT, LOCKED}
+ *
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/24/2015
  */
 public class MessageStatus {
 

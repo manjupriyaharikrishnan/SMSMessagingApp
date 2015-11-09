@@ -20,7 +20,10 @@ import com.asap.messenger.helper.MessageHelper;
 import java.util.List;
 
 /**
- * Created by Umadevi on 10/18/2015.
+ * The ConversationListAdapter Class is used as an Adapter class for the messages which is used in Conversation view for displaying individual messages.
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/18/2015
  */
 public class ConversationListAdapter extends ArrayAdapter<Message> {
 
@@ -28,6 +31,12 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
     List<Message> messageList;
     private final String selectedContact;
 
+    /**
+     * Constructor for the ConversationListAdapter for setting the initial values
+     * @param context
+     * @param messageList
+     * @param selectedContact
+     */
     public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact) {
         super(context, R.layout.allmessageslayout, messageList);
         this.context=context;
@@ -35,13 +44,26 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         this.messageList = messageList;
     }
 
+    /**
+     * Get a View that displays the data at the specified position in the data set
+     * @param position
+     * @param view
+     * @param parent
+     * @return View
+     */
     public View getView(int position,View view,ViewGroup parent) {
+
+        // For each message that is displayed get the message by using the position
         Message currentMessage = messageList.get(position);
         LayoutInflater inflater=context.getLayoutInflater();
         View rowView=inflater.inflate(R.layout.conversationview, null, true);
 
         LinearLayout messageLayout = (LinearLayout) rowView.findViewById(R.id.layoutMessage);
         LinearLayout timeStampLockLayout = (LinearLayout) rowView.findViewById(R.id.timeStampLock);
+
+        /*If the message is received then align to the left
+            if the message is sent then align to the right
+         */
 
         if(currentMessage.getStatus().contentEquals(MessageStatus.RECEIVED)){
             messageLayout.setGravity(Gravity.LEFT);
@@ -51,14 +73,7 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
             timeStampLockLayout.setGravity(Gravity.RIGHT);
         }
 
-        /*if(selectedContact.contentEquals(currentMessage.getSender().getPhoneNumber())){
-            messageLayout.setGravity(Gravity.LEFT);
-            timeStampLockLayout.setGravity(Gravity.LEFT);
-        }else{
-            messageLayout.setGravity(Gravity.RIGHT);
-            timeStampLockLayout.setGravity(Gravity.RIGHT);
-        }*/
-
+        // Setting the values and images
         ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         imageView.setImageResource(R.drawable.usericon);
 

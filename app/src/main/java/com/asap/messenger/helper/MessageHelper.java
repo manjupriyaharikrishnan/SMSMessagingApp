@@ -19,37 +19,32 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Umadevi on 10/17/2015.
+ * The MessageHelper Class is used as a helper class for doing the activities on the messages like getting the messages from inbox,
+ * getting the latest messages, getting messages by contact, sorting messages etc
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/17/2015
  */
 public class MessageHelper {
 
-   /* public List<Message> getAllMessagesOld(){
-        List<Message> messagesList = new ArrayList<Message>();
-        messagesList.add(new Message(1, "Hello 111 How are you ?", "111-222-3333", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(2, "Hello 222 How are you ?", "222-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(3, "Hello 333 How are you ?", "333-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(4, "Hello 444 How are you ?", "444-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(5, "Hello 555 How are you ?", "555-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(6, "Hello 666 How are you ?", "666-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(7, "Hello 777How are you ?", "777-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(8, "Hello 888 How are you ?", "888-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(9, "Hello 999 How are you ?", "999-222-2222", "111-111-1111", "10-17-2015 02:30:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(10, "Am fine, How are you", "111-111-1111", "999-222-2222", "10-17-2015 02:32:00", MessageStatus.SENT));
-        messagesList.add(new Message(11, "Joining for movie today", "999-222-2222", "111-111-1111", "10-17-2015 02:33:00", MessageStatus.RECEIVED));
-        messagesList.add(new Message(12, "Sure, Meet you at 2", "111-111-1111", "999-222-2222", "10-17-2015 02:34:00", MessageStatus.SENT));
-        return messagesList;
-    }*/
-
+    /**
+     * Getting the messages from the SMS Inbox
+     * @param messageList
+     * @param cursor
+     * @return
+     */
     public List<Message> getMessagesFromInbox(List<Message> messageList, Cursor cursor){
 
         System.out.println("In Message Helper.. getMessagesFromInbox");
         if(messageList==null){
             messageList = new ArrayList<Message>();
         }
+        // Iterating over the cursor to access each message
         if (cursor.moveToFirst()) { // must check the result to prevent exception
             do {
                 String msgData = "";
                 int idx = 0;
+                // Getting the message attributes from the cursor and storing in local variables
                 String messageBody = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
                 String messageAddress = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
                 long messageDate = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
@@ -58,10 +53,18 @@ public class MessageHelper {
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
                 String locked = cursor.getString(cursor.getColumnIndexOrThrow("locked"));
 
+               /*
+                Checking the status of the messages
+                SMS Status 1-Received, 2-Sent, 3-Draft
+                */
                 if (messageType.contentEquals("1")) messageStatus = MessageStatus.RECEIVED;
                 else if (messageType.contentEquals("2")) messageStatus = MessageStatus.SENT;
                 else if (messageType.contentEquals("3"))  messageStatus = MessageStatus.DRAFT;
 
+                /*
+                generally port number on which emulator runs is 5554, 5556 which is only 4 digits
+                Appending the value 1555521 as the prefix to the port number to frame the contact number
+                 */
                 StringBuilder sbMessageAddress = new StringBuilder(messageAddress);
                 if(sbMessageAddress.length()==4){
                     sbMessageAddress.insert(0, "1555521");
@@ -83,20 +86,21 @@ public class MessageHelper {
  //       List<Message> originalMessageList
     }
 
+    /**
+     * Method to get the latest messages for all the contacts and messages segregated according to contact number
+     * If the contact number is stored in Stock App, Identify it and map the contact number to the Contact name of stocks contacts app
+     * @param originalMessageList
+     * @param phoneContacts
+     * @return
+     */
     public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList, HashMap<String, String> phoneContacts){
 
         List<Message> sortedList = new ArrayList<Message>();
 
+        // Grouping the messages according to the contact number. Also check if the contact number is in Stock Contacts App
         HashMap<String, List<Message>> sortedMap = new HashMap<String, List<Message>>();
         for(Message originalMessage : originalMessageList){
             String contact = originalMessage.getMessageAddress();
-           /* if(MessageStatus.RECEIVED.contentEquals(originalMessage.getStatus())){
-               contact = originalMessage .getSender().getPhoneNumber();
-            }else if(MessageStatus.SENT.contentEquals(originalMessage.getStatus())){
-                contact = originalMessage.getReceiver().get(0).getPhoneNumber();
-            }else{
-                break;
-            }*/
             if(phoneContacts.containsKey(contact)){
                 originalMessage.setContactName(phoneContacts.get(contact));
             }
@@ -110,6 +114,7 @@ public class MessageHelper {
             sortedMap.put(contact, mapValue);
         }
 
+        // Sorting the messages by timestamp
         for (List<Message> list : sortedMap.values()) {
             Message latestMessage = null;
             long latestDate = 0;
@@ -125,6 +130,11 @@ public class MessageHelper {
         return sortedList;
     }
 
+    /**
+     * Method to get the long value for the input date
+     * @param inputDate - Format MM-dd-yyyy HH:mm:ss
+     * @return - time in ms
+     */
     private long getLongValueOfDate(String inputDate){
         SimpleDateFormat f = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
         Date dateObj = null;
@@ -137,7 +147,15 @@ public class MessageHelper {
         return milliseconds;
     }
 
+    /**
+     * Retrieve messages by using contact number
+     * @param contact - Contact number whose messages need to be retrieved
+     * @param originalMessageList - Messages from inbox
+     * @return - List of messages for that contact number
+     */
     public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
+
+        // Checking if the message is related to the contact
         List<Message> messagesList = new ArrayList<Message>();
         for(Message message : originalMessageList){
             if(message.getMessageAddress().equals(contact)){
@@ -145,6 +163,7 @@ public class MessageHelper {
             }
         }
 
+        // Sorting the messages by using timestamp
         Collections.sort(messagesList, new Comparator<Message>() {
             @Override
             public int compare(Message message1, Message message2) {
@@ -155,6 +174,12 @@ public class MessageHelper {
         return messagesList;
     }
 
+    /**
+     * Check if the message is locked. Message is locked if the locked attribute is set
+     * @param id - message id
+     * @param originalMessageList - Message from inbox
+     * @return - true or false
+     */
     public boolean checkIfMessageIsLocked(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
             if(message.getMessageId()==id && message.isLocked()){
@@ -164,6 +189,12 @@ public class MessageHelper {
         return false;
     }
 
+    /**
+     * Delete the message by using id
+     * @param id - Message id to be deleted
+     * @param originalMessageList - Messages from inbox
+     * @return - List of messages after deletion
+     */
     public List<Message> deleteMessageById(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
             if(message.getMessageId()==id){
@@ -174,9 +205,17 @@ public class MessageHelper {
         return originalMessageList;
     }
 
+    /**
+     * Method to convert the date in ms to the String Date
+     * @param inputDate - in ms
+     * @return - Formatted Date string
+     */
     public static String getDateForDisplay(long inputDate){
         Date longDate = new Date(inputDate);
         String formattedDate = null;
+
+        // IF the day is today, just display the time
+        // If the day is not today, display the date
         if(isToday(longDate)){
             DateFormat targetFormat = new SimpleDateFormat("h:mm a");
             formattedDate = targetFormat.format(longDate);
@@ -188,6 +227,11 @@ public class MessageHelper {
         }
     }
 
+    /**
+     * Check if the given date is today
+     * @param givenDate - Input date
+     * @return - true or false
+     */
     public static boolean isToday(Date givenDate){
 
         Calendar givenDateCal = Calendar.getInstance();
@@ -205,6 +249,11 @@ public class MessageHelper {
         }
     }
 
+    /**
+     * Check if the input string is numeric
+     * @param str - Input String
+     * @return - true of false
+     */
     public static boolean isNumeric(String str)
     {
         return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
