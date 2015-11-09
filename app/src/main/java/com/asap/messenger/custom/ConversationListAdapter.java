@@ -29,6 +29,7 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
 
     private final Activity context;
     List<Message> messageList;
+    private List<Integer> lockedMessagesList;
     private final String selectedContact;
 
     /**
@@ -37,11 +38,12 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
      * @param messageList The list of the messages on which activity has to be performed
      * @param selectedContact The Contact selected by the user from the View All Messages Screen
      */
-    public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact) {
+    public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact, List<Integer> lockedMessagesList) {
         super(context, R.layout.allmessageslayout, messageList);
         this.context=context;
         this.selectedContact=selectedContact;
         this.messageList = messageList;
+        this.lockedMessagesList = lockedMessagesList;
     }
 
     /**
@@ -84,7 +86,7 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
         String timeStampDisplay = MessageHelper.getDateForDisplay(currentMessage.getTimestamp());
         timestamp.setText(timeStampDisplay);
 
-        if(currentMessage.isLocked()){
+        if(lockedMessagesList.contains(currentMessage.getMessageId())){
             ImageView lockView = (ImageView) rowView.findViewById(R.id.lock);
             lockView.setImageResource(R.drawable.lock);
         }

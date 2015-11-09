@@ -77,6 +77,7 @@ public class ConversationViewActivity extends SendMessageActivity {
 
         selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
+        List<Integer> lockedMessagesList = appState.getLockedMessagesList();
 
         List<Message> draftMessagesList = appState.getDraftsList();
         for(Message draftMessage : draftMessagesList){
@@ -107,7 +108,7 @@ public class ConversationViewActivity extends SendMessageActivity {
         }
 
         // Initializing the Adapter for displaying the list of messages in the conversation screen.
-        ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact);
+        ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact, lockedMessagesList);
         ListView list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
 
@@ -253,15 +254,9 @@ public class ConversationViewActivity extends SendMessageActivity {
         }
 
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        originalMessageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
-        Iterator<Message> messageIterator = originalMessageList.iterator();
-        while(messageIterator.hasNext()){
-            Message message = messageIterator.next();
-            if(message.getMessageId()==id){
-                message.setLocked(true);
-            }
-        }
-        appState.setMessageList(originalMessageList);
+        List<Integer> lockedMessagesList = appState.getLockedMessagesList();
+        lockedMessagesList.add(id);
+        appState.setLockedMessagesList(lockedMessagesList);
         finish();
         startActivity(getIntent());
     }
