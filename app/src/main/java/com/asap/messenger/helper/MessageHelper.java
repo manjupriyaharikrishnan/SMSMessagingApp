@@ -29,9 +29,9 @@ public class MessageHelper {
 
     /**
      * Getting the messages from the SMS Inbox
-     * @param messageList
-     * @param cursor
-     * @return
+     * @param messageList List of the messages
+     * @param cursor The Cursor provides random read-write access to the result set returned by a database query.
+     * @return List of the messages after setting the attributes of the messages retrieved from the SMS Inbox
      */
     public List<Message> getMessagesFromInbox(List<Message> messageList, Cursor cursor){
 
@@ -89,9 +89,9 @@ public class MessageHelper {
     /**
      * Method to get the latest messages for all the contacts and messages segregated according to contact number
      * If the contact number is stored in Stock App, Identify it and map the contact number to the Contact name of stocks contacts app
-     * @param originalMessageList
-     * @param phoneContacts
-     * @return
+     * @param originalMessageList The original message list from the SMS Inbox
+     * @param phoneContacts The list of contacts from the Stock Contacts App
+     * @return The List of latest messages for each contact number sorted by timestamp and contact number
      */
     public List<Message> getLatestMessagesByAllContacts(List<Message> originalMessageList, HashMap<String, String> phoneContacts){
 
@@ -132,8 +132,8 @@ public class MessageHelper {
 
     /**
      * Method to get the long value for the input date
-     * @param inputDate - Format MM-dd-yyyy HH:mm:ss
-     * @return - time in ms
+     * @param inputDate Format MM-dd-yyyy HH:mm:ss
+     * @return time in ms
      */
     private long getLongValueOfDate(String inputDate){
         SimpleDateFormat f = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
@@ -149,9 +149,9 @@ public class MessageHelper {
 
     /**
      * Retrieve messages by using contact number
-     * @param contact - Contact number whose messages need to be retrieved
-     * @param originalMessageList - Messages from inbox
-     * @return - List of messages for that contact number
+     * @param contact Contact number whose messages need to be retrieved
+     * @param originalMessageList Messages from inbox
+     * @return List of messages for that contact number
      */
     public List<Message> getMessagesByContact(String contact, List<Message> originalMessageList){
 
@@ -176,9 +176,9 @@ public class MessageHelper {
 
     /**
      * Check if the message is locked. Message is locked if the locked attribute is set
-     * @param id - message id
-     * @param originalMessageList - Message from inbox
-     * @return - true or false
+     * @param id message id
+     * @param originalMessageList Message from inbox
+     * @return true or false
      */
     public boolean checkIfMessageIsLocked(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
@@ -191,9 +191,9 @@ public class MessageHelper {
 
     /**
      * Delete the message by using id
-     * @param id - Message id to be deleted
-     * @param originalMessageList - Messages from inbox
-     * @return - List of messages after deletion
+     * @param id Message id to be deleted
+     * @param originalMessageList Messages from inbox
+     * @return List of messages after deletion
      */
     public List<Message> deleteMessageById(int id, List<Message> originalMessageList){
         for(Message message : originalMessageList){
@@ -207,8 +207,8 @@ public class MessageHelper {
 
     /**
      * Method to convert the date in ms to the String Date
-     * @param inputDate - in ms
-     * @return - Formatted Date string
+     * @param inputDate in ms
+     * @return Formatted Date string
      */
     public static String getDateForDisplay(long inputDate){
         Date longDate = new Date(inputDate);
@@ -229,8 +229,8 @@ public class MessageHelper {
 
     /**
      * Check if the given date is today
-     * @param givenDate - Input date
-     * @return - true or false
+     * @param givenDate Input date
+     * @return true or false
      */
     public static boolean isToday(Date givenDate){
 
@@ -251,8 +251,8 @@ public class MessageHelper {
 
     /**
      * Check if the input string is numeric
-     * @param str - Input String
-     * @return - true of false
+     * @param str Input String
+     * @return true of false
      */
     public static boolean isNumeric(String str)
     {

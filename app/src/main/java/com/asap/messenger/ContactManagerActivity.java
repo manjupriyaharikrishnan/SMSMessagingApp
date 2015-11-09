@@ -20,15 +20,24 @@ import com.asap.messenger.common.MessageStatus;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * The ContactManagerActivity is a subclass of Android AppCompatActivity class
+ * It enables the users to interact with the Stock Contacts App to get the contact details stored there
+ */
 public class ContactManagerActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_ASK_PERMISSION_FOR_READ = 006;
 
+    /**
+     * Method to fetch the contact details from the Stock Contacts App to get the contact details
+     * @return Map storing the Contact Details. Key is ContactNum and Value is ContactName
+     */
     public HashMap<String, String> fetchContacts(){
         System.out.println("In Fetch Contacts");
         HashMap<String, String> phoneContacts = new HashMap<String, String>();
         String phoneNumber = null;
 
+        // Inputs required for querying the Contacts App
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
         String _ID = ContactsContract.Contacts._ID;
         String DISPLAY_NAME = ContactsContract.Contacts.DISPLAY_NAME;
@@ -40,10 +49,15 @@ public class ContactManagerActivity extends AppCompatActivity {
 
         StringBuffer output = new StringBuffer();
         ContentResolver contentResolver = getContentResolver();
+
+        // Querying the Stock Contacts App and getting the results in the form of Cursor
+        // Proper permissions are required to read the contacts
         Cursor cursor = contentResolver.query(CONTENT_URI, null,null, null, null);
+
 
         if (cursor.getCount() > 0) {
             while (cursor.moveToNext()) {
+                // For each contact getting the name and phone number and adding to the HashMap
                 String contact_id = cursor.getString(cursor.getColumnIndex( _ID ));
                 String name = cursor.getString(cursor.getColumnIndex( DISPLAY_NAME ));
 
@@ -67,6 +81,12 @@ public class ContactManagerActivity extends AppCompatActivity {
         return phoneContacts;
     }
 
+    /**
+     * Method to request for the permissions to access the Stock Contacts App
+     * @param requestCode Request code to access the Stock Contacts App - 006
+     * @param permissions Set of permissions required on the Stock Contacts App
+     * @param grantResults The results granted when the permission is requested.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         System.out.println("Got Results for permissions");

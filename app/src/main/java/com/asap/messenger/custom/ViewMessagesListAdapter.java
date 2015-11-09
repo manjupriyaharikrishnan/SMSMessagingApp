@@ -34,9 +34,9 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
 
     /**
      * Constructor for the ConversationListAdapter for setting the initial values
-     * @param context
-     * @param conversationMessages
-     * @param allMessages
+     * @param context Current Context of the Activity
+     * @param conversationMessages The list of the conversation messages for the selected contact
+     * @param allMessages The total messages from the SMS Inbox
      */
     public ViewMessagesListAdapter(Activity context, List<Message> conversationMessages, List<Message> allMessages) {
         super(context, R.layout.allmessageslayout, conversationMessages);
@@ -63,10 +63,10 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
 
     /**
      * Get a View that displays the data at the specified position in the data set
-     * @param position
-     * @param view
-     * @param parent
-     * @return View
+     * @param position The specific position in the list of messages
+     * @param view The View of the each individual message
+     * @param parent The Parent of the View
+     * @return View The result View
      */
     public View getView(int position,View view,ViewGroup parent) {
         LayoutInflater inflater=context.getLayoutInflater();

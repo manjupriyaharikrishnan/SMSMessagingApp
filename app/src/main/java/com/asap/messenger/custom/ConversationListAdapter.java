@@ -33,9 +33,9 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
 
     /**
      * Constructor for the ConversationListAdapter for setting the initial values
-     * @param context
-     * @param messageList
-     * @param selectedContact
+     * @param context Current Context of the Activity
+     * @param messageList The list of the messages on which activity has to be performed
+     * @param selectedContact The Contact selected by the user from the View All Messages Screen
      */
     public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact) {
         super(context, R.layout.allmessageslayout, messageList);
@@ -46,10 +46,10 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
 
     /**
      * Get a View that displays the data at the specified position in the data set
-     * @param position
-     * @param view
-     * @param parent
-     * @return View
+     * @param position The specific position in the list of messages
+     * @param view The View of the each individual message
+     * @param parent The Parent of the View
+     * @return View The result View
      */
     public View getView(int position,View view,ViewGroup parent) {
 
