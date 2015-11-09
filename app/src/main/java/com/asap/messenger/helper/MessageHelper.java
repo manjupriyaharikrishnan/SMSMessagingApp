@@ -41,6 +41,7 @@ public class MessageHelper {
     }*/
 
     public List<Message> getMessagesFromInbox(List<Message> messageList, Cursor cursor){
+
         System.out.println("In Message Helper.. getMessagesFromInbox");
         if(messageList==null){
             messageList = new ArrayList<Message>();

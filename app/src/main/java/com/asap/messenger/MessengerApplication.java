@@ -17,6 +17,34 @@ public class MessengerApplication extends Application{
 
     private List<Message> draftsList;
 
+    private List<Integer> deletedMessagesList;
+
+    private List<Integer> lockedMessagesList;
+
+    public List<Integer> getDeletedMessagesList() {
+        if(deletedMessagesList!=null){
+            return deletedMessagesList;
+        }else{
+            return new ArrayList<Integer>();
+        }
+    }
+
+    public void setDeletedMessagesList(List<Integer> deletedMessagesList) {
+        this.deletedMessagesList = deletedMessagesList;
+    }
+
+    public List<Integer> getLockedMessagesList() {
+        if(lockedMessagesList!=null){
+            return lockedMessagesList;
+        }else{
+            return new ArrayList<Integer>();
+        }
+    }
+
+    public void setLockedMessagesList(List<Integer> lockedMessagesList) {
+        this.lockedMessagesList = lockedMessagesList;
+    }
+
     private HashMap<String, String> phoneContacts;
 
     public List<Message> getDraftsList() {

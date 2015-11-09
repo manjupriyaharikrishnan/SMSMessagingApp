@@ -27,6 +27,7 @@ import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
+import java.util.Iterator;
 import java.util.Map;
 import java.util.List;
 import java.util.ArrayList;
@@ -65,10 +66,16 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
         if(messageList==null){
             Cursor inboxCursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
             messageList = messageHelper.getMessagesFromInbox(messageList, inboxCursor);
+            List<Integer> deletedMessagesList = appState.getDeletedMessagesList();
+            Iterator<Message> messageIterator = messageList.iterator();
+            while(messageIterator.hasNext()){
+                Message message = messageIterator.next();
+                if(deletedMessagesList.contains(message.getMessageId())){
+                    messageIterator.remove();
+                }
+            }
             appState.setMessageList(messageList);
         }
-
-
 
         int hasContactPermissions = checkSelfPermission(Manifest.permission.READ_CONTACTS);
         if(hasContactPermissions != PackageManager.PERMISSION_GRANTED) {

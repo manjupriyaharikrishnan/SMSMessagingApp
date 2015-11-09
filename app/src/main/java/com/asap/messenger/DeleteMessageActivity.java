@@ -9,10 +9,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.asap.messenger.bo.Message;
+import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class DeleteMessageActivity extends AppCompatActivity {
@@ -38,8 +42,7 @@ public class DeleteMessageActivity extends AppCompatActivity {
         }
 
         deleteMessageById(messageToDelete);
-        //appState.setMessageList(messageHelper.getMessagesByContact(selectedContact, messageHelper.get));
-
+        Toast.makeText(this, "Message deleted", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent("com.asap.messenger.conversationview");
         intent.putExtra("selectedContact", selectedContact);
         startActivity(intent);
@@ -64,6 +67,24 @@ public class DeleteMessageActivity extends AppCompatActivity {
             {
                 e.printStackTrace();
             }
+        }
+        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        List<Integer> deletedMessagesList = appState.getDeletedMessagesList();
+        deletedMessagesList.add(messageToDelete);
+        appState.setDeletedMessagesList(deletedMessagesList);
+
+        List<Message> messageList = null;
+        if(messageList==null){
+            Cursor inboxCursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
+            messageList = messageHelper.getMessagesFromInbox(messageList, inboxCursor);
+            Iterator<Message> messageIterator = messageList.iterator();
+            while(messageIterator.hasNext()){
+                Message message = messageIterator.next();
+                if(deletedMessagesList.contains(message.getMessageId())){
+                    messageIterator.remove();
+                }
+            }
+            appState.setMessageList(messageList);
         }
     }
 
