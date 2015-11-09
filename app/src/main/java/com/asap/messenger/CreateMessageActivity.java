@@ -87,8 +87,22 @@ public class CreateMessageActivity extends SendMessageActivity {
             @Override
             public void onClick(View v) {
 
+                MessengerApplication appState = ((MessengerApplication) getApplicationContext());
+
                 EditText senderContactText = (EditText) findViewById(R.id.senderContact);
                 receiverContact = senderContactText.getText().toString();
+
+                boolean isContactNumNumeric = MessageHelper.isNumeric(receiverContact);
+                if(!isContactNumNumeric){
+                    HashMap<String, String> phoneContacts = appState.getPhoneContacts();
+                    for(String key : phoneContacts.keySet()){
+                        String value = phoneContacts.get(key);
+                        if(receiverContact.contentEquals(value)){
+                            receiverContact = key;
+                            break;
+                        }
+                    }
+                }
 
                 EditText newMessageText = (EditText) findViewById(R.id.newMessage);
                 message = newMessageText.getText().toString();
@@ -101,7 +115,7 @@ public class CreateMessageActivity extends SendMessageActivity {
                     sendSms(receiverContact, message);
                 }
 
-                MessengerApplication appState = ((MessengerApplication) getApplicationContext());
+
                 appState.setDraftsList(null);
 
                 Intent setIntent = new Intent();
