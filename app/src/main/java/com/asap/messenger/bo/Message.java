@@ -4,23 +4,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Umadevi on 10/16/2015.
+ * The Message Java Class is used to store the information related to message that is sent/received/draft etc
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/16/2015
  */
 public class Message {
+
+    /*Attributes to store the message information*/
     private int messageId;
     private String messageAddress;
     private String messageContent;
-    //private Sender sender;
-    //private List<Receiver> receiver;
     private long timestamp;
     private String status;
     private String contactName;
     private boolean locked;
 
+    /* Empty Constructor */
     public Message(){
 
     }
 
+    /*Constructor*/
     public Message(int messageId, String messageContent, String messageAddress, long timestamp, String status){
         this.messageId = messageId;
         this.messageContent = messageContent;
@@ -29,25 +34,7 @@ public class Message {
         this.messageAddress = messageAddress;
     }
 
-   /* public Message(int messageId, String messageContent, String senderContact, String receiverContact, String timestamp, String status){
-        this.messageId = messageId;
-        this.messageContent = messageContent;
-        this.timestamp = timestamp;
-        this.status = status;
-
-        Sender sender = new Sender();
-        sender.setPhoneNumber(senderContact);
-        sender.setContactName(senderContact);
-        this.sender = sender;
-
-        Receiver receiver = new Receiver();
-        receiver.setPhoneNumber(receiverContact);
-        receiver.setContactName(receiverContact);
-        List<Receiver> receiverList = new ArrayList<Receiver>();
-        receiverList.add(receiver);
-        this.receiver = receiverList;
-    }*/
-
+    /*Getters and Setters*/
     public String getMessageContent() {
         return messageContent;
     }
@@ -55,22 +42,6 @@ public class Message {
     public void setMessageContent(String messageContent) {
         this.messageContent = messageContent;
     }
-
-    /*public Sender getSender() {
-        return sender;
-    }
-
-    public void setSender(Sender sender) {
-        this.sender = sender;
-    }
-
-    public List<Receiver> getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(List<Receiver> receiver) {
-        this.receiver = receiver;
-    }*/
 
     public long getTimestamp() {
         return timestamp;
