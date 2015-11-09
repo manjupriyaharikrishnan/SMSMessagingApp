@@ -120,21 +120,23 @@ public class CreateMessageActivity extends SendMessageActivity {
         EditText newContactText = (EditText)findViewById(R.id.senderContact);
         String newContact = newContactText.getText().toString();
 
-        ContentValues values = new ContentValues();
-        values.put("address", newContact);
-        values.put("body", newMessage);
-        values.put("date", String.valueOf(System.currentTimeMillis()));
-        values.put("type", "3");
-        values.put("thread_id", "0");
-        Uri rowsInsertedURI = getContentResolver().insert(Uri.parse("content://sms/draft"), values);
-        System.out.println("Inserted URI..."+rowsInsertedURI.getPath());
+        if((newMessage!=null && !newMessage.equalsIgnoreCase(""))||(newContact!=null && !newContact.equalsIgnoreCase(""))){
+            ContentValues values = new ContentValues();
+            values.put("address", newContact);
+            values.put("body", newMessage);
+            values.put("date", String.valueOf(System.currentTimeMillis()));
+            values.put("type", "3");
+            values.put("thread_id", "0");
+            Uri rowsInsertedURI = getContentResolver().insert(Uri.parse("content://sms/draft"), values);
+            System.out.println("Inserted URI..."+rowsInsertedURI.getPath());
 
-        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> draftsMessageList = appState.getDraftsList();
-        draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, newContact, new Date().getTime(), MessageStatus.NEW));
-        appState.setDraftsList(draftsMessageList);
+            MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+            List<Message> draftsMessageList = appState.getDraftsList();
+            draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, newContact, new Date().getTime(), MessageStatus.NEW));
+            appState.setDraftsList(draftsMessageList);
 
-        Toast.makeText(this, "Message saved as draft", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Message saved as draft", Toast.LENGTH_SHORT).show();
+        }
 
         NavUtils.navigateUpFromSameTask(this);
     }
