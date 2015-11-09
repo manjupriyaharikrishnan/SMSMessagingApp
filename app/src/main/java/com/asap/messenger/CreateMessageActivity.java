@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
@@ -28,6 +29,7 @@ import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -42,7 +44,7 @@ public class CreateMessageActivity extends SendMessageActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmessage);
 
-        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+        final MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> draftMessagesList = appState.getDraftsList();
 
         final EditText newMessageText = (EditText)findViewById(R.id.newMessage);
@@ -75,8 +77,8 @@ public class CreateMessageActivity extends SendMessageActivity {
         newMessageText.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-            newMessageText.setTextColor(Color.BLACK);
-            return false;
+                newMessageText.setTextColor(Color.BLACK);
+                return false;
             }
         });
 
@@ -85,21 +87,21 @@ public class CreateMessageActivity extends SendMessageActivity {
             @Override
             public void onClick(View v) {
 
-                EditText senderContactText = (EditText)findViewById(R.id.senderContact);
+                EditText senderContactText = (EditText) findViewById(R.id.senderContact);
                 receiverContact = senderContactText.getText().toString();
 
-                EditText newMessageText = (EditText)findViewById(R.id.newMessage);
+                EditText newMessageText = (EditText) findViewById(R.id.newMessage);
                 message = newMessageText.getText().toString();
 
                 int hasSmsPermission = checkSelfPermission(Manifest.permission.SEND_SMS);
 
-                if(hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[] {Manifest.permission.SEND_SMS}, REQUEST_CODE_ASK_PERMISSION);
+                if (hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.SEND_SMS}, REQUEST_CODE_ASK_PERMISSION);
                 } else {
                     sendSms(receiverContact, message);
                 }
 
-                MessengerApplication appState = ((MessengerApplication)getApplicationContext());
+                MessengerApplication appState = ((MessengerApplication) getApplicationContext());
                 appState.setDraftsList(null);
 
                 Intent setIntent = new Intent();
@@ -107,9 +109,20 @@ public class CreateMessageActivity extends SendMessageActivity {
                 startActivity(setIntent);
             }
         });
+
+        contactNameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {
+                EditText senderContactText = (EditText)findViewById(R.id.senderContact);
+                String senderContact = senderContactText.getText().toString();
+                Toast.makeText(getBaseContext(), "Phone Number field changed "+senderContact, Toast.LENGTH_SHORT).show();
+                HashMap<String, String> phoneContacts = appState.getPhoneContacts();
+                if(phoneContacts.containsKey(senderContact)){
+                    String nameFromPhoneBook = phoneContacts.get(senderContact);
+                    senderContactText.setText(nameFromPhoneBook);
+                }
+            }
+        });
     }
-
-
 
     @Override
     public void onBackPressed() {
