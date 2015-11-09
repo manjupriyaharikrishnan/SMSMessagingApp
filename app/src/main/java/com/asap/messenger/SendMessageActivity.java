@@ -20,6 +20,12 @@ import com.asap.messenger.common.MessageStatus;
 
 import java.util.List;
 
+/**
+ * The SendMessageActivity is a subclass of Android AppCompatActivity class
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/24/2015
+ */
 public class SendMessageActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_ASK_PERMISSION = 007;
@@ -31,21 +37,12 @@ public class SendMessageActivity extends AppCompatActivity {
     public BroadcastReceiver sendBroadcastReceiver;
     public BroadcastReceiver deliveryBroadcastReciever;
 
-
-    /*public void saveMessageSent(String sentMessage, String receiverContact){
-        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
-        originalMessageList.add(new Message(52, sentMessage, "111-111-1111", receiverContact, "10-17-2015 12:23:22", MessageStatus.SENT));
-        appState.setMessageList(originalMessageList);
-    }*/
-
+    /**
+     * Method to send the SMS to the receiver
+     * @param contact The Contact name or number to whom message is intended to deliver
+     * @param message The message to be delivered
+     */
     public void sendSms(String contact, String message){
-       /* Intent sendIntent = new Intent(this, SendMessageActivity.class);
-        PendingIntent sendPI = PendingIntent.getBroadcast(this.getApplicationContext(), 0, sendIntent, 0);
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(contact, null, message, sendPI, null);*/
-
-
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
 
@@ -107,6 +104,12 @@ public class SendMessageActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Callback for the result from requesting permissions.
+     * @param requestCode The request code passed in requestPermissions(String[], int).
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {

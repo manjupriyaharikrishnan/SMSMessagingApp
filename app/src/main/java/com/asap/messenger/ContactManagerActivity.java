@@ -23,6 +23,9 @@ import java.util.List;
 /**
  * The ContactManagerActivity is a subclass of Android AppCompatActivity class
  * It enables the users to interact with the Stock Contacts App to get the contact details stored there
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/24/2015
  */
 public class ContactManagerActivity extends AppCompatActivity {
 

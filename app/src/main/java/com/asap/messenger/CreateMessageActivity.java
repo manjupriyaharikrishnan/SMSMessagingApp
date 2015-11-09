@@ -34,19 +34,31 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Created by shaanu on 10/21/2015.
+ * The ConversationViewActivity is a subclass of Android AppCompatActivity class
+ * This class is related to the Create New Message screen
+ * It takes care for creating a window for the Create New Message screen when the user wishes to create a new message.
+ * It performs some activities related to create new message screen like saving the message as a draft, send message.
+ * @author  Umadevi Samudrala
+ * @version 1.0
+ * @since 10/24/2015
  */
 public class CreateMessageActivity extends SendMessageActivity {
     MessageHelper messageHelper = new MessageHelper();
 
+    /**
+     * Called when the activity is started. This method has all the initialization code
+     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.createmessage);
 
+        // Getting the list of draft messages list from the App State
         final MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> draftMessagesList = appState.getDraftsList();
 
+        // Setting the message context if there is any previous draft message present.
         final EditText newMessageText = (EditText)findViewById(R.id.newMessage);
         EditText contactNameText = (EditText)findViewById(R.id.senderContact);
         if(draftMessagesList!=null){
@@ -59,6 +71,8 @@ public class CreateMessageActivity extends SendMessageActivity {
 
         Bundle bundle = getIntent().getExtras();
 
+        // If the activity is to forward message, then set the forwarded message to the message content field
+        // If the activity is just creating a new message, then set the message content to hint.
         if(bundle!=null){
             System.out.println("In If create");
             String messageToForward = getIntent().getExtras().getString("messageToForward");
@@ -82,6 +96,7 @@ public class CreateMessageActivity extends SendMessageActivity {
             }
         });
 
+        // Getting the Send button and adding on click activity to be performed.
         Button sendButton = (Button)findViewById(R.id.Button);
         sendButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -92,6 +107,7 @@ public class CreateMessageActivity extends SendMessageActivity {
                 EditText senderContactText = (EditText) findViewById(R.id.senderContact);
                 receiverContact = senderContactText.getText().toString();
 
+                // If the contact text is not numeric, then find the corresponding Contact number from the Phone Contacts App.
                 boolean isContactNumNumeric = MessageHelper.isNumeric(receiverContact);
                 if(!isContactNumNumeric){
                     HashMap<String, String> phoneContacts = appState.getPhoneContacts();
@@ -107,6 +123,7 @@ public class CreateMessageActivity extends SendMessageActivity {
                 EditText newMessageText = (EditText) findViewById(R.id.newMessage);
                 message = newMessageText.getText().toString();
 
+                // Check if the user has permissions to send the message.
                 int hasSmsPermission = checkSelfPermission(Manifest.permission.SEND_SMS);
 
                 if (hasSmsPermission != PackageManager.PERMISSION_GRANTED) {
@@ -124,6 +141,7 @@ public class CreateMessageActivity extends SendMessageActivity {
             }
         });
 
+        // When the contact number is entered, and if it is present in the Stock contacts app, then replace it with the Contact Name.
         contactNameText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
@@ -138,6 +156,9 @@ public class CreateMessageActivity extends SendMessageActivity {
         });
     }
 
+    /**
+     * Called when the activity has detected the user's press of the back key.
+     */
     @Override
     public void onBackPressed() {
         EditText newMessageText = (EditText)findViewById(R.id.newMessage);
