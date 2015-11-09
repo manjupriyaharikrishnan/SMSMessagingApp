@@ -146,7 +146,6 @@ public class CreateMessageActivity extends SendMessageActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 EditText senderContactText = (EditText)findViewById(R.id.senderContact);
                 String senderContact = senderContactText.getText().toString();
-                Toast.makeText(getBaseContext(), "Phone Number field changed "+senderContact, Toast.LENGTH_SHORT).show();
                 HashMap<String, String> phoneContacts = appState.getPhoneContacts();
                 if(phoneContacts.containsKey(senderContact)){
                     String nameFromPhoneBook = phoneContacts.get(senderContact);

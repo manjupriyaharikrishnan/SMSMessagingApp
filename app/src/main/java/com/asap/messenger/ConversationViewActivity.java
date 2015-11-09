@@ -31,6 +31,7 @@ import com.asap.messenger.helper.MessageHelper;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -77,16 +78,11 @@ public class ConversationViewActivity extends SendMessageActivity {
         selectedContact = getIntent().getExtras().getString("selectedContact");
         List<Message> messageList = messageHelper.getMessagesByContact(selectedContact, originalMessageList);
 
-        Iterator<Message> messageIterator = messageList.iterator();
-
-        // Iterate over the Inbox messages and check if there is any draft message. If draft message is there, set it to the message content field
-        while(messageIterator.hasNext()){
-            Message message = messageIterator.next();
-            System.out.println("In converstation view.. .message is.."+message.getStatus());
-            if(message.getStatus().equals(MessageStatus.DRAFT)){
+        List<Message> draftMessagesList = appState.getDraftsList();
+        for(Message draftMessage : draftMessagesList){
+            if(selectedContact.contentEquals(draftMessage.getMessageAddress())){
                 EditText newMessageText = (EditText)findViewById(R.id.EditText);
-                newMessageText.setText(message.getMessageContent());
-                messageIterator.remove();
+                newMessageText.setText(draftMessage.getMessageContent());
             }
         }
 
@@ -293,14 +289,7 @@ public class ConversationViewActivity extends SendMessageActivity {
             openAlert(messageToDelete, "Delete Locked Message ?");
         }else{
             openAlert(messageToDelete, "Delete Message ?");
-            /*Intent intent = new Intent("com.asap.messenger.deletemessage");
-            System.out.println("In Delete message.. trying to delete message with id.."+messageToDelete+" for contact "+selectedContact);
-            intent.putExtra("messageToDelete", messageToDelete);
-            intent.putExtra("selectedContact", selectedContact);
-            startActivity(intent);*/
         }
-
-
     }
 
     /**
@@ -317,15 +306,10 @@ public class ConversationViewActivity extends SendMessageActivity {
 
         if(newMessage!=null && !newMessage.contentEquals("")){
             MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-            List<Message> originalMessageList = appState.getMessageList();
-            Iterator<Message> messageIterator = originalMessageList.iterator();
-            while(messageIterator.hasNext()){
-                Message message = messageIterator.next();
-                if(message.getStatus().equals(MessageStatus.DRAFT)){
-                    messageIterator.remove();
-                }
-            }
-            appState.setMessageList(originalMessageList);
+            List<Message> draftsMessageList = appState.getDraftsList();
+            draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, selectedContact, new Date().getTime(), MessageStatus.NEW));
+            appState.setDraftsList(draftsMessageList);
+            Toast.makeText(this, "Message saved as draft", Toast.LENGTH_SHORT).show();
         }
         NavUtils.navigateUpFromSameTask(this);
     }
