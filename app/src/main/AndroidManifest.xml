@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-
     <application
         android:name=".MessengerApplication"
         android:allowBackup="true"
@@ -19,10 +18,8 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" >
@@ -31,20 +28,18 @@
         <activity
             android:name=".ConversationViewActivity"
             android:label="@string/title_activity_conversation_view"
-            android:parentActivityName=".ViewAllMessagesActivity">
+            android:parentActivityName=".ViewAllMessagesActivity" >
             <intent-filter>
                 <action android:name="com.asap.messenger.conversationview" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CreateMessageActivity"
             android:label="@string/app_name"
-            android:parentActivityName=".ViewAllMessagesActivity">
+            android:parentActivityName=".ViewAllMessagesActivity" >
             <intent-filter>
                 <action android:name="com.asap.messenger.createmessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -53,7 +48,6 @@
             android:label="@string/title_activity_delete_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.deletemessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -62,7 +56,6 @@
             android:label="@string/title_activity_search_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.searchmessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -71,7 +64,6 @@
             android:label="@string/title_activity_forward_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.forwardmessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -80,7 +72,6 @@
             android:label="@string/title_activity_save_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.savemessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -89,7 +80,6 @@
             android:label="@string/title_activity_edit_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.editmessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -98,7 +88,6 @@
             android:label="@string/title_activity_send_message" >
             <intent-filter>
                 <action android:name="com.asap.messenger.sendmessage" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -107,12 +96,26 @@
             android:label="@string/title_activity_contact_manager" >
         </activity>
 
-        <receiver android:name=".helper.ReceiveMessage" android:exported="true">
+        <receiver
+            android:name=".helper.ReceiveMessage"
+            android:exported="true" >
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED"/>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
+        <activity
+            android:name=".AddContactActivity"
+            android:label="AddContactActivity"
+            android:parentActivityName=".ConversationViewActivity" >
+            <intent-filter>
+                <action android:name="com.asap.messenger.addcontact" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.asap.messenger.ConversationViewActivity" />
+        </activity>
     </application>
 
 </manifest>
