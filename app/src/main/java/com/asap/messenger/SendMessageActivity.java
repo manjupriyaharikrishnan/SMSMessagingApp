@@ -40,10 +40,32 @@ public class SendMessageActivity extends AppCompatActivity {
 
     /**
      * Method to send the SMS to the receiver
-     * @param contact The Contact name or number to whom message is intended to deliver
+     * @param contact The Contact name or number to whom message is intended to deliver - might contain multiple contain multiple contacts
      * @param message The message to be delivered
      */
     public void sendSms(String contact, String message){
+        if(contact.contains(",")){
+            String indContacts[] = contact.split(",");
+            for(String eachContact : indContacts){
+                sendSmsIndividual(eachContact, message);
+            }
+        }else{
+            sendSmsIndividual(contact, message);
+        }
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+            }
+        }, 20000);
+    }
+
+    /**
+     * Method to send the SMS to the receiver
+     * @param contact The Contact name or number to whom message is intended to deliver
+     * @param message The message to be delivered
+     */
+    public void sendSmsIndividual(String contact, String message){
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
 
@@ -102,15 +124,6 @@ public class SendMessageActivity extends AppCompatActivity {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(contact, null, message, sentPI, deliveredPI);
         System.out.println("Message Sent Successfully");
-
-        // Execute some code after 2 seconds have passed
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-
-            }
-        }, 10000);
-
     }
 
     /**
