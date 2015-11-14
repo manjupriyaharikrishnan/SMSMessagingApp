@@ -1,16 +1,27 @@
 package com.asap.messenger;
 
 import android.Manifest;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.OperationApplicationException;
 import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
+import android.provider.ContactsContract.CommonDataKinds.StructuredName;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * The AddContactActivity is a subclass of Android AppCompatActivity class
@@ -22,6 +33,9 @@ import android.widget.Toast;
  * @since 11/12/2015
  */
 public class AddContactActivity extends AppCompatActivity {
+
+    final int REQUEST_CODE_ASK_PERMISSIONS = 005;
+    String addContactName, addContactNo;
 
     /**
      * Called when the activity is started. This method has all the initialization code
@@ -41,12 +55,12 @@ public class AddContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText addContactNoText = (EditText) findViewById(R.id.addContactNo);
-                String addContactNo = addContactNoText.getText().toString();
+                addContactNo = addContactNoText.getText().toString();
 
                 EditText addContactNameText = (EditText) findViewById(R.id.addContactName);
-                String addContactName = addContactNameText.getText().toString();
+                addContactName = addContactNameText.getText().toString();
 
-                System.out.println("Contact to save is "+addContactName +", Contact no is "+addContactNo);
+                System.out.println("Contact to save is " + addContactName + ", Contact no is " + addContactNo);
 
                 addContactToStockApp(addContactName, addContactNo);
 
@@ -60,9 +74,67 @@ public class AddContactActivity extends AppCompatActivity {
         });
     }
 
+    public void insertContact(String contactName, String contactNumber){
+
+        ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>(2);
+        int rawContactID = operations.size();
+
+        operations.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null)
+                .withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null)
+                .build());
+        operations.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                .withValue(ContactsContract.Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE)
+                .withValue(StructuredName.DISPLAY_NAME, contactName)
+                .build());
+
+        operations.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI)
+                .withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, rawContactID)
+                .withValue(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)
+                .withValue(ContactsContract.CommonDataKinds.Phone.NUMBER, contactNumber)
+                .withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE)
+                .build());
+
+        // Apply the operations.
+        ContentResolver resolver = getContentResolver();
+        try {
+            resolver.applyBatch(ContactsContract.AUTHORITY, operations);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void addContactToStockApp(String addContactName, String addContactNo){
         // Write Logic to add contact details to contact app.
         // Request permissions to write. etc etc
+        System.out.println("inside add");
+
+        int hasWriteContactPermission  = checkSelfPermission(Manifest.permission.WRITE_CONTACTS);
+        if(hasWriteContactPermission != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[] {Manifest.permission.WRITE_CONTACTS}, REQUEST_CODE_ASK_PERMISSIONS);
+            return;
+        }
+        System.out.println("skipped permission inserting...");
+        insertContact(addContactName, addContactNo);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch(requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    insertContact(addContactName, addContactNo);
+                } else {
+                    Toast.makeText(this, "WRITE_CONTACTS Denied", Toast.LENGTH_SHORT);
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     /**
