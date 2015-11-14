@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.SmsManager;
@@ -101,6 +102,14 @@ public class SendMessageActivity extends AppCompatActivity {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(contact, null, message, sentPI, deliveredPI);
         System.out.println("Message Sent Successfully");
+
+        // Execute some code after 2 seconds have passed
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+
+            }
+        }, 10000);
 
     }
 

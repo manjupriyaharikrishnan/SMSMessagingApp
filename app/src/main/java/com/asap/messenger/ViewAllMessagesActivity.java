@@ -203,4 +203,11 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
         return true;
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
 }
