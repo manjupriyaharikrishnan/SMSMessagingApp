@@ -180,14 +180,36 @@ public class MessageHelperTest {
         List<Message> originalMessageList = new ArrayList<>();
         originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
         originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
         List<Message> templist=new ArrayList<>();
         templist.addAll(originalMessageList);
-        for(Message message : originalMessageList){
-            if(message.getMessageId()==1){
-                originalMessageList.remove(message);
-                assertEquals(messageHelper.deleteMessageById(id,templist), originalMessageList );
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()){
+            Message str = iter.next();
+            if(str.getMessageId()==id){
+                iter.remove();
             }
         }
+        assertEquals(messageHelper.deleteMessageById(id,templist),originalMessageList);
+    }
 
+    @Test
+    public void testdeleteMessageByIdNotPresent()
+    {
+        int id=3;
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        List<Message> templist=new ArrayList<>();
+        templist.addAll(originalMessageList);
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()){
+            Message str = iter.next();
+            if(str.getMessageId()==id){
+                iter.remove();
+            }
+        }
+        assertEquals(messageHelper.deleteMessageById(id, templist), originalMessageList);
     }
 }
