@@ -87,7 +87,8 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         }
         timeStamp.setText(MessageHelper.getDateForDisplay(rowMessage.getTimestamp()));
         imageView.setImageResource(R.drawable.usericon);
-        extratxt.setText(rowMessage.getMessageContent());
+        String stripString = rowMessage.getMessageContent().substring(0, Math.min(rowMessage.getMessageContent().length(), 32));
+        extratxt.setText(stripString);
         return rowView;
 
     };
