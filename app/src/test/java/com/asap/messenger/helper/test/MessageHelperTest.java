@@ -40,7 +40,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by Umadevi on 10/20/2015.
  * The MessageHelperTest class is the unit test cases for Message helper class.
- * @author  Deepa Raveendran
+ * @author  Deepa Raveendran, Manju Priya Hari Krishnan
  */
 
 public class MessageHelperTest {
@@ -300,6 +300,56 @@ public class MessageHelperTest {
         assertEquals(messageHelper.getMessagesByContact(contact, templist), originalMessageList);
     }
 
+    @Test
+    public void testCheckIfMessageIsLocked(){
+        int id=0;
+        Boolean result=false;
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        for(Message message : originalMessageList){
+            if(message.getMessageId()==id && message.isLocked()){
+                result= true;
+            }
+        }
+        result=false;
+        assertEquals(messageHelper.checkIfMessageIsLocked(id, originalMessageList), result);
+    }
+
+    @Test
+    public void testCheckIfMessageIsNotLocked(){
+        int id=2;
+        Boolean result=false;
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        for(Message message : originalMessageList){
+            if(message.getMessageId()==id && message.isLocked()){
+                result= true;
+            }
+        }
+        result=false;
+        assertEquals(messageHelper.checkIfMessageIsLocked(id,originalMessageList),result);
+    }
+
+    @Test
+    public void testCheckIfMessageIsLockedNoId(){
+        int id=3;
+        Boolean result=false;
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        for(Message message : originalMessageList){
+            if(message.getMessageId()==id && message.isLocked()){
+                result= true;
+            }
+        }
+        result=false;
+        assertEquals(messageHelper.checkIfMessageIsLocked(id,originalMessageList),result);
+    }
 }
 
 
