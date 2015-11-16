@@ -68,7 +68,7 @@ public class SendMessageActivity extends AppCompatActivity {
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
 
-        List <Message> messageList = null;
+        List <Message> messageList;
 
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
                 SENT), 0);

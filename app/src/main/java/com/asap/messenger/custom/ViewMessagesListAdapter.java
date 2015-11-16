@@ -26,9 +26,8 @@ import java.util.List;
 public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Filterable {
 
     private final Activity context;
-    private List<Message> conversationMessages;
     private List<Message> filteredConvMessages;
-    private List<Message> allMessages;
+    private final List<Message> allMessages;
     private SearchFilter searchFilter;
 
     /**
@@ -41,7 +40,6 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         super(context, R.layout.allmessageslayout, conversationMessages);
         this.context=context;
 
-        this.conversationMessages = conversationMessages;
         this.filteredConvMessages = conversationMessages;
         this.allMessages = allMessages;
 

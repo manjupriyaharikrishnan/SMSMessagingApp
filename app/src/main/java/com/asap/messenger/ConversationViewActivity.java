@@ -44,13 +44,12 @@ import android.content.Intent;
  */
 public class ConversationViewActivity extends SendMessageActivity {
 
-    MessageHelper messageHelper = new MessageHelper();
+    final MessageHelper messageHelper = new MessageHelper();
     private int[] ids;
     private String[] messages;
     String selectedContact = null;
 
     private ClipboardManager myClipboard;
-    private ClipData myClip;
     List<Message> originalMessageList = new ArrayList<Message>();
 
     /**
@@ -90,11 +89,7 @@ public class ConversationViewActivity extends SendMessageActivity {
             setTitle(selectedContact);
         }
 
-
-        final String contacts[] = new String[messageList.size()];
         messages = new String[messageList.size()];
-        String senders[] = new String[messageList.size()];
-        String timestamps[] = new String[messageList.size()];
 
         ids = new int[messageList.size()];
 
@@ -193,7 +188,6 @@ public class ConversationViewActivity extends SendMessageActivity {
      */
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        System.out.println("IN Create Context menu." + ids);
         if (v.getId() == R.id.list) {
             ListView lv = (ListView) v;
             super.onCreateContextMenu(menu, v, menuInfo);
@@ -225,7 +219,7 @@ public class ConversationViewActivity extends SendMessageActivity {
             deleteMessage(messageId);
         }else if (item.getTitle()=="Copy"){
             System.out.println("Copy message called");
-            myClip = ClipData.newPlainText("copiedMessage", message);
+            ClipData myClip = ClipData.newPlainText("copiedMessage", message);
             myClipboard.setPrimaryClip(myClip);
             Toast.makeText(getApplicationContext(), "Text Copied",
                     Toast.LENGTH_SHORT).show();
@@ -306,7 +300,7 @@ public class ConversationViewActivity extends SendMessageActivity {
 
         System.out.println("on Back button pressed :" + newMessage);
 
-        if(newMessage!=null && !newMessage.contentEquals("")){
+        if(!newMessage.contentEquals("")){
             MessengerApplication appState = ((MessengerApplication)getApplicationContext());
             List<Message> draftsMessageList = appState.getDraftsList();
             draftsMessageList.add(new Message(draftsMessageList.size()+1, newMessage, selectedContact, new Date().getTime(), MessageStatus.NEW));

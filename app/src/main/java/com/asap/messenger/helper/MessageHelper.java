@@ -40,16 +40,13 @@ public class MessageHelper {
         // Iterating over the cursor to access each message
         if (cursor.moveToFirst()) { // must check the result to prevent exception
             do {
-                String msgData = "";
-                int idx = 0;
                 // Getting the message attributes from the cursor and storing in local variables
-                String messageBody = cursor.getString(cursor.getColumnIndexOrThrow("body")).toString();
-                String messageAddress = cursor.getString(cursor.getColumnIndexOrThrow("address")).toString();
+                String messageBody = cursor.getString(cursor.getColumnIndexOrThrow("body"));
+                String messageAddress = cursor.getString(cursor.getColumnIndexOrThrow("address"));
                 long messageDate = cursor.getLong(cursor.getColumnIndexOrThrow("date"));
-                String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type")).toString();
+                String messageType = cursor.getString(cursor.getColumnIndexOrThrow("type"));
                 String messageStatus = " ";
                 int id = cursor.getInt(cursor.getColumnIndexOrThrow("_id"));
-                String locked = cursor.getString(cursor.getColumnIndexOrThrow("locked"));
 
                /*
                 Checking the status of the messages
@@ -79,11 +76,6 @@ public class MessageHelper {
         return messageList;
     }
 
-    public void setMessageList()
-    {
- //       List<Message> originalMessageList
-    }
-
     /**
      * Method to get the latest messages for all the contacts and messages segregated according to contact number
      * If the contact number is stored in Stock App, Identify it and map the contact number to the Contact name of stocks contacts app
@@ -102,7 +94,7 @@ public class MessageHelper {
             if(phoneContacts.containsKey(contact)){
                 originalMessage.setContactName(phoneContacts.get(contact));
             }
-            List<Message> mapValue = null;
+            List<Message> mapValue;
             if(sortedMap.containsKey(contact)){
                 mapValue = sortedMap.get(contact);
             }else{
@@ -135,14 +127,14 @@ public class MessageHelper {
      */
     private long getLongValueOfDate(String inputDate){
         SimpleDateFormat f = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
-        Date dateObj = null;
+        Date dateObj;
         try {
             dateObj = f.parse(inputDate);
+            return dateObj.getTime();
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        long milliseconds = dateObj.getTime();
-        return milliseconds;
+        return 0;
     }
 
     /**
@@ -210,7 +202,7 @@ public class MessageHelper {
      */
     public static String getDateForDisplay(long inputDate){
         Date longDate = new Date(inputDate);
-        String formattedDate = null;
+        String formattedDate;
 
         // IF the day is today, just display the time
         // If the day is not today, display the date

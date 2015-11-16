@@ -26,40 +26,35 @@ import java.util.List;
 
 public class MessageHelperTest {
 
-    MessageHelper messageHelper = new MessageHelper();
+    final MessageHelper messageHelper = new MessageHelper();
 
     @Test
     public void testisnotNumericwithstring() {
-        String str = new String();
-        str = "111-222-aaaa";
+        String str = "111-222-aaaa";
         assertFalse(MessageHelper.isNumeric((str)));
     }
 
     @Test
     public void testisnotNumericwithspecialcharacters() {
-        String str = new String();
-        str = "111-$$$-aaaa";
+        String str = "111-$$$-aaaa";
         assertFalse(MessageHelper.isNumeric((str)));
     }
 
 
     @Test
     public void testisNumeric() {
-        String str = new String();
-        str = "1112223333";
+        String str = "1112223333";
         assertTrue(MessageHelper.isNumeric((str)));
     }
 
     @Test
     public void testisnotNumericwithhyphen() {
-        String str = new String();
-        str = "111-222-3333";
+        String str = "111-222-3333";
         assertFalse(MessageHelper.isNumeric((str)));
     }
 
     @Test
     public void testgetdatefordisplaycase2() {
-        MessageHelper messageHelper = new MessageHelper();
         long inputDate = 01 - 02;
         Date longDate = new Date(inputDate);
         String formatteddate = null;
@@ -231,9 +226,7 @@ public class MessageHelperTest {
         originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
         List<Message> templist = new ArrayList<>();
         templist.addAll(originalMessageList);
-        Iterator<Message> iter = originalMessageList.iterator();
-        while (iter.hasNext()) {
-            Message str = iter.next();
+        for (Message str : originalMessageList) {
             if (str.getMessageAddress() == contact) {
                 messagesList.add(str);
             }
@@ -251,9 +244,7 @@ public class MessageHelperTest {
         originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
         List<Message> templist = new ArrayList<>();
         templist.addAll(originalMessageList);
-        Iterator<Message> iter = originalMessageList.iterator();
-        while (iter.hasNext()) {
-            Message str = iter.next();
+        for (Message str : originalMessageList) {
             if (str.getMessageAddress() == contact) {
                 messagesList.add(str);
             }
@@ -271,9 +262,7 @@ public class MessageHelperTest {
         originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
         List<Message> templist = new ArrayList<>();
         templist.addAll(originalMessageList);
-        Iterator<Message> iter = originalMessageList.iterator();
-        while (iter.hasNext()) {
-            Message str = iter.next();
+        for (Message str : originalMessageList) {
             if (str.getMessageAddress() == contact) {
                 messagesList.add(str);
             }

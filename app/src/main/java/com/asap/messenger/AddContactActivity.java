@@ -31,8 +31,9 @@ import java.util.ArrayList;
  */
 public class AddContactActivity extends AppCompatActivity {
 
-    final int REQUEST_CODE_ASK_PERMISSIONS = 005;
-    String addContactName, addContactNo;
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 005;
+    private String addContactName;
+    private String addContactNo;
 
     /**
      * Called when the activity is started. This method has all the initialization code
@@ -73,10 +74,10 @@ public class AddContactActivity extends AppCompatActivity {
 
     /**
      * function call to write any new number in to the Stock App
-     * @param addContactName Name to store for the particular contact
-     * @param addContactNo Phone Number for the particular contact
+     * @param contactName Name to store for the particular contact
+     * @param contactNumber Phone Number for the particular contact
      */
-    public void insertContact(String contactName, String contactNumber){
+    private void insertContact(String contactName, String contactNumber){
 
         ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>(2);
         int rawContactID = operations.size();

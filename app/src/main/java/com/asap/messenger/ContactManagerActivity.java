@@ -28,7 +28,7 @@ public class ContactManagerActivity extends AppCompatActivity {
     public HashMap<String, String> fetchContacts(){
         System.out.println("In Fetch Contacts");
         HashMap<String, String> phoneContacts = new HashMap<String, String>();
-        String phoneNumber = null;
+        String phoneNumber;
 
         // Inputs required for querying the Contacts App
         Uri CONTENT_URI = ContactsContract.Contacts.CONTENT_URI;
@@ -40,7 +40,7 @@ public class ContactManagerActivity extends AppCompatActivity {
         String Phone_CONTACT_ID = ContactsContract.CommonDataKinds.Phone.CONTACT_ID;
         String NUMBER = ContactsContract.CommonDataKinds.Phone.NUMBER;
 
-        StringBuffer output = new StringBuffer();
+        StringBuilder output = new StringBuilder();
         ContentResolver contentResolver = getContentResolver();
 
         // Querying the Stock Contacts App and getting the results in the form of Cursor

@@ -157,7 +157,7 @@ public class CreateMessageActivity extends SendMessageActivity {
         EditText newContactText = (EditText)findViewById(R.id.senderContact);
         String newContact = newContactText.getText().toString();
 
-        if((newMessage!=null && !newMessage.equalsIgnoreCase(""))||(newContact!=null && !newContact.equalsIgnoreCase(""))){
+        if((!newMessage.equalsIgnoreCase(""))||(!newContact.equalsIgnoreCase(""))){
             ContentValues values = new ContentValues();
             values.put("address", newContact);
             values.put("body", newMessage);

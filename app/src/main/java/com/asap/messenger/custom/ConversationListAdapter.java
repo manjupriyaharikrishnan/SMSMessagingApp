@@ -26,9 +26,8 @@ import java.util.List;
 public class ConversationListAdapter extends ArrayAdapter<Message> {
 
     private final Activity context;
-    List<Message> messageList;
-    private List<Integer> lockedMessagesList;
-    private final String selectedContact;
+    final List<Message> messageList;
+    private final List<Integer> lockedMessagesList;
 
     /**
      * Constructor for the ConversationListAdapter for setting the initial values
@@ -39,7 +38,6 @@ public class ConversationListAdapter extends ArrayAdapter<Message> {
     public ConversationListAdapter(Activity context, List<Message> messageList, String selectedContact, List<Integer> lockedMessagesList) {
         super(context, R.layout.allmessageslayout, messageList);
         this.context=context;
-        this.selectedContact=selectedContact;
         this.messageList = messageList;
         this.lockedMessagesList = lockedMessagesList;
     }

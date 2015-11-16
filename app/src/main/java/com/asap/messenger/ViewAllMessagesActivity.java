@@ -37,11 +37,9 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
 
     final int REQUEST_CODE_ASK_PERMISSION = 007;
     ListView list;
-    MessageHelper messageHelper = new MessageHelper();
+    final MessageHelper messageHelper = new MessageHelper();
     ViewMessagesListAdapter adapter;
     HashMap<String, String> phoneContacts = new HashMap<String, String>();
-    private SearchView searchView;
-    private MenuItem searchMenuItem;
 
     /**
      * Called when the activity is started. This method has all the initialization code
@@ -63,7 +61,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
         // Get the messages from the SMS Inbox
         MessengerApplication appState = ((MessengerApplication)getApplicationContext());
         List<Message> messageList = null;
-        if(messageList==null){
+
             Cursor inboxCursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
             messageList = messageHelper.getMessagesFromInbox(messageList, inboxCursor);
             List<Integer> deletedMessagesList = appState.getDeletedMessagesList();
@@ -76,7 +74,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
             }
             appState.setMessageList(messageList);
 
-        }
+
 
         // Check if the user has the permissions to read the contacts from the Stock Contacts App
         int hasContactPermissions = checkSelfPermission(Manifest.permission.READ_CONTACTS);
@@ -123,8 +121,8 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
 
         SearchManager searchManager = (SearchManager)
                 getSystemService(Context.SEARCH_SERVICE);
-        searchMenuItem = menu.findItem(R.id.search);
-        searchView = (SearchView) searchMenuItem.getActionView();
+        MenuItem searchMenuItem = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) searchMenuItem.getActionView();
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
@@ -140,10 +138,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return id == R.id.action_settings || super.onOptionsItemSelected(item);
     }
 
     /**

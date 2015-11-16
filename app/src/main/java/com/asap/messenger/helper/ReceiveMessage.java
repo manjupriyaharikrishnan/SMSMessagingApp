@@ -27,23 +27,24 @@ import java.util.List;
 
 public class ReceiveMessage extends BroadcastReceiver
 {
-    /**
-     * Method called when the message is received.
-     * @param context
-     * @param intent
-     */
 
     private String TAG = ReceiveMessage.class.getSimpleName();
     private int numMessagesOne = 0;
+
+    /**
+     * Method called when the message is received.
+     * @param context Current Context
+     * @param intent Activity intent
+     */
     @Override
     public void onReceive(Context context, Intent intent)
     {
  //       int numMessagesOne =   0;
         //---get the SMS message passed in---
         Bundle bundle = intent.getExtras();
-        SmsMessage[] msgs = null;
-        List <Message> messageList = null;
-        HashMap<String, String>  phoneContacts = null;
+        SmsMessage[] msgs;
+        List <Message> messageList;
+        HashMap<String, String>  phoneContacts;
         String str = "";
         // Get the messages from the SMS Inbox
         MessengerApplication appState = (MessengerApplication) context.getApplicationContext();
@@ -61,7 +62,7 @@ public class ReceiveMessage extends BroadcastReceiver
                 msgs[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
                 str += "SMS from " + msgs[i].getOriginatingAddress();
                 str += " :";
-                str += msgs[i].getMessageBody().toString();
+                str += msgs[i].getMessageBody();
                 str += "\n";
 
                 String contact = msgs[i].getOriginatingAddress();
@@ -74,14 +75,14 @@ public class ReceiveMessage extends BroadcastReceiver
      //           DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
      //           Date date = new Date();
      //           System.out.println(dateFormat.format(date)); //2014/08/06 15:59:48
-                mBuilder.setContentText(msgs[i].getMessageBody().toString());
+                mBuilder.setContentText(msgs[i].getMessageBody());
                 mBuilder.setTicker("ASAP Message Recieved");
                 mBuilder.setSmallIcon(R.drawable.ic_logo_notification);
 
                 // Increase notification number every time a new notification arrives
                 mBuilder.setNumber(++numMessagesOne);
 
-                Message tmpMsg = new Message(messageList.size()+1, msgs[i].getMessageBody().toString(), msgs[i].getOriginatingAddress(), msgs[i].getTimestampMillis(), MessageStatus.RECEIVED);
+                Message tmpMsg = new Message(messageList.size()+1, msgs[i].getMessageBody(), msgs[i].getOriginatingAddress(), msgs[i].getTimestampMillis(), MessageStatus.RECEIVED);
 
                 messageList.add(tmpMsg);
                 appState.setMessageList(messageList);

@@ -29,7 +29,7 @@ public class DeleteMessageActivity extends AppCompatActivity {
 
     final int REQUEST_CODE_ASK_PERMISSION = 007;
 
-    MessageHelper messageHelper = new MessageHelper();
+    final MessageHelper messageHelper = new MessageHelper();
 
     /**
      * Called when the activity is started. This method has all the initialization code
@@ -41,9 +41,6 @@ public class DeleteMessageActivity extends AppCompatActivity {
 
         String selectedContact = getIntent().getExtras().getString("selectedContact");
         int messageToDelete = getIntent().getExtras().getInt("messageToDelete");
-
-        MessengerApplication appState = ((MessengerApplication)getApplicationContext());
-        List<Message> originalMessageList = appState.getMessageList();
 
         int hasSmsPermission = checkSelfPermission(Manifest.permission.READ_SMS);
 
@@ -89,18 +86,18 @@ public class DeleteMessageActivity extends AppCompatActivity {
         appState.setDeletedMessagesList(deletedMessagesList);
 
         List<Message> messageList = null;
-        if(messageList==null){
-            Cursor inboxCursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
-            messageList = messageHelper.getMessagesFromInbox(messageList, inboxCursor);
-            Iterator<Message> messageIterator = messageList.iterator();
-            while(messageIterator.hasNext()){
-                Message message = messageIterator.next();
-                if(deletedMessagesList.contains(message.getMessageId())){
-                    messageIterator.remove();
-                }
+
+        Cursor inboxCursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
+        messageList = messageHelper.getMessagesFromInbox(messageList, inboxCursor);
+        Iterator<Message> messageIterator = messageList.iterator();
+        while(messageIterator.hasNext()){
+            Message message = messageIterator.next();
+            if(deletedMessagesList.contains(message.getMessageId())){
+                messageIterator.remove();
             }
-            appState.setMessageList(messageList);
         }
+        appState.setMessageList(messageList);
+
     }
 
     /**
