@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  * The Message Java Class is used to store the information related to message that is sent/received/draft etc
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala, Deepa Raveendran
  * @version 1.0
  * @since 10/16/2015
  */
