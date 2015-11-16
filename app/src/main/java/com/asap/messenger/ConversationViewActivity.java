@@ -42,7 +42,7 @@ import android.content.Intent;
  * This class is related to the Conversation view screen
  * It takes care for creating a window for the conversation screen when the contact is selected.
  * It performs some activities related to conversation screen like displaying messages, providing context menu for each message etc.
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala , Karthika J
  * @version 1.0
  * @since 10/24/2015
  */
@@ -111,6 +111,9 @@ public class ConversationViewActivity extends SendMessageActivity {
         ConversationListAdapter adapter=new ConversationListAdapter(this, messageList, selectedContact, lockedMessagesList);
         ListView list=(ListView)findViewById(R.id.list);
         list.setAdapter(adapter);
+
+        //To move to the end of the list to see the latest message
+        list.setSelection(adapter.getCount()-1);
 
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

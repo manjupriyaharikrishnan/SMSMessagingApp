@@ -103,11 +103,14 @@ public class ReceiveMessage extends BroadcastReceiver
 
                 // start the activity when the user clicks the notification text
                 mBuilder.setContentIntent(contentIntent);
+                mBuilder.setPriority(Notification.PRIORITY_HIGH);
+                mBuilder.setVibrate(new long[1000]);
                 NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-//            myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                Notification note = mBuilder.build();
+                note.flags |= Notification.FLAG_AUTO_CANCEL;
+//              myNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 // pass the Notification object to the system
-                notificationManager.notify(0, mBuilder.build());
+                notificationManager.notify(1234, note);
                 abortBroadcast();
 
          //       startActivity(intent);

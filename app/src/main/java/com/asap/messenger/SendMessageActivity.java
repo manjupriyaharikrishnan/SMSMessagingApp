@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import java.util.Date;
 
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
@@ -23,7 +24,7 @@ import java.util.List;
 
 /**
  * The SendMessageActivity is a subclass of Android AppCompatActivity class
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala,Karthika J
  * @version 1.0
  * @since 10/24/2015
  */
@@ -68,6 +69,8 @@ public class SendMessageActivity extends AppCompatActivity {
     public void sendSmsIndividual(String contact, String message){
         String SENT = "SMS_SENT";
         String DELIVERED = "SMS_DELIVERED";
+
+        List <Message> messageList = null;
 
         PendingIntent sentPI = PendingIntent.getBroadcast(this, 0, new Intent(
                 SENT), 0);
@@ -124,6 +127,15 @@ public class SendMessageActivity extends AppCompatActivity {
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(contact, null, message, sentPI, deliveredPI);
         System.out.println("Message Sent Successfully");
+
+        // Update message list so it shows in View activity
+        MessengerApplication appState = (MessengerApplication) getApplicationContext();
+        messageList = appState.getMessageList();
+        Date date = new Date();
+
+        Message tmpMessage = new Message(messageList.size()+1, message, contact,date.getTime(),MessageStatus.SENT);
+        messageList.add(tmpMessage);
+
     }
 
     /**

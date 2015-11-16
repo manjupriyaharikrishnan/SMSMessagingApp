@@ -49,14 +49,13 @@ import java.util.Date;
  */
 public class ViewAllMessagesActivity extends ContactManagerActivity implements SearchView.OnQueryTextListener{
 
+    final int REQUEST_CODE_ASK_PERMISSION = 007;
     ListView list;
     MessageHelper messageHelper = new MessageHelper();
-    final int REQUEST_CODE_ASK_PERMISSION = 007;
-
-    private SearchView searchView;
-    private MenuItem searchMenuItem;
     ViewMessagesListAdapter adapter;
     HashMap<String, String> phoneContacts = new HashMap<String, String>();
+    private SearchView searchView;
+    private MenuItem searchMenuItem;
 
     /**
      * Called when the activity is started. This method has all the initialization code
@@ -90,6 +89,7 @@ public class ViewAllMessagesActivity extends ContactManagerActivity implements S
                 }
             }
             appState.setMessageList(messageList);
+
         }
 
         // Check if the user has the permissions to read the contacts from the Stock Contacts App
