@@ -147,7 +147,7 @@ public class MessageHelperTest {
             ;
         {
 
-            assertTrue(messageHelper.isToday(givenDate));
+            assertFalse(messageHelper.isToday(givenDate));
         }
     }
 
