@@ -24,6 +24,8 @@ import java.util.List;
 
 /**
  * The SendMessageActivity is a subclass of Android AppCompatActivity class
+ * This class is related to sending the messages between Sender and the Receivers
+ * It creates the send message layout and sends the message to the desired contacts
  * @author  Umadevi Samudrala,Karthika J, Rajiv Shanmugam Madeswaran
  * @version 1.0
  * @since 10/24/2015

@@ -74,6 +74,11 @@ public class AddContactActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * function call to write any new number in to the Stock App
+     * @param addContactName Name to store for the particular contact
+     * @param addContactNo Phone Number for the particular contact
+     */
     public void insertContact(String contactName, String contactNumber){
 
         ArrayList<ContentProviderOperation> operations = new ArrayList<ContentProviderOperation>(2);
@@ -107,6 +112,12 @@ public class AddContactActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * function call to check whether the user has set the permissions to write any new number in to the Stock App
+     * If so, it will call insertContact to insert in to Stock App else it will ask for the user permission.
+     * @param addContactName Name to store for the particular contact
+     * @param addContactNo Phone Number for the particular contact
+     */
     private void addContactToStockApp(String addContactName, String addContactNo){
         // Write Logic to add contact details to contact app.
         // Request permissions to write. etc etc
@@ -121,7 +132,12 @@ public class AddContactActivity extends AppCompatActivity {
         insertContact(addContactName, addContactNo);
     }
 
-
+    /**
+     * Callback for the result from requesting permissions.
+     * @param requestCode The request code passed in requestPermissions(String[], int).
+     * @param permissions The requested permissions. Never null.
+     * @param grantResults The grant results for the corresponding permissions which is either PERMISSION_GRANTED or PERMISSION_DENIED. Never null.
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch(requestCode) {
