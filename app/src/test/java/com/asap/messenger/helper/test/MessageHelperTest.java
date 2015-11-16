@@ -39,6 +39,8 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Umadevi on 10/20/2015.
+ * The MessageHelperTest class is the unit test cases for Message helper class.
+ * @author  Deepa Raveendran
  */
 
 public class MessageHelperTest {
@@ -186,7 +188,7 @@ public class MessageHelperTest {
         Iterator<Message> iter = originalMessageList.iterator();
         while (iter.hasNext()){
             Message str = iter.next();
-            if(str.getMessageId()==id){
+            if (str.getMessageId() == id) {
                 iter.remove();
             }
         }
