@@ -21,7 +21,7 @@ import java.util.Locale;
 /**
  * The MessageHelper Class is used as a helper class for doing the activities on the messages like getting the messages from inbox,
  * getting the latest messages, getting messages by contact, sorting messages etc
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala,Karthika J
  * @version 1.0
  * @since 10/17/2015
  */
