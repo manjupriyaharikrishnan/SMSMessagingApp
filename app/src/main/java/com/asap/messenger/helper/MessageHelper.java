@@ -3,7 +3,6 @@ package com.asap.messenger.helper;
 import android.database.Cursor;
 
 import com.asap.messenger.bo.Message;
-import com.asap.messenger.bo.Receiver;
 import com.asap.messenger.common.MessageStatus;
 
 import java.text.DateFormat;
@@ -16,7 +15,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * The MessageHelper Class is used as a helper class for doing the activities on the messages like getting the messages from inbox,
@@ -240,13 +238,9 @@ public class MessageHelper {
         Calendar todayDateCal = Calendar.getInstance();
         todayDateCal.setTime(new Date());
 
-        if(givenDateCal.get(Calendar.ERA)==todayDateCal.get(Calendar.ERA)
-                && givenDateCal.get(Calendar.YEAR)==todayDateCal.get(Calendar.YEAR)
-                && givenDateCal.get(Calendar.DAY_OF_YEAR)==todayDateCal.get(Calendar.DAY_OF_YEAR)){
-            return true;
-        }else{
-            return false;
-        }
+        return givenDateCal.get(Calendar.ERA) == todayDateCal.get(Calendar.ERA)
+                && givenDateCal.get(Calendar.YEAR) == todayDateCal.get(Calendar.YEAR)
+                && givenDateCal.get(Calendar.DAY_OF_YEAR) == todayDateCal.get(Calendar.DAY_OF_YEAR);
     }
 
     /**

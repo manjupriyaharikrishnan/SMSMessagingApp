@@ -9,11 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.asap.messenger.bo.Message;
-import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
 import java.util.Iterator;

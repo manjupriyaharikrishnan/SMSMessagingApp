@@ -1,15 +1,8 @@
 package com.asap.messenger.helper.test;
 
-import android.database.Cursor;
-import android.renderscript.Long2;
-import android.support.annotation.NonNull;
-import android.view.Menu;
-
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
-
-import junit.framework.Assert;
 
 import static com.asap.messenger.helper.MessageHelper.getDateForDisplay;
 import static com.asap.messenger.helper.MessageHelper.isToday;
@@ -21,21 +14,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-
-import dalvik.annotation.TestTarget;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by Umadevi on 10/20/2015.
@@ -87,7 +68,7 @@ public class MessageHelperTest {
         DateFormat targetFormat = new SimpleDateFormat("11 09");
         formatteddate = targetFormat.format(longDate);
 
-        assertNotNull(messageHelper.getDateForDisplay(inputDate), a);
+        assertNotNull(getDateForDisplay(inputDate), a);
 
     }
 
@@ -101,7 +82,7 @@ public class MessageHelperTest {
         DateFormat targetFormat = new SimpleDateFormat("11 09");
         formatteddate = targetFormat.format(longDate);
 
-        assertNotEquals(messageHelper.getDateForDisplay(inputDate), a);
+        assertNotEquals(getDateForDisplay(inputDate), a);
 
     }
 
@@ -124,7 +105,7 @@ public class MessageHelperTest {
             ;
         {
 
-            assertFalse(messageHelper.isToday(givenDate));
+            assertFalse(isToday(givenDate));
         }
     }
 
@@ -147,7 +128,7 @@ public class MessageHelperTest {
             ;
         {
 
-            assertFalse(messageHelper.isToday(givenDate));
+            assertFalse(isToday(givenDate));
         }
     }
 
@@ -170,7 +151,7 @@ public class MessageHelperTest {
             ;
         {
 
-            assertFalse(messageHelper.isToday(givenDate));
+            assertFalse(isToday(givenDate));
         }
     }
 

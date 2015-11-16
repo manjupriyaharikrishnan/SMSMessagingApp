@@ -10,10 +10,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,14 +24,12 @@ import android.widget.Toast;
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.custom.ConversationListAdapter;
-import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import android.content.Intent;
 

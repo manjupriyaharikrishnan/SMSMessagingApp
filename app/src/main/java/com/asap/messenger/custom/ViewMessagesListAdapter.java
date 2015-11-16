@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.asap.messenger.R;
 import com.asap.messenger.bo.Message;
-import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.helper.MessageHelper;
 
 import java.util.ArrayList;
@@ -91,7 +90,7 @@ public class ViewMessagesListAdapter extends ArrayAdapter<Message> implements Fi
         extratxt.setText(stripString);
         return rowView;
 
-    };
+    }
 
     /**
      * Method to get the filter

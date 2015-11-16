@@ -1,7 +1,5 @@
 package com.asap.messenger.bo;
 import java.lang.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The Message Java Class is used to store the information related to message that is sent/received/draft etc

@@ -1,25 +1,16 @@
 package com.asap.messenger;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -30,7 +21,6 @@ import com.asap.messenger.helper.MessageHelper;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 /**

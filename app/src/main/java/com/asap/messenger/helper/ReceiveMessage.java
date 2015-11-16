@@ -12,19 +12,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
-import android.widget.Toast;
-import android.util.Log;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.support.v7.app.NotificationCompat;
-import android.app.TaskStackBuilder;
-import com.asap.messenger.ConversationViewActivity;
 
-import com.asap.messenger.CreateMessageActivity;
 import com.asap.messenger.MessengerApplication;
 import com.asap.messenger.R;
-import com.asap.messenger.ViewAllMessagesActivity;
 import com.asap.messenger.bo.Message;
 import com.asap.messenger.common.MessageStatus;
 

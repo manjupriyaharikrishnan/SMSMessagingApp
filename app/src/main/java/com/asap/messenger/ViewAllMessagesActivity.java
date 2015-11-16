@@ -5,7 +5,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -13,30 +12,17 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.net.Uri;
 import android.database.Cursor;
 
 import com.asap.messenger.bo.Message;
-import com.asap.messenger.common.MessageStatus;
 import com.asap.messenger.custom.ViewMessagesListAdapter;
 import com.asap.messenger.helper.MessageHelper;
 
 import java.util.Iterator;
-import java.util.Map;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.HashMap;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * The ViewAllMessagesActivity is a subclass of Android AppCompatActivity class
