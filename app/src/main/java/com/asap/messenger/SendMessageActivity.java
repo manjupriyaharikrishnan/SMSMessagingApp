@@ -24,7 +24,7 @@ import java.util.List;
 
 /**
  * The SendMessageActivity is a subclass of Android AppCompatActivity class
- * @author  Umadevi Samudrala,Karthika J
+ * @author  Umadevi Samudrala,Karthika J, Rajiv Shanmugam Madeswaran
  * @version 1.0
  * @since 10/24/2015
  */

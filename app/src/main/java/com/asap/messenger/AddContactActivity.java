@@ -28,7 +28,7 @@ import java.util.ArrayList;
  * This class is related to the add the contact number to stock contact app
  * It takes care for creating a window for capturing the contact details
  * It performs activity related to saving the contact details that are captured into stock contact app
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala, Rajiv Shanmugam Madeswaran
  * @version 1.0
  * @since 11/12/2015
  */
