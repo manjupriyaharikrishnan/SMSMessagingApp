@@ -212,4 +212,93 @@ public class MessageHelperTest {
         }
         assertEquals(messageHelper.deleteMessageById(id, templist), originalMessageList);
     }
+
+
+
+
+    @Test
+    public void testdeleteMessageByIdNusingsame()
+    {
+        int id=3;
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5554", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        List<Message> templist=new ArrayList<>();
+        templist.addAll(originalMessageList);
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()){
+            Message str = iter.next();
+            if(str.getMessageId()==id){
+                iter.remove();
+            }
+        }
+        assertNotSame(messageHelper.deleteMessageById(id, templist), originalMessageList);
+    }
+
+
+
+    @Test
+    public void getMessagesbycontact() {
+        String contact = "5556";
+        List<Message> messagesList = new ArrayList<Message>();
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5553", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
+        List<Message> templist = new ArrayList<>();
+        templist.addAll(originalMessageList);
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()) {
+            Message str = iter.next();
+            if (str.getMessageAddress() == contact) {
+                messagesList.add(str);
+            }
+        }
+        assertNotSame(messageHelper.getMessagesByContact(contact, templist), originalMessageList);
+    }
+
+    @Test
+    public void getMessagesbycontact2() {
+        String contact = "5553";
+        List<Message> messagesList = new ArrayList<Message>();
+        List<Message> originalMessageList = new ArrayList<>();
+        originalMessageList.add(new Message(0, "hello", "5553", new Date().getTime(), MessageStatus.LOCK));
+        originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
+        List<Message> templist = new ArrayList<>();
+        templist.addAll(originalMessageList);
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()) {
+            Message str = iter.next();
+            if (str.getMessageAddress() == contact) {
+                messagesList.add(str);
+            }
+        }
+        assertNotSame(messageHelper.getMessagesByContact(contact, templist), originalMessageList);
+    }
+
+    @Test
+    public void getMessagesbycontact3() {
+        String contact = "5555";
+        List<Message> messagesList = new ArrayList<Message>();
+        List<Message> originalMessageList = new ArrayList<>();
+        //   originalMessageList.add(new Message(0, "hello", "5553", new Date().getTime(), MessageStatus.LOCK));
+        //  originalMessageList.add(new Message(1, "hello", "5554", new Date().getTime(), MessageStatus.SENT));
+        originalMessageList.add(new Message(2, "hello", "5555", new Date().getTime(), MessageStatus.SENT));
+        List<Message> templist = new ArrayList<>();
+        templist.addAll(originalMessageList);
+        Iterator<Message> iter = originalMessageList.iterator();
+        while (iter.hasNext()) {
+            Message str = iter.next();
+            if (str.getMessageAddress() == contact) {
+                messagesList.add(str);
+            }
+        }
+        assertEquals(messageHelper.getMessagesByContact(contact, templist), originalMessageList);
+    }
+
 }
+
+
+
