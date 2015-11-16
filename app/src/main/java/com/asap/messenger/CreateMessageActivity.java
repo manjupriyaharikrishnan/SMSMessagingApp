@@ -38,7 +38,7 @@ import java.util.List;
  * This class is related to the Create New Message screen
  * It takes care for creating a window for the Create New Message screen when the user wishes to create a new message.
  * It performs some activities related to create new message screen like saving the message as a draft, send message.
- * @author  Umadevi Samudrala
+ * @author  Umadevi Samudrala, Deepa Raveendran
  * @version 1.0
  * @since 10/24/2015
  */
